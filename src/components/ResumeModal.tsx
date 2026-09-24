@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { PERSONAL_INFO, PROJECTS, CERTIFICATIONS, SKILL_CATEGORIES } from '../data/portfolioData.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import { X, Download, Printer, Shield, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
 
 interface ResumeModalProps {
@@ -8,6 +9,8 @@ interface ResumeModalProps {
 }
 
 export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
+  const { t, isHindi } = useLanguage();
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -109,7 +112,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
         <div className="sticky top-0 z-20 flex items-center justify-between px-6 py-3.5 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800">
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs">
             <Shield className="w-4 h-4" />
-            <span>Madhukar Pendalwar · Official Resume Dossier</span>
+            <span>{isHindi ? 'मधुकर पेंडलवार · आधिकारिक बायोडाटा' : 'Madhukar Pendalwar · Official Resume Dossier'}</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -118,19 +121,19 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 transition-colors cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Download (.txt)</span>
+              <span>{isHindi ? 'डाउनलोड (.txt)' : 'Download (.txt)'}</span>
             </button>
             <button
               onClick={handlePrint}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition-colors cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>Print</span>
+              <span>{isHindi ? 'प्रिंट करें' : 'Print'}</span>
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white"
-              aria-label="Close modal"
+              className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+              aria-label={t.resume.close}
             >
               <X className="w-4 h-4" />
             </button>
@@ -146,10 +149,12 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                 Madhukar Pendalwar
               </h1>
               <p className="text-sm font-semibold text-cyan-400 font-mono mb-3">
-                3rd-Year B.Tech Cyber Security Student
+                {isHindi ? 'तृतीय वर्ष बी.टेक साइबर सुरक्षा छात्र' : '3rd-Year B.Tech Cyber Security Student'}
               </p>
               <p className="text-xs text-slate-400 font-mono mb-4 max-w-xl">
-                Aspiring: SOC Analyst | Cybersecurity Professional | Cloud Security | Blue Team | Cyber Crime Investigation | Digital Forensics
+                {isHindi
+                  ? 'लक्ष्य: एसओसी विश्लेषक | साइबर सुरक्षा पेशेवर | क्लाउड सुरक्षा | ब्लू टीम | डिजिटल फोरेंसिक'
+                  : 'Aspiring: SOC Analyst | Cybersecurity Professional | Cloud Security | Blue Team | Cyber Crime Investigation | Digital Forensics'}
               </p>
 
               <div className="flex flex-wrap gap-4 text-xs font-mono text-slate-400">
@@ -172,7 +177,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
             <div className="shrink-0">
               <div className="w-24 h-28 rounded-xl overflow-hidden border border-cyan-500/40 shadow-md bg-slate-900">
                 <img
-                  src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+                  src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
                   alt="Madhukar Pendalwar"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-top"
@@ -184,32 +189,34 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
           {/* Professional Summary */}
           <div>
             <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 font-bold">
-              Professional Summary
+              {isHindi ? 'व्यावसायिक सारांश' : 'Professional Summary'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              {PERSONAL_INFO.bio}
+              {isHindi ? t.about.bioP1 + ' ' + t.about.bioP2 : PERSONAL_INFO.bio}
             </p>
           </div>
 
           {/* Education */}
           <div>
             <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 font-bold">
-              Education
+              {isHindi ? 'शिक्षा' : 'Education'}
             </h2>
             <div className="p-3.5 rounded-xl bg-[#111827] border border-slate-800 flex justify-between items-start">
               <div>
                 <h3 className="text-sm font-bold text-white font-mono">
-                  Bachelor of Technology (B.Tech) in Cyber Security
+                  {isHindi ? 'बैचलर ऑफ टेक्नोलॉजी (बी.टेक) - साइबर सुरक्षा' : 'Bachelor of Technology (B.Tech) in Cyber Security'}
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Engineering University Curriculum · 3rd Year Undergraduate
+                  {isHindi ? 'इंजीनियरिंग विश्वविद्यालय पाठ्यक्रम · तृतीय वर्ष स्नातक' : 'Engineering University Curriculum · 3rd Year Undergraduate'}
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1 font-mono">
-                  Coursework: Network Security, Operating Systems, Cryptography, Database Security, Digital Forensics, Linux Administration
+                  {isHindi
+                    ? 'प्रमुख पाठ्यक्रम: नेटवर्क सुरक्षा, ऑपरेटिंग सिस्टम, क्रिप्टोग्राफी, डेटाबेस सुरक्षा, डिजिटल फोरेंसिक, लिनक्स प्रशासन'
+                    : 'Coursework: Network Security, Operating Systems, Cryptography, Database Security, Digital Forensics, Linux Administration'}
                 </p>
               </div>
-              <span className="text-xs font-mono text-cyan-300 px-2.5 py-1 rounded bg-slate-900 border border-slate-800">
-                2023 - Present
+              <span className="text-xs font-mono text-cyan-300 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 shrink-0 ml-3">
+                {isHindi ? '2023 - वर्तमान' : '2023 - Present'}
               </span>
             </div>
           </div>
@@ -217,13 +224,13 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
           {/* Skills Breakdown */}
           <div>
             <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2.5 font-bold">
-              Core Technical Competencies
+              {isHindi ? 'प्रमुख तकनीकी क्षमताएं' : 'Core Technical Competencies'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               {SKILL_CATEGORIES.map((cat) => (
                 <div key={cat.title} className="p-3 rounded-lg bg-[#111827] border border-slate-800/80">
                   <div className="font-mono text-white font-semibold mb-1 text-[11px]">
-                    {cat.title}
+                    {t.skills.categories[cat.title as keyof typeof t.skills.categories] || cat.title}
                   </div>
                   <div className="text-slate-400 text-[11px] leading-relaxed">
                     {cat.skills.join(', ')}
@@ -236,7 +243,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
           {/* Projects */}
           <div>
             <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2.5 font-bold">
-              Practical Security Projects
+              {isHindi ? 'व्यावहारिक सुरक्षा प्रोजेक्ट्स' : 'Practical Security Projects'}
             </h2>
             <div className="space-y-3">
               {PROJECTS.map((proj) => (
@@ -253,7 +260,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                     {proj.shortDescription}
                   </p>
                   <div className="text-[11px] font-mono text-slate-400">
-                    <strong className="text-slate-300">Pipeline: </strong>
+                    <strong className="text-slate-300">{isHindi ? 'पाइपलाइन: ' : 'Pipeline: '}</strong>
                     {proj.architectureSteps.join(' → ')}
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-mono text-slate-500">
@@ -267,7 +274,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
           {/* Certifications */}
           <div>
             <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2.5 font-bold">
-              Certifications & Technical Milestones
+              {isHindi ? 'प्रमाणपत्र और तकनीकी मील के पत्थर' : 'Certifications & Technical Milestones'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {CERTIFICATIONS.map((cert) => (

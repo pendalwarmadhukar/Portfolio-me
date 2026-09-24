@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Menu, X, FileText } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext.tsx';
+import { LanguageToggle } from './LanguageToggle.tsx';
 
 interface NavbarProps {
   onOpenResume: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
   const navLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'SOC', href: '#soc' },
-    { label: 'Certifications', href: '#certifications' },
-    { label: 'GitHub', href: '#github' },
-    { label: 'Contact', href: '#contact' },
+    { label: t.nav.home, href: '#home' },
+    { label: t.nav.about, href: '#about' },
+    { label: t.nav.skills, href: '#skills' },
+    { label: t.nav.projects, href: '#projects' },
+    { label: t.nav.soc, href: '#soc' },
+    { label: t.nav.certifications, href: '#certifications' },
+    { label: t.nav.github, href: '#github' },
+    { label: t.nav.contact, href: '#contact' },
   ];
 
   useEffect(() => {
@@ -40,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navLinks]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -71,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
           >
             <div className="w-8 h-8 rounded-full overflow-hidden border border-cyan-400/60 bg-slate-900 shrink-0 group-hover:border-cyan-300 transition-colors shadow-sm shadow-cyan-500/20">
               <img
-                src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+                src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
                 alt="Madhukar Pendalwar"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top"
@@ -88,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
               const isActive = activeSection === link.href.substring(1);
               return (
                 <a
-                  key={link.label}
+                  key={link.href}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
                   className={`px-3 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-md whitespace-nowrap ${
@@ -103,14 +106,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
             })}
           </nav>
 
-          {/* Zone 3: Primary Action & Mobile Menu Toggle */}
-          <div className="flex items-center gap-3">
+          {/* Zone 3: Language Toggle, Primary Action & Mobile Menu Toggle */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Language Switcher in Navigation Bar */}
+            <LanguageToggle />
+
             <button
               onClick={onOpenResume}
               className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-mono font-medium text-cyan-300 bg-cyan-950/50 hover:bg-cyan-900/50 border border-cyan-500/40 hover:border-cyan-400 rounded-lg transition-colors shadow-sm cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
             >
               <FileText className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Resume</span>
+              <span>{t.nav.resume}</span>
             </button>
 
             {/* Mobile Hamburger Button */}
@@ -128,26 +134,34 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0d131f]/95 border-b border-cyan-950/60 backdrop-blur-xl px-4 pt-3 pb-5 space-y-1">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
-            return (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'text-cyan-400 bg-cyan-950/60 font-semibold'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
-              >
-                {link.label}
-              </a>
-            );
-          })}
+        <div className="lg:hidden bg-[#0d131f]/95 border-b border-cyan-950/60 backdrop-blur-xl px-4 pt-3 pb-5 space-y-2">
+          <div className="pt-1 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+            <span className="text-xs font-mono text-slate-400">Language / भाषा</span>
+            <LanguageToggle compact={false} />
+          </div>
+
+          <div className="space-y-1">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleLinkClick(e, link.href)}
+                  className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'text-cyan-400 bg-cyan-950/60 font-semibold'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+          </div>
         </div>
       )}
     </header>
   );
 };
+

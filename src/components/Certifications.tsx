@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { CERTIFICATIONS } from '../data/portfolioData.ts';
 import { Certification } from '../types.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import { GraduationCap, ShieldCheck, Cloud, Award, ExternalLink, X, CheckCircle, ShieldAlert } from 'lucide-react';
 
 export const Certifications: React.FC = () => {
+  const { t, isHindi } = useLanguage();
   const [activeCert, setActiveCert] = useState<Certification | null>(null);
 
   const getBadgeIcon = (iconName: string) => {
@@ -37,23 +40,28 @@ export const Certifications: React.FC = () => {
         {/* Section Header */}
         <div className="mb-12">
           <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
-            Qualifications & Learning Pathways
+            {t.certifications.tag}
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            Certifications & Academic Credentials
+            {t.certifications.title}
           </h2>
           <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
           <p className="mt-3 text-xs sm:text-sm text-slate-400 max-w-xl">
-            Verified academic milestones and hands-on laboratory specializations in security engineering and cloud defense.
+            {t.certifications.subtitle}
           </p>
         </div>
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {CERTIFICATIONS.map((cert) => (
-            <div
+          {CERTIFICATIONS.map((cert, idx) => (
+            <motion.div
               key={cert.id}
-              className="p-6 rounded-2xl bg-[#111827] border border-slate-800/90 shadow-lg hover:border-cyan-500/40 hover:shadow-cyan-950/20 transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.45, delay: idx * 0.1, ease: 'easeOut' }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="p-6 rounded-2xl bg-[#111827] border border-slate-800/90 shadow-lg hover:border-cyan-500/40 hover:shadow-cyan-950/20 transition-colors duration-300 group flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between gap-4 mb-4">
@@ -85,8 +93,8 @@ export const Certifications: React.FC = () => {
 
                 {/* Key Syllabus / Topics Preview */}
                 <div className="space-y-1.5 mb-6">
-                  {cert.topics.slice(0, 3).map((topic, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs text-slate-400">
+                  {cert.topics.slice(0, 3).map((topic, topicIdx) => (
+                    <div key={topicIdx} className="flex items-center gap-2 text-xs text-slate-400">
                       <CheckCircle className="w-3.5 h-3.5 text-cyan-400/70 shrink-0" />
                       <span className="truncate">{topic}</span>
                     </div>
@@ -104,11 +112,11 @@ export const Certifications: React.FC = () => {
                   onClick={() => setActiveCert(cert)}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-cyan-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 transition-colors cursor-pointer"
                 >
-                  <span>Verify Credential</span>
+                  <span>{t.certifications.verifyCredential}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -130,7 +138,7 @@ export const Certifications: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-[11px] font-mono text-cyan-400 uppercase">
-                    Official Verification Dossier
+                    {t.certifications.officialDossier}
                   </span>
                   <h4 className="text-base font-bold text-white font-mono">
                     {activeCert.title}
@@ -139,7 +147,7 @@ export const Certifications: React.FC = () => {
               </div>
               <button
                 onClick={() => setActiveCert(null)}
-                className="p-1.5 rounded-md text-slate-400 hover:text-white bg-slate-800"
+                className="p-1.5 rounded-md text-slate-400 hover:text-white bg-slate-800 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -148,20 +156,20 @@ export const Certifications: React.FC = () => {
             <div className="space-y-4 text-xs font-mono">
               <div className="p-3.5 rounded-lg bg-[#0a0e17] border border-slate-800 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Issuing Body:</span>
+                  <span className="text-slate-500">{t.certifications.issuingOrg}:</span>
                   <span className="text-slate-200">{activeCert.issuer}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Credential Classification:</span>
+                  <span className="text-slate-500">{isHindi ? 'प्रमाणपत्र वर्गीकरण:' : 'Credential Classification:'}</span>
                   <span className="text-cyan-300">{activeCert.type}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Status:</span>
+                  <span className="text-slate-500">{t.certifications.status}:</span>
                   <span className="text-emerald-400">{activeCert.status}</span>
                 </div>
                 {activeCert.date && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Timeline / Date:</span>
+                    <span className="text-slate-500">{isHindi ? 'समयरेखा / दिनांक:' : 'Timeline / Date:'}</span>
                     <span className="text-slate-200">{activeCert.date}</span>
                   </div>
                 )}
@@ -169,20 +177,22 @@ export const Certifications: React.FC = () => {
 
               <div>
                 <span className="text-slate-400 uppercase tracking-wider block mb-2">
-                  Verified Curricular Core:
+                  {t.certifications.skillsValidated}:
                 </span>
                 <ul className="space-y-1.5">
-                  {activeCert.topics.map((t, idx) => (
+                  {activeCert.topics.map((topicItem, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-slate-300 font-sans text-xs">
                       <ShieldAlert className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                      <span>{t}</span>
+                      <span>{topicItem}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               <div className="p-3 rounded-lg bg-cyan-950/30 border border-cyan-500/20 text-slate-300 font-sans text-xs leading-relaxed">
-                <strong className="text-cyan-300 font-mono block mb-1">Candidate Note:</strong>
+                <strong className="text-cyan-300 font-mono block mb-1">
+                  {isHindi ? 'अभ्यर्थी टिप्पणी:' : 'Candidate Note:'}
+                </strong>
                 {activeCert.verificationNote}
               </div>
             </div>
@@ -190,9 +200,9 @@ export const Certifications: React.FC = () => {
             <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
               <button
                 onClick={() => setActiveCert(null)}
-                className="px-4 py-2 rounded-lg text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                className="px-4 py-2 rounded-lg text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
               >
-                Close Verification
+                {t.certifications.close}
               </button>
             </div>
           </div>

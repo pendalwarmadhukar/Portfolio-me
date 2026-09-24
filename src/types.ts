@@ -13,6 +13,7 @@ export interface Project {
   demoUrl?: string;
   imageFallbackGradient: string;
   customVisualType: 'cloudshield' | 'aws-monitoring' | 'devsecops' | 'fraud' | 'netsentinel' | 'spamguard';
+  estimatedReadingTime?: string;
 }
 
 export interface SkillCategory {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check } from 'lucide-react';
 
 interface ContactProps {
@@ -7,6 +8,7 @@ interface ContactProps {
 }
 
 export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,14 +44,14 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
         {/* Section Header */}
         <div className="mb-14 text-center sm:text-left">
           <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
-            Get In Touch
+            {t.contact.tag}
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            Let's Connect
+            {t.contact.title}
           </h2>
           <div className="h-0.5 w-12 bg-cyan-500 mt-3 sm:mx-0 mx-auto" />
           <p className="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl">
-            I’m open to cybersecurity internships, SOC opportunities, cloud security opportunities, and cybersecurity collaborations.
+            {t.contact.subtitle}
           </p>
         </div>
 
@@ -133,15 +135,15 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xs font-mono text-cyan-400">Curriculum Vitae</div>
+                  <div className="text-xs font-mono text-cyan-400">{t.contact.resumeCardTitle}</div>
                   <div className="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors">
-                    Download & Inspect Resume
+                    {t.contact.resumeCardDesc}
                   </div>
                 </div>
               </div>
 
               <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">
-                View →
+                {t.contact.resumeCardView}
               </span>
             </div>
           </div>
@@ -150,32 +152,32 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
           <div className="lg:col-span-7">
             <div className="p-6 sm:p-8 rounded-2xl bg-[#111827] border border-slate-800 shadow-xl">
               <h3 className="text-lg font-bold text-white font-mono mb-2">
-                Send a Message
+                {t.contact.formTitle}
               </h3>
               <p className="text-xs text-slate-400 mb-6">
-                Direct inquiry for internships, roles, or technical collaboration.
+                {t.contact.formDesc}
               </p>
 
               {submitted ? (
                 <div className="p-6 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
                   <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
                   <h4 className="text-base font-semibold text-white font-mono">
-                    Message Sent Successfully
+                    {t.contact.successTitle}
                   </h4>
                   <p className="text-xs text-slate-300 font-sans">
-                    Thank you for reaching out. Madhukar will review your inquiry and get back to you promptly.
+                    {t.contact.successDesc}
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-mono text-slate-400 mb-1.5">
-                      Your Name
+                      {t.contact.nameLabel}
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Alex Carter"
+                      placeholder={t.contact.namePlaceholder}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-lg bg-[#0a0e17] border border-slate-800 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-sans"
@@ -184,12 +186,12 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
 
                   <div>
                     <label className="block text-xs font-mono text-slate-400 mb-1.5">
-                      Your Email Address
+                      {t.contact.emailLabel}
                     </label>
                     <input
                       type="email"
                       required
-                      placeholder="e.g. recruiter@company.com"
+                      placeholder={t.contact.emailPlaceholder}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-lg bg-[#0a0e17] border border-slate-800 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-sans"
@@ -198,12 +200,12 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
 
                   <div>
                     <label className="block text-xs font-mono text-slate-400 mb-1.5">
-                      Message
+                      {t.contact.msgLabel}
                     </label>
                     <textarea
                       required
                       rows={4}
-                      placeholder="Hi Madhukar, we are looking for a SOC Analyst / Cloud Security intern..."
+                      placeholder={t.contact.msgPlaceholder}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-lg bg-[#0a0e17] border border-slate-800 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-sans resize-none"
@@ -216,11 +218,11 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 transition-all cursor-pointer shadow-md"
                   >
                     {isSubmitting ? (
-                      <span>Sending...</span>
+                      <span>{t.contact.sending}</span>
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        <span>Send Message</span>
+                        <span>{t.contact.sendBtn}</span>
                       </>
                     )}
                   </button>

@@ -1,8 +1,12 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { GITHUB_REPOS, PERSONAL_INFO } from '../data/portfolioData.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import { Github, ExternalLink, GitFork, Star, FolderGit2 } from 'lucide-react';
 
 export const GitHubSection: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="github" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0a0e17] relative">
       <div className="max-w-6xl mx-auto">
@@ -11,14 +15,14 @@ export const GitHubSection: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
               <FolderGit2 className="w-4 h-4 text-cyan-400" />
-              <span>Version Control & Open Source</span>
+              <span>{t.github.tag}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              GitHub Projects
+              {t.github.title}
             </h2>
             <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
             <p className="mt-3 text-xs sm:text-sm text-slate-400">
-              Selected public repositories by{' '}
+              {t.github.subtitle}{' '}
               <span className="font-mono text-cyan-400 font-semibold">@{PERSONAL_INFO.githubUsername}</span>
             </p>
           </div>
@@ -30,17 +34,22 @@ export const GitHubSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-mono text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/40 transition-all self-start md:self-auto shadow-md group"
           >
             <Github className="w-4 h-4 text-slate-300 group-hover:text-cyan-400 transition-colors" />
-            <span>View GitHub Profile</span>
+            <span>{t.github.viewProfile}</span>
             <span className="text-cyan-400 group-hover:translate-x-0.5 transition-transform">→</span>
           </a>
         </div>
 
         {/* Repositories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {GITHUB_REPOS.map((repo) => (
-            <div
+          {GITHUB_REPOS.map((repo, idx) => (
+            <motion.div
               key={repo.name}
-              className="p-6 rounded-2xl bg-[#111827] border border-slate-800/90 shadow-lg hover:border-cyan-500/40 hover:shadow-cyan-950/20 transition-all duration-200 flex flex-col justify-between group"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.45, delay: idx * 0.1, ease: 'easeOut' }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="p-6 rounded-2xl bg-[#111827] border border-slate-800/90 shadow-lg hover:border-cyan-500/40 hover:shadow-cyan-950/20 transition-colors duration-200 flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -102,11 +111,11 @@ export const GitHubSection: React.FC = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-cyan-400 bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-500/30 hover:border-cyan-400 transition-colors"
                 >
-                  <span>Repository</span>
+                  <span>{t.github.viewRepo}</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

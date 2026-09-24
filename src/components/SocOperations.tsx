@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SOC_ALERTS } from '../data/portfolioData.ts';
 import { SocAlert } from '../types.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import {
   ShieldAlert,
   Terminal,
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 export const SocOperations: React.FC = () => {
+  const { t, isHindi } = useLanguage();
   const [alerts, setAlerts] = useState<SocAlert[]>(SOC_ALERTS);
   const [selectedAlertId, setSelectedAlertId] = useState<string>(SOC_ALERTS[0].id);
   const [checkedSteps, setCheckedSteps] = useState<Record<string, boolean>>({});
@@ -25,12 +27,12 @@ export const SocOperations: React.FC = () => {
   const selectedAlert = alerts.find(a => a.id === selectedAlertId) || alerts[0];
 
   const workflowSteps = [
-    { label: 'Security Event', desc: 'Raw telemetry capture' },
-    { label: 'Alert', desc: 'Rule/SIEM trigger' },
-    { label: 'Triage', desc: 'False-positive filter' },
-    { label: 'Investigation', desc: 'Context & IOC review' },
-    { label: 'Escalation', desc: 'Tier 2 / IR transfer' },
-    { label: 'Documentation', desc: 'Incident audit log' }
+    { label: isHindi ? 'सुरक्षा घटना' : 'Security Event', desc: isHindi ? 'कच्चा टेलीमेट्री संकलन' : 'Raw telemetry capture' },
+    { label: isHindi ? 'अलर्ट' : 'Alert', desc: isHindi ? 'नियम / SIEM ट्रिगर' : 'Rule/SIEM trigger' },
+    { label: isHindi ? 'ट्राइएज' : 'Triage', desc: isHindi ? 'मिथ्या-सकारात्मक फ़िल्टर' : 'False-positive filter' },
+    { label: isHindi ? 'जांच' : 'Investigation', desc: isHindi ? 'संदर्भ और IOC समीक्षा' : 'Context & IOC review' },
+    { label: isHindi ? 'एस्केलेशन' : 'Escalation', desc: isHindi ? 'टियर 2 / IR स्थानांतरण' : 'Tier 2 / IR transfer' },
+    { label: isHindi ? 'दस्तावेज़ीकरण' : 'Documentation', desc: isHindi ? 'घटना ऑडिट लॉग' : 'Incident audit log' }
   ];
 
   const handleStepToggle = (stepKey: string) => {
@@ -46,13 +48,19 @@ export const SocOperations: React.FC = () => {
 
     if (actionType === 'contain') {
       updatedStatus = 'Contained';
-      message = `Simulated host/IP containment initiated for ${selectedAlert.id}. Egress blocked.`;
+      message = isHindi
+        ? `${selectedAlert.id} के लिए होस्ट/आईपी नियंत्रण शुरू। बाहर जाने वाला ट्रैफ़िक अवरुद्ध।`
+        : `Simulated host/IP containment initiated for ${selectedAlert.id}. Egress blocked.`;
     } else if (actionType === 'escalate') {
       updatedStatus = 'Under Investigation';
-      message = `Simulated escalation to Tier 2 Blue Team Lead logged for ${selectedAlert.id}.`;
+      message = isHindi
+        ? `${selectedAlert.id} के लिए टियर 2 ब्लू टीम लीड को एस्केलेशन दर्ज किया गया।`
+        : `Simulated escalation to Tier 2 Blue Team Lead logged for ${selectedAlert.id}.`;
     } else if (actionType === 'resolve') {
       updatedStatus = 'Closed';
-      message = `Incident documented and closed in simulated ticketing system.`;
+      message = isHindi
+        ? `सिम्युलेटेड टिकटिंग सिस्टम में घटना प्रलेखित और बंद कर दी गई।`
+        : `Incident documented and closed in simulated ticketing system.`;
     }
 
     setAlerts(prev => prev.map(a => a.id === selectedAlert.id ? { ...a, status: updatedStatus } : a));
@@ -94,17 +102,17 @@ export const SocOperations: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
               <ShieldAlert className="w-4 h-4 text-cyan-400" />
-              <span>SOC Operations</span>
+              <span>{t.soc.tag}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              Security Operations Center (L1 Triage & Playbooks)
+              {t.soc.title}
             </h2>
             <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
           </div>
 
           <div className="px-3.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-400 self-start md:self-auto">
-            <span className="text-emerald-400 font-semibold">● Simulated SOC Investigation</span>
-            <span className="text-slate-500 ml-2">| Educational Lab</span>
+            <span className="text-emerald-400 font-semibold">{t.soc.simulatedBanner}</span>
+            <span className="text-slate-500 ml-2">| {t.soc.educationalLab}</span>
           </div>
         </div>
 
@@ -112,7 +120,7 @@ export const SocOperations: React.FC = () => {
         <div className="mb-10 p-5 rounded-2xl bg-[#111827] border border-slate-800">
           <div className="flex items-center gap-2 mb-3 text-xs font-mono text-slate-400 uppercase tracking-wider">
             <Activity className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Standard Tier-1 SOC Workflow Protocol</span>
+            <span>{t.soc.workflowTitle}</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -144,9 +152,9 @@ export const SocOperations: React.FC = () => {
             </div>
             <button
               onClick={() => setActionFeedback(null)}
-              className="text-cyan-400 hover:text-white text-xs"
+              className="text-cyan-400 hover:text-white text-xs cursor-pointer"
             >
-              Dismiss
+              {isHindi ? 'बंद करें' : 'Dismiss'}
             </button>
           </div>
         )}
@@ -156,8 +164,8 @@ export const SocOperations: React.FC = () => {
           {/* Left: Interactive Alert Queue */}
           <div className="lg:col-span-5 space-y-3">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
-              <span>SIMULATED INCIDENT QUEUE</span>
-              <span>{alerts.length} ALERTS ACTIVE</span>
+              <span>{t.soc.incidentQueueTitle}</span>
+              <span>{alerts.length} {t.soc.alertsActive}</span>
             </div>
 
             <div className="space-y-2.5">
@@ -216,7 +224,7 @@ export const SocOperations: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
                     <Radio className="w-3.5 h-3.5 animate-pulse" />
-                    <span>Simulated SOC Investigation · {selectedAlert.id}</span>
+                    <span>{t.soc.simulatedBanner} · {selectedAlert.id}</span>
                   </div>
                   <h3 className="text-xl font-bold text-white font-mono">
                     {selectedAlert.title}
@@ -225,10 +233,10 @@ export const SocOperations: React.FC = () => {
 
                 <div className="flex items-center gap-2">
                   <span className={`px-2.5 py-1 rounded-md text-xs font-mono border ${getSeverityBadge(selectedAlert.severity)}`}>
-                    Severity: {selectedAlert.severity}
+                    {selectedAlert.severity}
                   </span>
                   <span className={`px-2.5 py-1 rounded-md text-xs font-mono border ${getStatusBadge(selectedAlert.status)}`}>
-                    Status: {selectedAlert.status}
+                    {selectedAlert.status}
                   </span>
                 </div>
               </div>
@@ -236,22 +244,22 @@ export const SocOperations: React.FC = () => {
               {/* Telemetry Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                 <div className="p-3 rounded-lg bg-[#0a0e17] border border-slate-800">
-                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">Timestamp</div>
+                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">{t.soc.telemetry.timestamp}</div>
                   <div className="text-xs font-mono text-slate-200">{selectedAlert.timestamp}</div>
                 </div>
                 <div className="p-3 rounded-lg bg-[#0a0e17] border border-slate-800">
-                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">Target Username</div>
+                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">{t.soc.telemetry.targetUser}</div>
                   <div className="text-xs font-mono text-cyan-300 flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-slate-400" />
                     <span>{selectedAlert.username}</span>
                   </div>
                 </div>
                 <div className="p-3 rounded-lg bg-[#0a0e17] border border-slate-800">
-                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">Source IP / Host</div>
+                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">{t.soc.telemetry.sourceIp}</div>
                   <div className="text-xs font-mono text-rose-300">{selectedAlert.sourceIp}</div>
                 </div>
                 <div className="p-3 rounded-lg bg-[#0a0e17] border border-slate-800">
-                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">Destination Target</div>
+                  <div className="text-[11px] font-mono text-slate-500 mb-0.5">{t.soc.telemetry.destination}</div>
                   <div className="text-xs font-mono text-slate-200">{selectedAlert.destination}</div>
                 </div>
               </div>
@@ -259,15 +267,15 @@ export const SocOperations: React.FC = () => {
               {/* Event Type & MITRE ATT&CK */}
               <div className="p-4 rounded-xl bg-[#0a0e17] border border-slate-800 space-y-2.5 mb-6">
                 <div className="flex flex-wrap items-center justify-between text-xs font-mono gap-2">
-                  <span className="text-slate-400">Event Classification:</span>
+                  <span className="text-slate-400">{t.soc.classification}:</span>
                   <span className="text-white font-semibold">{selectedAlert.eventType}</span>
                 </div>
                 <div className="flex flex-wrap items-center justify-between text-xs font-mono gap-2">
-                  <span className="text-slate-400">MITRE ATT&CK Tactic:</span>
+                  <span className="text-slate-400">{t.soc.mitre}:</span>
                   <span className="text-cyan-400">{selectedAlert.investigationDetails.mitreTactic}</span>
                 </div>
                 <div className="flex flex-wrap items-center justify-between text-xs font-mono gap-2">
-                  <span className="text-slate-400">Detection Mechanism:</span>
+                  <span className="text-slate-400">{t.soc.detectionMech}:</span>
                   <span className="text-slate-300">{selectedAlert.investigationDetails.detectionSource}</span>
                 </div>
                 <div className="pt-2 border-t border-slate-800/80 text-xs text-slate-300 leading-relaxed">
@@ -279,7 +287,7 @@ export const SocOperations: React.FC = () => {
               <div className="p-4 rounded-xl bg-cyan-950/30 border border-cyan-500/30 mb-6">
                 <div className="flex items-center gap-2 text-xs font-mono text-cyan-300 font-bold mb-1.5">
                   <Terminal className="w-3.5 h-3.5" />
-                  <span>Analyst Action Taken</span>
+                  <span>{t.soc.analystActionTitle}</span>
                 </div>
                 <p className="text-xs text-slate-200 leading-relaxed font-mono">
                   {selectedAlert.analystAction}
@@ -289,8 +297,8 @@ export const SocOperations: React.FC = () => {
               {/* Recommended Playbook Checklist */}
               <div className="mb-6">
                 <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2.5 flex items-center justify-between">
-                  <span>Incident Response Playbook Checklist</span>
-                  <span className="text-[11px] text-cyan-400">Interactive</span>
+                  <span>{t.soc.playbookTitle}</span>
+                  <span className="text-[11px] text-cyan-400">{t.soc.interactive}</span>
                 </div>
                 <div className="space-y-2">
                   {selectedAlert.investigationDetails.recommendedPlaybook.map((step, idx) => {
@@ -328,24 +336,24 @@ export const SocOperations: React.FC = () => {
                   onClick={() => handleSimulateAction('contain')}
                   className="px-3 py-1.5 rounded-lg text-xs font-mono bg-rose-950/50 hover:bg-rose-900/60 border border-rose-600/40 text-rose-300 transition-colors cursor-pointer"
                 >
-                  Simulate Containment
+                  {t.soc.actions.contain}
                 </button>
                 <button
                   onClick={() => handleSimulateAction('escalate')}
                   className="px-3 py-1.5 rounded-lg text-xs font-mono bg-amber-950/50 hover:bg-amber-900/60 border border-amber-600/40 text-amber-300 transition-colors cursor-pointer"
                 >
-                  Escalate to Tier 2
+                  {t.soc.actions.escalate}
                 </button>
                 <button
                   onClick={() => handleSimulateAction('resolve')}
                   className="px-3 py-1.5 rounded-lg text-xs font-mono bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-600/40 text-emerald-300 transition-colors cursor-pointer"
                 >
-                  Mark Resolved
+                  {t.soc.actions.resolve}
                 </button>
               </div>
 
               <span className="text-[11px] font-mono text-slate-500">
-                Mode: Sandbox Demo
+                {t.soc.sandboxMode}
               </span>
             </div>
           </div>
@@ -354,3 +362,4 @@ export const SocOperations: React.FC = () => {
     </section>
   );
 };
+

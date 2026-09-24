@@ -1,8 +1,11 @@
 import React from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import { Shield, Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const { t, isHindi } = useLanguage();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -14,7 +17,7 @@ export const Footer: React.FC = () => {
           <Shield className="w-4 h-4 text-cyan-400" />
           <span className="text-slate-200 font-semibold">{PERSONAL_INFO.name}</span>
           <span>·</span>
-          <span>B.Tech Cyber Security (3rd Year)</span>
+          <span>{isHindi ? 'बी.टेक साइबर सुरक्षा (तृतीय वर्ष)' : 'B.Tech Cyber Security (3rd Year)'}</span>
         </div>
 
         <div className="flex items-center gap-5 text-slate-400">
@@ -46,15 +49,15 @@ export const Footer: React.FC = () => {
           <button
             onClick={scrollToTop}
             className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
-            aria-label="Scroll to top"
-            title="Scroll to top"
+            aria-label={t.footer.backToTop}
+            title={t.footer.backToTop}
           >
             <ArrowUp className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
       <div className="max-w-6xl mx-auto mt-4 text-center sm:text-left text-slate-600 text-[11px]">
-        Built with modern React, Three.js & Tailwind CSS. Designed for clarity, authenticity, and technical rigor.
+        {t.footer.rightsReserved} {t.footer.designedWith}.
       </div>
     </footer>
   );

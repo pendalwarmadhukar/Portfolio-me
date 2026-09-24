@@ -1,6 +1,7 @@
 import React from 'react';
-import { CyberHeroCanvas } from './CyberHeroCanvas.tsx';
+import { NetworkNodesCanvas } from './NetworkNodesCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
+import { useLanguage } from '../context/LanguageContext.tsx';
 import { ArrowRight, Download, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon } from 'lucide-react';
 
 interface HeroProps {
@@ -8,6 +9,8 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
+  const { t } = useLanguage();
+
   const scrollToProjects = (e: React.MouseEvent) => {
     e.preventDefault();
     const projectsElem = document.getElementById('projects');
@@ -21,8 +24,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
       id="home"
       className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden cyber-grid"
     >
-      {/* 3D WebGL / Three.js Canvas */}
-      <CyberHeroCanvas />
+      {/* Interactive 3D Network Nodes Visualization (React Three Fiber) */}
+      <NetworkNodesCanvas />
 
       {/* Subtle radial depth gradient */}
       <div
@@ -34,9 +37,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
         {/* Subtle Security Status Indicator */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-6 backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Security Status: Active Verification</span>
+          <span>{t.hero.statusBadge}</span>
           <span className="text-slate-500">·</span>
-          <span className="text-slate-400">SOC & Cloud Defense</span>
+          <span className="text-slate-400">{t.hero.statusSub}</span>
         </div>
 
         {/* Profile Portrait Avatar */}
@@ -44,43 +47,43 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-teal-400 opacity-60 blur-sm group-hover:opacity-100 transition duration-500" />
           <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-cyan-400 bg-slate-900 shadow-xl shadow-cyan-950/50">
             <img
-              src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+              src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
               alt="Madhukar Pendalwar"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
             />
           </div>
-          <div className="absolute bottom-0 right-0 p-1 rounded-full bg-slate-900 border border-cyan-400 text-cyan-400" title="Verified Candidate">
+          <div className="absolute bottom-0 right-0 p-1 rounded-full bg-slate-900 border border-cyan-400 text-cyan-400" title={t.hero.verifiedCandidate}>
             <ShieldCheck className="w-4 h-4" />
           </div>
         </div>
 
         {/* Primary Greeting */}
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-3 text-balance">
-          Hi, I'm{' '}
+          {t.hero.greeting}{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-cyan-400">
-            Madhukar Pendalwar
+            {t.hero.name}
           </span>
         </h1>
 
         {/* Subtitle / Education */}
         <p className="text-lg sm:text-xl font-medium text-cyan-400/90 font-mono mb-4">
-          B.Tech Cyber Security Student
+          {t.hero.studentTitle}
         </p>
 
         {/* Main Role Line */}
         <div className="text-base sm:text-xl md:text-2xl font-semibold text-slate-200 mb-4 max-w-3xl">
-          {PERSONAL_INFO.heroRoleLine}
+          {t.hero.roleLine}
         </div>
 
         {/* Short Tagline */}
         <blockquote className="text-base sm:text-lg italic text-slate-300 max-w-2xl mb-4 font-normal">
-          {PERSONAL_INFO.tagline}
+          {t.hero.tagline}
         </blockquote>
 
         {/* Secondary Focus Line */}
         <p className="text-xs sm:text-sm font-mono text-slate-400 tracking-wide mb-8 text-balance">
-          {PERSONAL_INFO.secondaryTagline}
+          {t.hero.secondaryTagline}
         </p>
 
         {/* Call to Action Buttons */}
@@ -90,7 +93,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             onClick={scrollToProjects}
             className="flex-1 min-w-[160px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
           >
-            <span>View Projects</span>
+            <span>{t.hero.viewProjects}</span>
             <ArrowRight className="w-4 h-4" />
           </a>
 
@@ -98,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             onClick={onOpenResume}
             className="flex-1 min-w-[160px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-medium text-slate-200 bg-slate-900/90 hover:bg-slate-800/90 border border-slate-700 hover:border-cyan-500/40 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
           >
-            <span>Download Resume</span>
+            <span>{t.hero.resumeBtn}</span>
             <Download className="w-4 h-4 text-cyan-400" />
           </button>
         </div>
