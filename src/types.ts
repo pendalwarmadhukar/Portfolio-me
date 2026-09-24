@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: 'Cloud Security' | 'AWS Security & Monitoring' | 'DevSecOps' | 'Machine Learning & Security' | 'Network Security' | 'AI / Security';
+  category: 'Cloud Security' | 'AWS Security & Monitoring' | 'DevSecOps' | 'Machine Learning & Security' | 'Network Security' | 'AI / Security' | 'SOC & Incident Response';
   shortDescription: string;
   overview: string;
   problemStatement: string;
@@ -12,7 +12,7 @@ export interface Project {
   githubUrl: string;
   demoUrl?: string;
   imageFallbackGradient: string;
-  customVisualType: 'cloudshield' | 'aws-monitoring' | 'devsecops' | 'fraud' | 'netsentinel' | 'spamguard';
+  customVisualType: 'cloudshield' | 'aws-monitoring' | 'devsecops' | 'fraud' | 'netsentinel' | 'spamguard' | 'sentineldesk-soc';
   estimatedReadingTime?: string;
 }
 

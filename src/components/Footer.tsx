@@ -1,7 +1,7 @@
 import React from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { Shield, Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { Shield, Github, Linkedin, Mail, ArrowUp, Globe } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { t, isHindi } = useLanguage();
@@ -21,6 +21,16 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-5 text-slate-400">
+          <a
+            href={PERSONAL_INFO.portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-cyan-400 transition-colors"
+            aria-label="Live Portfolio"
+            title="Live Portfolio"
+          >
+            <Globe className="w-4 h-4" />
+          </a>
           <a
             href={PERSONAL_INFO.github}
             target="_blank"

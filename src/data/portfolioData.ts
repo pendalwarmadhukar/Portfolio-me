@@ -10,6 +10,8 @@ export const PERSONAL_INFO = {
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/pendalwarmadhukar", // standard profile link
+  portfolioUrl: "https://madhukar-cybersecurity-alpha.vercel.app/",
+  website: "https://madhukar-cybersecurity-alpha.vercel.app/",
   resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   resumeFilename: "Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   formspreeId: (import.meta as any).env?.VITE_FORMSPREE_ID || "mvkgqkny",
@@ -138,6 +140,36 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
 ];
 
 export const PROJECTS: Project[] = [
+  {
+    id: "sentineldesk-soc",
+    title: "SentinelDesk — SOC Monitoring & Incident Response",
+    category: "SOC & Incident Response",
+    shortDescription: "A full-stack enterprise-grade SOC monitoring and incident response dashboard with real-time SIEM event ingestion, threat intelligence, alert triage, and analyst workflows.",
+    overview: "SentinelDesk is a comprehensive Security Operations Center (SOC) platform engineered for cybersecurity analysts. It features a real-time SIEM event monitoring pipeline, live alert streaming via WebSocket/SSE, interactive threat intelligence modules, incident lifecycle management, and analyst performance KPIs — all wrapped in a professional dark-mode cyber operations interface.",
+    problemStatement: "Security operations teams require unified, real-time dashboards that consolidate alert triage, threat intelligence, incident tracking, and compliance reporting into a single platform — eliminating the need to context-switch across multiple disconnected tools during active incident response.",
+    solution: "Built a full-stack SOC platform using React, Node.js, Express.js, and MongoDB featuring live alert streaming, severity-based filtering and escalation workflows, IOC reputation lookups, MITRE ATT&CK-mapped investigations, analyst profile management with MFA/FIDO2, and automated PDF report generation for compliance auditing.",
+    technologies: ["React", "Node.js", "Express.js", "MongoDB", "Recharts", "Tailwind CSS", "JWT", "WebSocket"],
+    architectureSteps: [
+      "SIEM Ingestion",
+      "Real-Time Stream",
+      "Alert Triage",
+      "Threat Intel",
+      "Incident Response",
+      "Compliance Report"
+    ],
+    keyFeatures: [
+      "Real-time SOC operations dashboard with live SIEM metrics, severity distribution charts, and alert timeline visualization",
+      "Live alert streaming with WebSocket/SSE, desktop notifications for CRITICAL & HIGH severity incidents, and audio alarm support",
+      "Threat intelligence module with IOC reputation scoring, hostile subnet analysis, ASN lookup, and recommended containment actions",
+      "Full incident lifecycle management with status pipeline tracking (Open → Investigating → Contained → Resolved)",
+      "Analyst profile system with FIDO2 WebAuthn MFA, API key provisioning, session auditing, and operational KPIs",
+      "Security reports and compliance audit generation with SOC 2 Type II templates and PDF export"
+    ],
+    githubUrl: "https://github.com/pendalwarmadhukar",
+    demoUrl: "https://sentineldesk-soc-nu.vercel.app",
+    imageFallbackGradient: "from-slate-950 via-cyan-950 to-blue-950",
+    customVisualType: "sentineldesk-soc"
+  },
   {
     id: "cloudshield",
     title: "CloudShield",

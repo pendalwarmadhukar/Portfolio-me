@@ -19,6 +19,7 @@ import {
   X,
   RotateCcw,
   Clock,
+  Radio,
 } from 'lucide-react';
 import { getProjectReadingTime } from '../utils/readingTime.ts';
 
@@ -70,10 +71,11 @@ const CATEGORY_FILTERS: CategoryFilter[] = [
     id: 'soc-monitoring',
     getLabel: (t) => t.projects.socMonitoring,
     matcher: (p) =>
+      p.category === 'SOC & Incident Response' ||
       p.category === 'AWS Security & Monitoring' ||
       p.category === 'Network Security' ||
       p.technologies.some((t) =>
-        ['AWS CloudTrail', 'Amazon SNS', 'Security Monitoring', 'Linux', 'Bash', 'Nmap'].includes(t)
+        ['AWS CloudTrail', 'Amazon SNS', 'Security Monitoring', 'Linux', 'Bash', 'Nmap', 'WebSocket', 'Express.js'].includes(t)
       ),
   },
 ];
@@ -139,6 +141,8 @@ export const Projects: React.FC = () => {
         return <Terminal className="w-8 h-8 text-cyan-400" />;
       case 'spamguard':
         return <Brain className="w-8 h-8 text-teal-400" />;
+      case 'sentineldesk-soc':
+        return <Radio className="w-8 h-8 text-cyan-400" />;
     }
   };
 
@@ -271,6 +275,13 @@ export const Projects: React.FC = () => {
                       <img
                         src="/src/assets/images/cloudshield_arch_diagram_1790236901244.jpg"
                         alt="CloudShield Architecture"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : project.id === 'sentineldesk-soc' ? (
+                      <img
+                        src="/src/assets/images/sentineldesk_dashboard.png"
+                        alt="SentinelDesk SOC Dashboard"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />

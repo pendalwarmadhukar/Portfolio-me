@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { PERSONAL_INFO, PROJECTS, CERTIFICATIONS, SKILL_CATEGORIES } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { X, Download, Printer, Shield, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
+import { X, Download, Printer, Shield, Mail, Github, Linkedin, ExternalLink, Globe } from 'lucide-react';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -39,6 +39,7 @@ MADHUKAR PENDALWAR - RESUME
 Email: ${PERSONAL_INFO.email}
 GitHub: ${PERSONAL_INFO.github}
 LinkedIn: ${PERSONAL_INFO.linkedin}
+Portfolio: ${PERSONAL_INFO.portfolioUrl}
 ===================================================================
 
 CAREER OBJECTIVE:
@@ -173,6 +174,15 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                   <Mail className="w-3.5 h-3.5 text-cyan-400" />
                   {PERSONAL_INFO.email}
                 </span>
+                <a
+                  href={PERSONAL_INFO.portfolioUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors"
+                >
+                  <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                  madhukar-cybersecurity-alpha.vercel.app
+                </a>
                 <span className="flex items-center gap-1.5">
                   <Github className="w-3.5 h-3.5 text-cyan-400" />
                   github.com/pendalwarmadhukar

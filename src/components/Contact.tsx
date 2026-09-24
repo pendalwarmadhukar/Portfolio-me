@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check, Download, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check, Download, AlertCircle, Loader2, Globe, ExternalLink } from 'lucide-react';
 
 interface ContactProps {
   onOpenResume: () => void;
@@ -164,6 +164,27 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   github.com/pendalwarmadhukar
                 </div>
               </div>
+            </a>
+
+            {/* Live Portfolio */}
+            <a
+              href={PERSONAL_INFO.portfolioUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center justify-between group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-mono text-slate-400">Live Portfolio</div>
+                  <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                    madhukar-cybersecurity-alpha.vercel.app
+                  </div>
+                </div>
+              </div>
+              <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
             </a>
 
             {/* Resume Button Card */}

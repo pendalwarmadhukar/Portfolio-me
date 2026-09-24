@@ -2,7 +2,7 @@ import React from 'react';
 import { NetworkNodesCanvas } from './NetworkNodesCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { ArrowRight, Download, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon, FileText } from 'lucide-react';
+import { ArrowRight, Download, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon, FileText, Globe } from 'lucide-react';
 
 interface HeroProps {
   onOpenResume: () => void;
@@ -123,6 +123,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
 
         {/* Social Icons */}
         <div className="mb-8 flex items-center justify-center gap-3 text-slate-400 sm:gap-4">
+          <a
+            href={PERSONAL_INFO.portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-slate-800 bg-slate-900/60 p-2.5 transition-all hover:border-cyan-500/40 hover:bg-slate-800/60 hover:text-cyan-400 sm:p-3"
+            aria-label="Live Portfolio"
+            title="Live Portfolio: madhukar-cybersecurity-alpha.vercel.app"
+          >
+            <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
+          </a>
           <a
             href={PERSONAL_INFO.github}
             target="_blank"
