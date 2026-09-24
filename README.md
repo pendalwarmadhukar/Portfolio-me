@@ -18,10 +18,10 @@
 
 I'm a 3rd-year B.Tech Cyber Security student focused on **SOC & Blue Team operations**, **AWS Cloud Security**, **cyber investigation**, and **digital forensics**. I build hands-on security projects covering cloud security, monitoring, Linux, networking, DevSecOps, and machine learning.
 
-🔭 Currently strengthening: `SOC Workflows` · `Cloud Security` · `Digital Forensics`
-🌱 Learning by building: real-world blue team & cloud security labs
-💬 Ask me about: AWS Security, SOC concepts, network/CTF challenges
-📫 Reach me: see **Connect** section below
+🔭 Currently strengthening: `SOC Workflows` · `Cloud Security` · `Digital Forensics`<br>
+🌱 Learning by building: real-world blue team and cloud security labs<br>
+💬 Ask me about: AWS Security, SOC concepts, network/CTF challenges<br>
+📫 Reach me: see the **Connect** section below
 
 </td>
 <td valign="top" width="40%">
@@ -107,66 +107,105 @@ I'm a 3rd-year B.Tech Cyber Security student focused on **SOC & Blue Team operat
 
 ---
 
-<h3 align="center">🚀 Featured Projects</h3>
+<h2 align="center">🚀 Featured Projects</h2>
 
-<table>
+<table align="center">
 <tr>
 <td width="50%" valign="top">
 
-**☁️ CloudShield**
-*AWS Cloud Security*
+### ☁️ CloudShield
+**AWS Cloud Security**
+
 AWS IAM, S3, EC2, AWS CLI, secure configuration, encryption and security best practices.
-`AWS` `IAM` `S3` `EC2` `AWS CLI`
-[🔗 Repository](YOUR_CLOUDSHIELD_REPOSITORY_URL)
+
+![AWS](https://img.shields.io/badge/AWS-1a2980?style=flat-square)
+![IAM](https://img.shields.io/badge/IAM-1a2980?style=flat-square)
+![S3](https://img.shields.io/badge/S3-1a2980?style=flat-square)
+![EC2](https://img.shields.io/badge/EC2-1a2980?style=flat-square)
+![AWS CLI](https://img.shields.io/badge/AWS_CLI-1a2980?style=flat-square)
+
+[🔗 Repository](https://github.com/pendalwarmadhukar/REPO-NAME)
 
 </td>
 <td width="50%" valign="top">
 
-**📡 AWS Security Monitoring & Alerting**
-*AWS Security & Monitoring*
+### 📡 AWS Security Monitoring and Alerting
+**AWS Security and Monitoring**
+
 AWS security monitoring, activity visibility and security alerting.
-`EC2` `IAM` `Security Groups` `CloudTrail` `SNS` `Linux`
-[🔗 Repository](YOUR_AWS_SECURITY_REPOSITORY_URL)
+
+![EC2](https://img.shields.io/badge/EC2-1a2980?style=flat-square)
+![IAM](https://img.shields.io/badge/IAM-1a2980?style=flat-square)
+![Security Groups](https://img.shields.io/badge/Security_Groups-1a2980?style=flat-square)
+![CloudTrail](https://img.shields.io/badge/CloudTrail-1a2980?style=flat-square)
+![SNS](https://img.shields.io/badge/SNS-1a2980?style=flat-square)
+![Linux](https://img.shields.io/badge/Linux-1a2980?style=flat-square)
+
+[🔗 Repository](https://github.com/pendalwarmadhukar/REPO-NAME)
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-**🔒 DevSecOps CI/CD with Trivy**
-*DevSecOps*
+### 🔒 DevSecOps CI/CD with Trivy
+**DevSecOps**
+
 Secure CI/CD pipeline integrating Docker and Trivy for container security scanning.
-`GitHub` `Docker` `Trivy` `CI/CD` `Flask`
-[🔗 Repository](YOUR_DEVSECOPS_REPOSITORY_URL)
+
+![GitHub](https://img.shields.io/badge/GitHub-1a2980?style=flat-square)
+![Docker](https://img.shields.io/badge/Docker-1a2980?style=flat-square)
+![Trivy](https://img.shields.io/badge/Trivy-1a2980?style=flat-square)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-1a2980?style=flat-square)
+![Flask](https://img.shields.io/badge/Flask-1a2980?style=flat-square)
+
+[🔗 Repository](https://github.com/pendalwarmadhukar/REPO-NAME)
 
 </td>
 <td width="50%" valign="top">
 
-**🖧 NetSentinel**
-*Network Security*
+### 🖧 NetSentinel
+**Network Security**
+
 Linux-based network monitoring using Bash and Nmap for auditing, scanning, and log analysis.
-`Linux` `Bash` `Nmap` `Networking`
-[🔗 Repository](YOUR_NETSENTINEL_REPOSITORY_URL)
+
+![Linux](https://img.shields.io/badge/Linux-1a2980?style=flat-square)
+![Bash](https://img.shields.io/badge/Bash-1a2980?style=flat-square)
+![Nmap](https://img.shields.io/badge/Nmap-1a2980?style=flat-square)
+![Networking](https://img.shields.io/badge/Networking-1a2980?style=flat-square)
+
+[🔗 Repository](https://github.com/pendalwarmadhukar/REPO-NAME)
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-**💳 Credit Card Fraud Detection**
-*Machine Learning & Security*
+### 💳 Credit Card Fraud Detection
+**Machine Learning and Security**
+
 Identifying potentially fraudulent credit card transactions using ML.
-`Python` `Pandas` `Machine Learning` `Data Analysis`
-[🔗 Repository](YOUR_FRAUD_DETECTION_REPOSITORY_URL)
+
+![Python](https://img.shields.io/badge/Python-26d0ce?style=flat-square)
+![Pandas](https://img.shields.io/badge/Pandas-26d0ce?style=flat-square)
+![Machine Learning](https://img.shields.io/badge/Machine_Learning-26d0ce?style=flat-square)
+![Data Analysis](https://img.shields.io/badge/Data_Analysis-26d0ce?style=flat-square)
+
+[🔗 Repository](https://github.com/pendalwarmadhukar/REPO-NAME)
 
 </td>
 <td width="50%" valign="top">
 
-**📧 SpamGuard-AI**
-*AI / Security*
+### 📧 SpamGuard-AI
+**AI / Security**
+
 AI-based security project focused on spam detection and analysis.
-`Python` `Machine Learning` `AI`
-[🔗 Repository](YOUR_SPAMGUARD_REPOSITORY_URL)
+
+![Python](https://img.shields.io/badge/Python-26d0ce?style=flat-square)
+![Machine Learning](https://img.shields.io/badge/Machine_Learning-26d0ce?style=flat-square)
+![AI](https://img.shields.io/badge/AI-26d0ce?style=flat-square)
+
+[🔗 Repository](https://github.com/pendalwarmadhukar/REPO-NAME)
 
 </td>
 </tr>
@@ -208,7 +247,7 @@ AI-based security project focused on spam detection and analysis.
 <img src="https://github-readme-stats.vercel.app/api?username=pendalwarmadhukar&show_icons=true&theme=tokyonight&hide_title=false" width="49%"/>
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=pendalwarmadhukar&layout=compact&theme=tokyonight" width="35%"/>
 
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=pendalwarmadhukar&theme=tokyonight" width="60%"/>
+<img src="https://streak-stats.demolab.com/?user=pendalwarmadhukar&theme=tokyonight" width="60%"/>
 
 </div>
 
