@@ -140,30 +140,44 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
         {/* Printable Resume Sheet */}
         <div className="p-6 sm:p-10 bg-[#0d131f] text-slate-200 space-y-8 font-sans">
           {/* Header Block */}
-          <div className="border-b border-slate-800 pb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white font-mono mb-1">
-              Madhukar Pendalwar
-            </h1>
-            <p className="text-sm font-semibold text-cyan-400 font-mono mb-3">
-              3rd-Year B.Tech Cyber Security Student
-            </p>
-            <p className="text-xs text-slate-400 font-mono mb-4">
-              Aspiring: SOC Analyst | Cybersecurity Professional | Cloud Security | Blue Team | Cyber Crime Investigation | Digital Forensics
-            </p>
+          <div className="border-b border-slate-800 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white font-mono mb-1">
+                Madhukar Pendalwar
+              </h1>
+              <p className="text-sm font-semibold text-cyan-400 font-mono mb-3">
+                3rd-Year B.Tech Cyber Security Student
+              </p>
+              <p className="text-xs text-slate-400 font-mono mb-4 max-w-xl">
+                Aspiring: SOC Analyst | Cybersecurity Professional | Cloud Security | Blue Team | Cyber Crime Investigation | Digital Forensics
+              </p>
 
-            <div className="flex flex-wrap gap-4 text-xs font-mono text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5 text-cyan-400" />
-                {PERSONAL_INFO.email}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Github className="w-3.5 h-3.5 text-cyan-400" />
-                github.com/pendalwarmadhukar
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Linkedin className="w-3.5 h-3.5 text-cyan-400" />
-                linkedin.com/in/pendalwarmadhukar
-              </span>
+              <div className="flex flex-wrap gap-4 text-xs font-mono text-slate-400">
+                <span className="flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                  {PERSONAL_INFO.email}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Github className="w-3.5 h-3.5 text-cyan-400" />
+                  github.com/pendalwarmadhukar
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Linkedin className="w-3.5 h-3.5 text-cyan-400" />
+                  linkedin.com/in/pendalwarmadhukar
+                </span>
+              </div>
+            </div>
+
+            {/* Official Photo Avatar */}
+            <div className="shrink-0">
+              <div className="w-24 h-28 rounded-xl overflow-hidden border border-cyan-500/40 shadow-md bg-slate-900">
+                <img
+                  src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+                  alt="Madhukar Pendalwar"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
             </div>
           </div>
 

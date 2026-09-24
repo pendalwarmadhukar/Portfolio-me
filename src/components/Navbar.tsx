@@ -69,8 +69,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
             className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-md"
             aria-label="Madhukar Pendalwar - Home"
           >
-            <div className="w-8 h-8 rounded-lg bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:border-cyan-400 transition-colors">
-              <Shield className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-cyan-400/60 bg-slate-900 shrink-0 group-hover:border-cyan-300 transition-colors shadow-sm shadow-cyan-500/20">
+              <img
+                src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+                alt="Madhukar Pendalwar"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <span className="font-mono text-base sm:text-lg font-semibold tracking-tight text-white group-hover:text-cyan-400 transition-colors whitespace-nowrap">
               Madhukar Pendalwar

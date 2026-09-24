@@ -39,6 +39,22 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           <span className="text-slate-400">SOC & Cloud Defense</span>
         </div>
 
+        {/* Profile Portrait Avatar */}
+        <div className="relative mb-6 group">
+          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-teal-400 opacity-60 blur-sm group-hover:opacity-100 transition duration-500" />
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-cyan-400 bg-slate-900 shadow-xl shadow-cyan-950/50">
+            <img
+              src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+              alt="Madhukar Pendalwar"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+          <div className="absolute bottom-0 right-0 p-1 rounded-full bg-slate-900 border border-cyan-400 text-cyan-400" title="Verified Candidate">
+            <ShieldCheck className="w-4 h-4" />
+          </div>
+        </div>
+
         {/* Primary Greeting */}
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-3 text-balance">
           Hi, I'm{' '}

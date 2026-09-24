@@ -31,14 +31,14 @@ export const About: React.FC = () => {
           {/* Left Column: Profile Card */}
           <div className="lg:col-span-4 flex flex-col items-center sm:items-start">
             <div className="w-full max-w-sm rounded-2xl bg-[#111827] border border-slate-800 p-6 shadow-xl relative group">
-              <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 bg-slate-900 border border-slate-800">
+              <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden mb-5 bg-slate-900 border border-cyan-500/30 shadow-lg shadow-cyan-950/30">
                 {!imgError ? (
                   <img
-                    src="/src/assets/images/madhukar_profile_portrait_1790236890128.jpg"
-                    alt="Madhukar Pendalwar - B.Tech Cyber Security Student"
+                    src="/src/assets/images/madhukar_real_suit_1790237812175.jpg"
+                    alt="Madhukar Pendalwar - B.Tech Cyber Security"
                     referrerPolicy="no-referrer"
                     onError={() => setImgError(true)}
-                    className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-102"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-cyan-950 to-slate-950 p-6 text-center">
@@ -51,9 +51,13 @@ export const About: React.FC = () => {
                     </span>
                   </div>
                 )}
-                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-slate-900/80 backdrop-blur-md border border-cyan-500/30 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span>3rd Year</span>
+                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-slate-900/90 backdrop-blur-md border border-cyan-500/40 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-md">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>3rd Year B.Tech</span>
+                </div>
+                <div className="absolute bottom-3 left-3 right-3 px-3 py-1.5 rounded-md bg-[#0a0e17]/85 backdrop-blur-md border border-slate-700/60 text-[11px] font-mono text-slate-300 flex items-center justify-between">
+                  <span>Cyber Defense</span>
+                  <span className="text-cyan-400 font-semibold">Active</span>
                 </div>
               </div>
 
