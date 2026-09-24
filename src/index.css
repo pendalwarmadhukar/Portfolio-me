@@ -9,15 +9,35 @@
   color-scheme: dark;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: #0a0e17;
   color: #f3f4f6;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
 
 h1, h2, h3, h4, .font-heading {
   font-family: var(--font-mono);
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+
+  section {
+    scroll-margin-top: 88px;
+  }
 }
 
 /* Custom scrollbar */

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, X, FileText } from 'lucide-react';
+import { Shield, Menu, X, FileText, Download } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { LanguageToggle } from './LanguageToggle.tsx';
+import { PERSONAL_INFO } from '../data/portfolioData.ts';
 
 interface NavbarProps {
   onOpenResume: () => void;
@@ -59,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         isScrolled
-          ? 'bg-[#0a0e17]/90 backdrop-blur-md border-b border-cyan-950/40 shadow-lg shadow-black/20 py-3.5'
+          ? 'bg-[#0a0e17]/85 backdrop-blur-xl border-b border-cyan-950/40 shadow-[0_16px_30px_rgba(2,6,23,0.35)] py-3.5'
           : 'bg-transparent py-5'
       }`}
     >
@@ -72,15 +73,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
             className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-md"
             aria-label="Madhukar Pendalwar - Home"
           >
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-cyan-400/60 bg-slate-900 shrink-0 group-hover:border-cyan-300 transition-colors shadow-sm shadow-cyan-500/20">
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-cyan-400/60 bg-slate-900 shrink-0 group-hover:border-cyan-300 transition-all duration-300 shadow-[0_0_18px_rgba(34,211,238,0.28)] group-hover:scale-105">
               <img
-                src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
+                src="/profile.png"
                 alt="Madhukar Pendalwar"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <span className="font-mono text-base sm:text-lg font-semibold tracking-tight text-white group-hover:text-cyan-400 transition-colors whitespace-nowrap">
+            <span className="font-mono text-base sm:text-lg font-semibold tracking-tight text-white group-hover:text-cyan-300 transition-colors whitespace-nowrap">
               Madhukar Pendalwar
             </span>
           </a>
@@ -111,13 +112,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
             {/* Language Switcher in Navigation Bar */}
             <LanguageToggle />
 
-            <button
-              onClick={onOpenResume}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-mono font-medium text-cyan-300 bg-cyan-950/50 hover:bg-cyan-900/50 border border-cyan-500/40 hover:border-cyan-400 rounded-lg transition-colors shadow-sm cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
-            >
-              <FileText className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{t.nav.resume}</span>
-            </button>
+            {/* Resume Action Group: Direct PDF Download & Dossier Modal */}
+            <div className="flex items-center rounded-lg bg-cyan-950/50 border border-cyan-500/40 p-0.5">
+              <a
+                href={PERSONAL_INFO.resumeUrl}
+                download={PERSONAL_INFO.resumeFilename}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-cyan-300 hover:text-white hover:bg-cyan-900/60 rounded-md transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
+                title="Download Resume PDF"
+              >
+                <Download className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-y-0.5 transition-transform" />
+                <span>{t.nav.resume}</span>
+              </a>
+              <button
+                onClick={onOpenResume}
+                className="p-1.5 text-cyan-400/80 hover:text-cyan-200 hover:bg-cyan-900/60 rounded-md transition-colors cursor-pointer"
+                title="Preview Resume Dossier"
+                aria-label="Preview Resume Dossier"
+              >
+                <FileText className="w-3.5 h-3.5" />
+              </button>
+            </div>
 
             {/* Mobile Hamburger Button */}
             <button
@@ -158,6 +174,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 </a>
               );
             })}
+          </div>
+
+          {/* Mobile Resume Action */}
+          <div className="pt-3 border-t border-slate-800/80 flex items-center gap-2">
+            <a
+              href={PERSONAL_INFO.resumeUrl}
+              download={PERSONAL_INFO.resumeFilename}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-sm"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Resume (PDF)</span>
+            </a>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenResume();
+              }}
+              className="inline-flex items-center justify-center p-2.5 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/70 border border-cyan-500/40 hover:bg-cyan-900/60 transition-colors"
+              title="Preview Dossier"
+            >
+              <FileText className="w-4 h-4" />
+            </button>
           </div>
         </div>
       )}

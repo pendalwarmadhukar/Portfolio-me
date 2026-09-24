@@ -186,43 +186,44 @@ export const Projects: React.FC = () => {
         </div>
 
         {/* Category Filter Pills / Toggles Bar */}
-        <div className="mb-8 flex flex-wrap items-center gap-2">
-          {CATEGORY_FILTERS.map((cat) => {
-            const isActive = activeCategoryId === cat.id;
-            const count = categoryCounts[cat.id] || 0;
-            const label = cat.getLabel(t);
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="-mx-1 flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+            {CATEGORY_FILTERS.map((cat) => {
+              const isActive = activeCategoryId === cat.id;
+              const count = categoryCounts[cat.id] || 0;
+              const label = cat.getLabel(t);
 
-            return (
-              <button
-                key={cat.id}
-                onClick={() => handleCategoryClick(cat.id)}
-                className={`group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-400/50 shadow-md shadow-cyan-950/40'
-                    : 'bg-[#111827] text-slate-400 hover:text-slate-200 border border-slate-800 hover:border-slate-700'
-                }`}
-              >
-                <span>{label}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono transition-colors ${
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleCategoryClick(cat.id)}
+                  className={`group relative inline-flex shrink-0 items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-mono font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/30'
-                      : 'bg-slate-800/80 text-slate-400 group-hover:text-slate-300'
+                      ? 'border border-cyan-400/50 bg-cyan-950/80 text-cyan-300 shadow-md shadow-cyan-950/40'
+                      : 'border border-slate-800 bg-[#111827] text-slate-400 hover:border-slate-700 hover:text-slate-200'
                   }`}
                 >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                  <span>{label}</span>
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono transition-colors ${
+                      isActive
+                        ? 'border border-cyan-400/30 bg-cyan-500/20 text-cyan-200'
+                        : 'bg-slate-800/80 text-slate-400 group-hover:text-slate-300'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
 
-          {/* Active Filter Indicator & Reset */}
           {(activeCategoryId !== 'all' || searchQuery.trim() !== '') && (
             <button
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-400 hover:text-cyan-300 bg-slate-900 border border-slate-800 hover:border-cyan-500/30 transition-colors ml-auto cursor-pointer"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs font-mono text-slate-400 transition-colors hover:border-cyan-500/30 hover:text-cyan-300"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="h-3 w-3" />
               <span>{t.projects.resetFilters}</span>
             </button>
           )}
@@ -310,6 +311,13 @@ export const Projects: React.FC = () => {
                       <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
                         {project.shortDescription}
                       </p>
+
+                      <div className="mb-4 rounded-lg border border-cyan-500/20 bg-cyan-950/20 px-3 py-2">
+                        <div className="text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Impact</div>
+                        <div className="mt-1 text-[11px] leading-relaxed text-cyan-100/90">
+                          {project.keyFeatures[0] || 'Security-focused project designed for real-world defense scenarios.'}
+                        </div>
+                      </div>
 
                       {/* Tech Stack Pills */}
                       <div className="flex flex-wrap gap-1.5 mb-6">

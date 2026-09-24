@@ -45,14 +45,22 @@ export interface Certification {
   id: string;
   title: string;
   issuer: string;
-  type: 'Academic Certification' | 'Technical Specialization' | 'Foundational Credential';
+  type: string;
   date?: string;
   credentialId?: string;
-  status: 'Verified Academic' | 'Active Credential' | 'In Preparation';
+  status?: 'Verified Academic' | 'Active Credential' | 'In Preparation' | 'Verified';
   description: string;
   topics: string[];
-  verificationNote: string;
-  badgeIcon: string;
+  verificationNote?: string;
+  badgeIcon?: string;
+  badgeLabel?: string;
+  achievement?: string;
+  category?: 'Certifications' | 'CTF' | 'Challenges' | 'Participation';
+  verificationUrl?: string;
+  points?: string;
+  rank?: string;
+  team?: string;
+  imageUrl?: string;
 }
 
 export interface GitHubRepo {

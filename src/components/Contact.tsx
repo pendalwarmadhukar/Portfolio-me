@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check } from 'lucide-react';
+import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check, Download } from 'lucide-react';
 
 interface ContactProps {
   onOpenResume: () => void;
@@ -126,25 +126,40 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
             </a>
 
             {/* Resume Button Card */}
-            <div
-              onClick={onOpenResume}
-              className="p-5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 hover:border-cyan-400 transition-all flex items-center justify-between cursor-pointer group"
-            >
+            <div className="p-5 rounded-xl bg-gradient-to-br from-cyan-950/40 via-[#111827] to-slate-900 border border-cyan-500/40 hover:border-cyan-400 transition-all space-y-3.5 shadow-lg shadow-cyan-950/20">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-lg bg-cyan-950 border border-cyan-500/40 text-cyan-300">
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="text-xs font-mono text-cyan-400">{t.contact.resumeCardTitle}</div>
-                  <div className="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors">
-                    {t.contact.resumeCardDesc}
+                  <div className="text-sm font-semibold text-white">
+                    Madhukar_Pendalwar_Resume.pdf
                   </div>
                 </div>
               </div>
 
-              <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">
-                {t.contact.resumeCardView}
-              </span>
+              <div className="flex items-center gap-2 pt-1">
+                <a
+                  href={PERSONAL_INFO.resumeUrl}
+                  download={PERSONAL_INFO.resumeFilename}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-sm font-semibold"
+                  title="Download Resume PDF"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download Resume (PDF)</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={onOpenResume}
+                  className="inline-flex items-center justify-center px-3.5 py-2.5 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/70 hover:bg-cyan-900/70 border border-cyan-500/40 transition-colors cursor-pointer"
+                  title="Preview Dossier"
+                >
+                  <span>Preview</span>
+                </button>
+              </div>
             </div>
           </div>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { NetworkNodesCanvas } from './NetworkNodesCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { ArrowRight, Download, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon } from 'lucide-react';
+import { ArrowRight, Download, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon, FileText } from 'lucide-react';
 
 interface HeroProps {
   onOpenResume: () => void;
@@ -47,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-teal-400 opacity-60 blur-sm group-hover:opacity-100 transition duration-500" />
           <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-cyan-400 bg-slate-900 shadow-xl shadow-cyan-950/50">
             <img
-              src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
+              src="/profile.png"
               alt="Madhukar Pendalwar"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
@@ -87,52 +87,91 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
         </p>
 
         {/* Call to Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-10 w-full max-w-md">
+        <div className="flex w-full max-w-md flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 mb-10">
           <a
             href="#projects"
             onClick={scrollToProjects}
-            className="flex-1 min-w-[160px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:flex-1"
           >
             <span>{t.hero.viewProjects}</span>
             <ArrowRight className="w-4 h-4" />
           </a>
 
-          <button
-            onClick={onOpenResume}
-            className="flex-1 min-w-[160px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-medium text-slate-200 bg-slate-900/90 hover:bg-slate-800/90 border border-slate-700 hover:border-cyan-500/40 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
-          >
-            <span>{t.hero.resumeBtn}</span>
-            <Download className="w-4 h-4 text-cyan-400" />
-          </button>
+          <div className="flex w-full sm:flex-1 items-center gap-2">
+            <a
+              href={PERSONAL_INFO.resumeUrl}
+              download={PERSONAL_INFO.resumeFilename}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium text-slate-200 bg-slate-900/90 hover:bg-slate-800/90 border border-slate-700 hover:border-cyan-500/40 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
+              title="Download Resume PDF"
+            >
+              <span>{t.hero.resumeBtn}</span>
+              <Download className="w-4 h-4 text-cyan-400 group-hover:translate-y-0.5 transition-transform" />
+            </a>
+            <button
+              type="button"
+              onClick={onOpenResume}
+              className="inline-flex items-center justify-center p-3 rounded-lg text-slate-400 hover:text-cyan-300 bg-slate-900/90 hover:bg-slate-800/90 border border-slate-700 hover:border-cyan-500/40 transition-all cursor-pointer shrink-0"
+              title="Preview Resume Dossier"
+              aria-label="Preview Resume Dossier"
+            >
+              <FileText className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Social Icons */}
-        <div className="flex items-center justify-center gap-4 text-slate-400 mb-10">
+        <div className="mb-8 flex items-center justify-center gap-3 text-slate-400 sm:gap-4">
           <a
             href={PERSONAL_INFO.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 hover:text-cyan-400 hover:bg-slate-800/60 transition-all"
+            className="rounded-lg border border-slate-800 bg-slate-900/60 p-2.5 transition-all hover:border-cyan-500/40 hover:bg-slate-800/60 hover:text-cyan-400 sm:p-3"
             aria-label="GitHub Profile"
           >
-            <Github className="w-5 h-5" />
+            <Github className="h-4 w-4 sm:h-5 sm:w-5" />
           </a>
           <a
             href={PERSONAL_INFO.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 hover:text-cyan-400 hover:bg-slate-800/60 transition-all"
+            className="rounded-lg border border-slate-800 bg-slate-900/60 p-2.5 transition-all hover:border-cyan-500/40 hover:bg-slate-800/60 hover:text-cyan-400 sm:p-3"
             aria-label="LinkedIn Profile"
           >
-            <Linkedin className="w-5 h-5" />
+            <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />
           </a>
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
-            className="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 hover:text-cyan-400 hover:bg-slate-800/60 transition-all"
+            className="rounded-lg border border-slate-800 bg-slate-900/60 p-2.5 transition-all hover:border-cyan-500/40 hover:bg-slate-800/60 hover:text-cyan-400 sm:p-3"
             aria-label="Email Madhukar"
           >
-            <Mail className="w-5 h-5" />
+            <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
           </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-3xl mb-10">
+          {[
+            { value: '3+', label: 'Security projects' },
+            { value: 'SOC', label: 'Blue team focus' },
+            { value: 'AWS', label: 'Cloud security' },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-xl border border-slate-800/80 bg-slate-900/65 px-4 py-3 backdrop-blur-sm shadow-[0_12px_25px_rgba(15,23,42,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:border-cyan-500/30"
+            >
+              <div className="text-xl font-bold text-cyan-300 font-mono">{stat.value}</div>
+              <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400 mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-300">
+          {['Blue Team', 'Cloud Security', 'SOC Readiness', 'Digital Forensics'].map((tag) => (
+            <span key={tag} className="rounded-full border border-slate-800 bg-slate-900/70 px-2.5 py-1.5 shadow-sm shadow-slate-950/20">
+              {tag}
+            </span>
+          ))}
         </div>
 
         {/* Minimal Terminal / Telemetry Box */}

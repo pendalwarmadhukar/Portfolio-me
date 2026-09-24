@@ -10,6 +10,8 @@ export const PERSONAL_INFO = {
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/pendalwarmadhukar", // standard profile link
+  resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
+  resumeFilename: "Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   bio: "I am a 3rd-year B.Tech Cyber Security student with a strong interest in Cybersecurity, SOC & Blue Team operations, Cloud Security, Cyber Crime Investigation, and Digital Forensics.\n\nI focus on building practical security projects involving AWS security, security monitoring, Linux, networking, DevSecOps, and cybersecurity analysis.",
   careerFocus: [
     {
@@ -415,75 +417,111 @@ export const SOC_ALERTS: SocAlert[] = [
 
 export const CERTIFICATIONS: Certification[] = [
   {
-    id: "cert-academic-btech",
-    title: "B.Tech Cyber Security (3rd Year Academic Curriculum)",
-    issuer: "Engineering University Curriculum",
-    type: "Academic Certification",
-    date: "2023 - Present (In Progress)",
-    status: "Verified Academic",
-    description: "Rigorous undergraduate engineering curriculum with practical lab training in Operating Systems, Network Security, Cryptography, Database Security, and Digital Forensics.",
+    id: "advent-of-cyber-2025",
+    title: "Advent of Cyber 2025",
+    issuer: "TryHackMe",
+    type: "Certificate of Completion",
+    date: "25 January 2026",
+    status: "Verified",
+    description: "Completed 24 cybersecurity challenges and demonstrated understanding of cybersecurity fundamentals through consistency, tenacity, and continuous learning.",
     topics: [
-      "SOC Operations & Blue Team fundamentals",
-      "Digital Forensics & Evidence Preservation",
-      "Network Protocols & Packet Analysis (TCP/IP)",
-      "Linux System Administration & Shell Scripting",
-      "Cyber Law & Digital Crime Investigation Principles"
+      "Cybersecurity fundamentals",
+      "Hands-on cyber challenges",
+      "Continuous learning and problem solving"
     ],
-    verificationNote: "Active undergraduate student enrollment in good standing with focus on practical security laboratory implementations.",
-    badgeIcon: "GraduationCap"
+    verificationNote: "Source certificate confirms these details.",
+    badgeIcon: "Award",
+    badgeLabel: "CYBERSECURITY CHALLENGE",
+    category: "Challenges",
+    achievement: "Completed 24 cybersecurity challenges",
+    credentialId: "THM-CFDBNGQB34",
+    imageUrl: "/certificates/advent-of-cyber-2025.png"
   },
   {
-    id: "cert-aws-cloud",
-    title: "Cloud & AWS Security Foundations",
-    issuer: "AWS & Practical Laboratory Coursework",
-    type: "Technical Specialization",
-    date: "2025",
-    status: "Active Credential",
-    description: "Hands-on project work and coursework covering AWS core infrastructure, IAM policy design, CloudTrail logging, S3 bucket hardening, and EC2 network access controls.",
+    id: "love-at-first-breach-ctf",
+    title: "Love at First Breach - CTF",
+    issuer: "TryHackMe",
+    type: "Certificate of Completion",
+    date: "24 February 2026",
+    status: "Verified",
+    description: "Completed real-world cybersecurity challenges demonstrating practical skills in offensive security and problem-solving.",
     topics: [
-      "AWS IAM Roles & Least-Privilege RBAC",
-      "AWS CloudTrail & Activity Auditing",
-      "Amazon S3 Server-Side Encryption (SSE)",
-      "Security Groups & VPC Network Access Control Lists (NACLs)",
-      "AWS CLI Security Automation"
+      "Offensive security",
+      "Real-world challenge solving",
+      "Security investigation and reasoning"
     ],
-    verificationNote: "Demonstrated through open-source project implementations including CloudShield and AWS Security Monitoring.",
-    badgeIcon: "CloudCheck"
+    verificationNote: "Source certificate confirms these details.",
+    badgeIcon: "Award",
+    badgeLabel: "CTF",
+    category: "CTF",
+    achievement: "600 Points | Rank 228",
+    points: "600 Points",
+    rank: "228",
+    team: "cybers square",
+    imageUrl: "/certificates/love-at-first-breach-ctf.png"
   },
   {
-    id: "cert-devsecops",
-    title: "Container Security & DevSecOps Practices",
-    issuer: "Practical DevSecOps & Container Security Labs",
-    type: "Technical Specialization",
-    date: "2025",
-    status: "Active Credential",
-    description: "Practical implementation of containerized applications, vulnerability scanning with Trivy, and automated security validation in CI/CD pipelines.",
+    id: "cybersecurity-fundamentals-ibm",
+    title: "Cybersecurity Fundamentals",
+    issuer: "IBM SkillsBuild",
+    type: "Certification",
+    date: "12 February 2026",
+    status: "Verified",
+    description: "A foundational cybersecurity learning credential covering key concepts and professional security awareness.",
     topics: [
-      "Docker Image Hardening & Multi-Stage Builds",
-      "Trivy Vulnerability & Misconfiguration Scanning",
-      "CI/CD Pipeline Security Gates",
-      "Software Bill of Materials (SBOM) Concepts",
-      "Static Analysis & Dependency Auditing"
+      "Cybersecurity fundamentals",
+      "Security concepts and awareness",
+      "Practical learning and certification preparation"
     ],
-    verificationNote: "Validated through working GitHub Actions pipelines and reproducible repository scan artifacts.",
-    badgeIcon: "ShieldCheck"
+    verificationNote: "The uploaded certificate confirms IBM SkillsBuild as the issuer and the Credly verification URL.",
+    badgeIcon: "ShieldCheck",
+    badgeLabel: "CERTIFICATION",
+    category: "Certifications",
+    achievement: "Verified IBM SkillsBuild credential",
+    verificationUrl: "https://www.credly.com/badges/3b52f7a7-f5e1-4a74-b266-9d5169190310",
+    imageUrl: "/certificates/cybersecurity-fundamentals-ibm.png"
   },
   {
-    id: "cert-prep-comptia",
-    title: "CompTIA Security+ / Blue Team Analyst Pathway",
-    issuer: "Industry Certification Pathway",
-    type: "Foundational Credential",
-    date: "Target Examination: 2026",
-    status: "In Preparation",
-    description: "Active self-directed study and practical exam preparation covering security operations, threat identification, incident response playbooks, and enterprise risk management.",
+    id: "hacker-holidays",
+    title: "Hacker Holidays",
+    issuer: "TryHackMe",
+    type: "Certificate of Participation",
+    date: "15 August 2026",
+    status: "Verified",
+    description: "Participated in Hacker Holidays, a TryHackMe cybersecurity challenge/event.",
     topics: [
-      "Threats, Attacks & Vulnerabilities (MITRE ATT&CK)",
-      "Security Operations & Alert Monitoring (Splunk/Wazuh)",
-      "Identity and Access Management Architecture",
-      "Incident Response & Evidence Handling Procedures"
+      "Cybersecurity event participation",
+      "Challenge-based learning",
+      "Applied security thinking"
     ],
-    verificationNote: "Actively completing curriculum syllabus and laboratory exercises as part of professional career readiness.",
-    badgeIcon: "Award"
+    verificationNote: "Source certificate confirms participation details.",
+    badgeIcon: "Award",
+    badgeLabel: "PARTICIPATION",
+    category: "Participation",
+    achievement: "Event participation",
+    credentialId: "THM-DZ1VCVSWXX",
+    imageUrl: "/certificates/hacker-holidays.png"
+  },
+  {
+    id: "cold-start-ctf",
+    title: "The Cold Start - CTF",
+    issuer: "TryHackMe",
+    type: "Certificate of Participation",
+    date: "8 January 2026",
+    status: "Verified",
+    description: "Successfully completed The Cold Start CTF, solving real-world cybersecurity challenges and demonstrating practical skills in offensive security and problem-solving.",
+    topics: [
+      "CTF challenge execution",
+      "Practical offensive security",
+      "Problem solving under time constraints"
+    ],
+    verificationNote: "Source certificate confirms these details.",
+    badgeIcon: "Award",
+    badgeLabel: "CTF / PARTICIPATION",
+    category: "CTF",
+    achievement: "2160 Points",
+    points: "2160 Points",
+    imageUrl: "/certificates/cold-start-ctf.png"
   }
 ];
 

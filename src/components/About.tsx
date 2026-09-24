@@ -60,7 +60,7 @@ export const About: React.FC = () => {
               <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden mb-5 bg-slate-900 border border-cyan-500/30 shadow-lg shadow-cyan-950/30">
                 {!imgError ? (
                   <img
-                    src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
+                    src="/profile.png"
                     alt="Madhukar Pendalwar - B.Tech Cyber Security"
                     referrerPolicy="no-referrer"
                     onError={() => setImgError(true)}
