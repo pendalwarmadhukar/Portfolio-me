@@ -1,0 +1,235 @@
+import React, { useState } from 'react';
+import { PERSONAL_INFO } from '../data/portfolioData.ts';
+import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check } from 'lucide-react';
+
+interface ContactProps {
+  onOpenResume: () => void;
+}
+
+export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setIsSubmitting(true);
+    // Simulate immediate submission
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    }, 600);
+  };
+
+  const copyEmailToClipboard = () => {
+    navigator.clipboard.writeText(PERSONAL_INFO.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  return (
+    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0d131f] relative border-t border-slate-800/60">
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="mb-14 text-center sm:text-left">
+          <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
+            Get In Touch
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            Let's Connect
+          </h2>
+          <div className="h-0.5 w-12 bg-cyan-500 mt-3 sm:mx-0 mx-auto" />
+          <p className="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl">
+            I’m open to cybersecurity internships, SOC opportunities, cloud security opportunities, and cybersecurity collaborations.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Left Column: Contact Cards */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* Email Card with Quick Copy */}
+            <div className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-mono text-slate-400">Email</div>
+                  <a
+                    href={`mailto:${PERSONAL_INFO.email}`}
+                    className="text-sm font-semibold text-white hover:text-cyan-300 transition-colors"
+                  >
+                    {PERSONAL_INFO.email}
+                  </a>
+                </div>
+              </div>
+
+              <button
+                onClick={copyEmailToClipboard}
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                title="Copy email to clipboard"
+                aria-label="Copy email"
+              >
+                {copiedEmail ? (
+                  <Check className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+
+            {/* LinkedIn */}
+            <a
+              href={PERSONAL_INFO.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center gap-3 group"
+            >
+              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-blue-400 group-hover:border-blue-500/40 transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs font-mono text-slate-400">LinkedIn</div>
+                <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                  linkedin.com/in/pendalwarmadhukar
+                </div>
+              </div>
+            </a>
+
+            {/* GitHub */}
+            <a
+              href={PERSONAL_INFO.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center gap-3 group"
+            >
+              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 group-hover:text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
+                <Github className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs font-mono text-slate-400">GitHub</div>
+                <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                  github.com/pendalwarmadhukar
+                </div>
+              </div>
+            </a>
+
+            {/* Resume Button Card */}
+            <div
+              onClick={onOpenResume}
+              className="p-5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 hover:border-cyan-400 transition-all flex items-center justify-between cursor-pointer group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-cyan-950 border border-cyan-500/40 text-cyan-300">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-mono text-cyan-400">Curriculum Vitae</div>
+                  <div className="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors">
+                    Download & Inspect Resume
+                  </div>
+                </div>
+              </div>
+
+              <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">
+                View →
+              </span>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Form */}
+          <div className="lg:col-span-7">
+            <div className="p-6 sm:p-8 rounded-2xl bg-[#111827] border border-slate-800 shadow-xl">
+              <h3 className="text-lg font-bold text-white font-mono mb-2">
+                Send a Message
+              </h3>
+              <p className="text-xs text-slate-400 mb-6">
+                Direct inquiry for internships, roles, or technical collaboration.
+              </p>
+
+              {submitted ? (
+                <div className="p-6 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
+                  <h4 className="text-base font-semibold text-white font-mono">
+                    Message Sent Successfully
+                  </h4>
+                  <p className="text-xs text-slate-300 font-sans">
+                    Thank you for reaching out. Madhukar will review your inquiry and get back to you promptly.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono text-slate-400 mb-1.5">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Alex Carter"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#0a0e17] border border-slate-800 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-400 mb-1.5">
+                      Your Email Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. recruiter@company.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#0a0e17] border border-slate-800 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-400 mb-1.5">
+                      Message
+                    </label>
+                    <textarea
+                      required
+                      rows={4}
+                      placeholder="Hi Madhukar, we are looking for a SOC Analyst / Cloud Security intern..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#0a0e17] border border-slate-800 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-sans resize-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 transition-all cursor-pointer shadow-md"
+                  >
+                    {isSubmitting ? (
+                      <span>Sending...</span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
