@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check, Download } from 'lucide-react';
+import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check, Download, AlertCircle, Loader2 } from 'lucide-react';
 
 interface ContactProps {
   onOpenResume: () => void;
@@ -16,20 +16,61 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    // Simulate immediate submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setErrorMessage(null);
+
+    const formspreeId = PERSONAL_INFO.formspreeId || (import.meta as any).env?.VITE_FORMSPREE_ID;
+
+    if (formspreeId) {
+      try {
+        const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            _replyto: formData.email,
+            message: formData.message,
+            _subject: `New Cybersecurity Portfolio Contact from ${formData.name}`
+          })
+        });
+
+        if (response.ok) {
+          setSubmitted(true);
+          setFormData({ name: '', email: '', message: '' });
+        } else {
+          const resData = await response.json().catch(() => ({}));
+          throw new Error(resData.error || 'Submission to email service failed. Please try emailing directly.');
+        }
+      } catch (err: any) {
+        console.error('Contact form submission error:', err);
+        setErrorMessage(err.message || 'Unable to deliver message automatically. You can send it directly via email.');
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      // Fallback: direct mailto route straight to Madhukar's inbox
+      const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(
+        `Portfolio Inquiry from ${formData.name}`
+      )}&body=${encodeURIComponent(
+        `Sender: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+
+      window.open(mailtoUrl, '_blank');
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 600);
+      setIsSubmitting(false);
+    }
   };
 
   const copyEmailToClipboard = () => {
@@ -174,17 +215,46 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
               </p>
 
               {submitted ? (
-                <div className="p-6 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
-                  <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
-                  <h4 className="text-base font-semibold text-white font-mono">
+                <div className="p-6 sm:p-8 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
+                  <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
+                  <h4 className="text-lg font-bold text-white font-mono">
                     {t.contact.successTitle}
                   </h4>
-                  <p className="text-xs text-slate-300 font-sans">
+                  <p className="text-sm text-slate-300 font-sans max-w-md mx-auto">
                     {t.contact.successDesc}
                   </p>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setSubmitted(false)}
+                      className="px-4 py-2 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 transition-colors cursor-pointer"
+                    >
+                      Send another message
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {errorMessage && (
+                    <div className="p-3.5 rounded-lg bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs flex items-start gap-2.5">
+                      <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                      <div className="space-y-1">
+                        <div>{errorMessage}</div>
+                        <a
+                          href={`mailto:${PERSONAL_INFO.email}?subject=Portfolio%20Inquiry%20from%20${encodeURIComponent(
+                            formData.name
+                          )}&body=${encodeURIComponent(
+                            `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+                          )}`}
+                          className="inline-flex items-center gap-1 font-semibold text-cyan-300 hover:underline"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>Click here to send directly via email</span>
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-mono text-slate-400 mb-1.5">
                       {t.contact.nameLabel}
@@ -233,7 +303,10 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 transition-all cursor-pointer shadow-md"
                   >
                     {isSubmitting ? (
-                      <span>{t.contact.sending}</span>
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                        <span>{t.contact.sending}</span>
+                      </>
                     ) : (
                       <>
                         <Send className="w-4 h-4" />

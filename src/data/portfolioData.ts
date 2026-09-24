@@ -12,6 +12,7 @@ export const PERSONAL_INFO = {
   linkedin: "https://www.linkedin.com/in/pendalwarmadhukar", // standard profile link
   resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   resumeFilename: "Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
+  formspreeId: (import.meta as any).env?.VITE_FORMSPREE_ID || "",
   bio: "I am a 3rd-year B.Tech Cyber Security student with a strong interest in Cybersecurity, SOC & Blue Team operations, Cloud Security, Cyber Crime Investigation, and Digital Forensics.\n\nI focus on building practical security projects involving AWS security, security monitoring, Linux, networking, DevSecOps, and cybersecurity analysis.",
   careerFocus: [
     {
