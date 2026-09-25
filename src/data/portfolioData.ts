@@ -15,7 +15,7 @@ export const PERSONAL_INFO = {
   resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   resumeFilename: "Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   formspreeId: (import.meta as any).env?.VITE_FORMSPREE_ID || "mvkgqkny",
-  bio: "I am a 3rd-year B.Tech Cyber Security student with a strong interest in Cybersecurity, SOC & Blue Team operations, Cloud Security, Cyber Crime Investigation, and Digital Forensics.\n\nI focus on building practical security projects involving AWS security, security monitoring, Linux, networking, DevSecOps, and cybersecurity analysis.",
+  bio: "I am a 3rd-year B.Tech Cyber Security student focused on practical cybersecurity and security operations. My current interests include SOC & Blue Team operations, threat detection, security monitoring, digital forensics, cybercrime investigation, Linux, networking, and cloud security.\n\nI build hands-on security projects to understand how security events are detected, investigated, documented, and escalated in real-world environments. I am currently developing my skills toward SOC Analyst and Cybersecurity Internship opportunities.",
   careerFocus: [
     {
       title: "SOC & Blue Team",
