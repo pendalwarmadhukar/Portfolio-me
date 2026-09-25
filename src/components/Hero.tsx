@@ -129,7 +129,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             rel="noopener noreferrer"
             className="rounded-lg border border-slate-800 bg-slate-900/60 p-2.5 transition-all hover:border-cyan-500/40 hover:bg-slate-800/60 hover:text-cyan-400 sm:p-3"
             aria-label="Live Portfolio"
-            title="Live Portfolio: madhukar-cybersecurity-alpha.vercel.app"
+            title="Live Portfolio: portfolio-madhukar.vercel.app"
           >
             <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
           </a>

@@ -180,7 +180,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                 <div>
                   <div className="text-xs font-mono text-slate-400">Live Portfolio</div>
                   <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
-                    madhukar-cybersecurity-alpha.vercel.app
+                    portfolio-madhukar.vercel.app
                   </div>
                 </div>
               </div>

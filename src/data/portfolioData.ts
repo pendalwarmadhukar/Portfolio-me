@@ -10,8 +10,8 @@ export const PERSONAL_INFO = {
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/pendalwarmadhukar", // standard profile link
-  portfolioUrl: "https://madhukar-cybersecurity-alpha.vercel.app/",
-  website: "https://madhukar-cybersecurity-alpha.vercel.app/",
+  portfolioUrl: "https://portfolio-madhukar.vercel.app/",
+  website: "https://portfolio-madhukar.vercel.app/",
   resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   resumeFilename: "Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
   formspreeId: (import.meta as any).env?.VITE_FORMSPREE_ID || "mvkgqkny",

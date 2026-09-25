@@ -181,7 +181,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                   className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors"
                 >
                   <Globe className="w-3.5 h-3.5 text-cyan-400" />
-                  madhukar-cybersecurity-alpha.vercel.app
+                  portfolio-madhukar.vercel.app
                 </a>
                 <span className="flex items-center gap-1.5">
                   <Github className="w-3.5 h-3.5 text-cyan-400" />
