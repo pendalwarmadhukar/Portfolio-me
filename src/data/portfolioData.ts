@@ -9,7 +9,7 @@ export const PERSONAL_INFO = {
   email: "madhukarpendalwar43@gmail.com",
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
-  linkedin: "https://www.linkedin.com/in/pendalwarmadhukar", // standard profile link
+  linkedin: "https://www.linkedin.com/in/madhukar-pendalwar-2a5746348/",
   portfolioUrl: "https://portfolio-madhukar.vercel.app/",
   website: "https://portfolio-madhukar.vercel.app/",
   resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
