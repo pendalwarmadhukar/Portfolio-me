@@ -1,12 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CERTIFICATIONS } from '../data/portfolioData.ts';
-import { Award, ExternalLink, ShieldCheck, Sparkles } from 'lucide-react';
+import { Certification } from '../types.ts';
+import { CertificateModal } from './CertificateModal.tsx';
+import { Award, ExternalLink, ShieldCheck, Sparkles, Eye, ZoomIn } from 'lucide-react';
 
 const FILTERS = ['All', 'Certifications', 'CTF', 'Challenges', 'Participation'] as const;
 
 export const Certifications: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<(typeof FILTERS)[number]>('All');
+  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
 
   const filteredCerts = useMemo(() => {
     if (activeFilter === 'All') return CERTIFICATIONS;
@@ -46,7 +49,7 @@ export const Certifications: React.FC = () => {
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
-                  className={`shrink-0 rounded-lg border px-3.5 py-2 text-[11px] font-mono uppercase tracking-[0.14em] transition-all duration-200 ${
+                  className={`shrink-0 rounded-lg border px-3.5 py-2 text-[11px] font-mono uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'border-cyan-500/50 bg-cyan-950/60 text-cyan-300 shadow-lg shadow-cyan-950/30'
                       : 'border-slate-800 bg-slate-900/60 text-slate-400 hover:border-cyan-500/30 hover:text-cyan-300'
@@ -67,20 +70,35 @@ export const Certifications: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
-              whileHover={{ y: -8, rotateX: 3, rotateY: -3, transition: { duration: 0.2 } }}
-              style={{ transformStyle: 'preserve-3d' }}
-              className="group relative rounded-[28px] border border-slate-800/80 bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(15,23,42,0.9))] p-4 shadow-[0_18px_45px_rgba(2,6,23,0.45)] backdrop-blur-sm hover:border-cyan-500/40 hover:shadow-[0_24px_55px_rgba(34,211,238,0.12)]"
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="group relative rounded-[28px] border border-slate-800/80 bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(15,23,42,0.9))] p-4 shadow-[0_18px_45px_rgba(2,6,23,0.45)] backdrop-blur-sm hover:border-cyan-500/40 hover:shadow-[0_24px_55px_rgba(34,211,238,0.12)] flex flex-col justify-between"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.12),transparent_42%)] opacity-80" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.12),transparent_42%)] opacity-80 pointer-events-none rounded-[28px]" />
 
               <div className="relative">
-                <div className="relative h-56 overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950 shadow-inner">
+                {/* Certificate Image Frame with Click-to-preview overlay */}
+                <div
+                  onClick={() => setSelectedCert(cert)}
+                  className="relative h-56 overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950 shadow-inner cursor-pointer group/image"
+                  title="Click to view certificate"
+                >
                   {cert.imageUrl ? (
-                    <img
-                      src={cert.imageUrl}
-                      alt={cert.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    <>
+                      <img
+                        src={cert.imageUrl}
+                        alt={cert.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover/image:scale-105"
+                      />
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 text-cyan-300">
+                        <div className="p-3 rounded-full bg-cyan-950/80 border border-cyan-400/50 text-cyan-300 shadow-lg shadow-cyan-950/50 transform group-hover/image:scale-110 transition-transform">
+                          <ZoomIn className="w-5 h-5" />
+                        </div>
+                        <span className="text-xs font-mono font-medium tracking-wider uppercase text-cyan-200">
+                          Click to View Certificate
+                        </span>
+                      </div>
+                    </>
                   ) : (
                     <div className="flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_center,_rgba(34,211,238,0.18),transparent_50%),linear-gradient(135deg,#020617,#111827_45%,#0f172a)] p-6 text-center">
                       <div className="mb-3 rounded-full border border-cyan-500/30 bg-slate-900/80 p-3 text-cyan-300">
@@ -93,7 +111,7 @@ export const Certifications: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="absolute left-3 top-3 rounded-full border border-cyan-500/30 bg-slate-950/80 px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300 backdrop-blur-sm">
+                  <div className="absolute left-3 top-3 rounded-full border border-cyan-500/30 bg-slate-950/80 px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300 backdrop-blur-sm z-10">
                     {cert.badgeLabel || cert.type}
                   </div>
                 </div>
@@ -152,26 +170,35 @@ export const Certifications: React.FC = () => {
                     </div>
                   )}
                 </div>
+              </div>
 
-                <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-800/80 pt-4">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500">
-                    {cert.category}
-                  </span>
+              {/* Action Buttons Row */}
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800/80 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setSelectedCert(cert)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-950/70 hover:bg-cyan-900/80 px-3.5 py-2 text-xs font-mono font-medium text-cyan-300 hover:text-white transition-all shadow-sm shadow-cyan-950/40 cursor-pointer"
+                  title={`View ${cert.title} certificate`}
+                >
+                  <Eye className="h-3.5 w-3.5" />
+                  <span>Show Certificate</span>
+                </button>
 
+                <div className="flex items-center gap-2">
                   {cert.verificationUrl ? (
                     <a
                       href={cert.verificationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/30 bg-cyan-950/40 px-3 py-2 text-[11px] font-mono uppercase tracking-[0.12em] text-cyan-300 transition-all duration-200 hover:border-cyan-400 hover:bg-cyan-900/50 hover:text-cyan-200"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 hover:border-cyan-500/40 bg-slate-900/80 hover:bg-slate-800 px-3 py-2 text-[11px] font-mono text-slate-300 hover:text-cyan-200 transition-all"
                     >
-                      Verify Certificate
-                      <ExternalLink className="h-3.5 w-3.5" />
+                      <span>Verify</span>
+                      <ExternalLink className="h-3 w-3" />
                     </a>
                   ) : (
-                    <span className="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-[10px] font-mono uppercase tracking-[0.12em] text-slate-500">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/60 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-[0.12em] text-slate-500">
                       <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" />
-                      Verified
+                      <span>Verified</span>
                     </span>
                   )}
                 </div>
@@ -180,6 +207,12 @@ export const Certifications: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Full Certificate Modal Preview */}
+      <CertificateModal
+        cert={selectedCert}
+        onClose={() => setSelectedCert(null)}
+      />
     </section>
   );
 };
