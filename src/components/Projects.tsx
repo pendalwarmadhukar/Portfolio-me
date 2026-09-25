@@ -273,16 +273,14 @@ export const Projects: React.FC = () => {
                   <div className="relative aspect-video w-full overflow-hidden bg-slate-950 border-b border-slate-800/80">
                     {project.id === 'cloudshield' ? (
                       <img
-                        src="/src/assets/images/cloudshield_arch_diagram_1790236901244.jpg"
+                        src="/cloudshield_arch.jpg"
                         alt="CloudShield Architecture"
-                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : project.id === 'sentineldesk-soc' ? (
                       <img
-                        src="/src/assets/images/sentineldesk_dashboard.png"
+                        src="/soc_dashboard.jpg"
                         alt="SentinelDesk SOC Dashboard"
-                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
