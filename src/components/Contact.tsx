@@ -207,7 +207,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   download={PERSONAL_INFO.resumeFilename}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary flex-1 !text-xs"
+                  className="btn-primary flex-1"
                   title="Download Resume PDF"
                 >
                   <Download className="w-4 h-4" />
@@ -217,7 +217,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                 <button
                   type="button"
                   onClick={onOpenResume}
-                  className="btn-icon shrink-0"
+                  className="btn-icon"
                   title="Preview Resume Dossier"
                   aria-label="Preview Resume Dossier"
                 >
@@ -250,7 +250,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                     <button
                       type="button"
                       onClick={() => setSubmitted(false)}
-                      className="btn-secondary !text-xs"
+                      className="btn-secondary"
                     >
                       Send another message
                     </button>

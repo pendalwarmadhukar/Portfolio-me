@@ -91,7 +91,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           <a
             href="#projects"
             onClick={scrollToProjects}
-            className="btn-primary w-full sm:flex-1 py-3 px-6 text-sm"
+            className="btn-primary w-full sm:flex-1"
           >
             <span>{t.hero.viewProjects}</span>
             <ArrowRight className="w-4 h-4" />
@@ -103,22 +103,21 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               download={PERSONAL_INFO.resumeFilename}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary flex-1 py-3 px-5 text-sm"
+              className="btn-secondary flex-1"
               title="Download Resume PDF"
             >
               <span>{t.hero.resumeBtn}</span>
               <Download className="w-4 h-4 text-cyan-400 group-hover:translate-y-0.5 transition-transform" />
             </a>
-            {/* Issue 8: add "Preview" label — icon alone doesn't convey "dossier" distinction */}
             <button
               type="button"
               onClick={onOpenResume}
-              className="btn-secondary shrink-0 py-3 px-4"
+              className="btn-secondary shrink-0"
               title="Preview Resume Dossier"
               aria-label="Preview Resume Dossier"
             >
               <FileText className="w-4 h-4" />
-              <span className="text-xs">Preview</span>
+              <span>Preview</span>
             </button>
           </div>
         </div>
@@ -129,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             href={PERSONAL_INFO.portfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-icon sm:p-3"
+            className="btn-icon"
             aria-label="Live Portfolio"
             title="Live Portfolio: portfolio-madhukar.vercel.app"
           >

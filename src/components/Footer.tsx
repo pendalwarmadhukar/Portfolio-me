@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="btn-icon p-2"
+            className="btn-icon"
             aria-label={t.footer.backToTop}
             title={t.footer.backToTop}
           >

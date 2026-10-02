@@ -23,10 +23,8 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({ className = '', 
       <button
         type="button"
         onClick={() => setLanguage('en')}
-        className={`px-2 py-1 rounded-md text-xs font-mono font-medium transition-all duration-200 cursor-pointer ${
-          !isHindi
-            ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40 shadow-sm'
-            : 'text-slate-400 hover:text-slate-200'
+        className={`btn-filter !py-1 !px-2.5 text-xs ${
+          !isHindi ? 'btn-filter-active' : 'btn-filter-inactive'
         }`}
         aria-pressed={!isHindi}
         aria-label="Switch to English"
@@ -37,10 +35,8 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({ className = '', 
       <button
         type="button"
         onClick={() => setLanguage('hi')}
-        className={`px-2 py-1 rounded-md text-xs font-mono font-medium transition-all duration-200 cursor-pointer ${
-          isHindi
-            ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40 shadow-sm'
-            : 'text-slate-400 hover:text-slate-200'
+        className={`btn-filter !py-1 !px-2.5 text-xs ${
+          isHindi ? 'btn-filter-active' : 'btn-filter-inactive'
         }`}
         aria-pressed={isHindi}
         aria-label="Switch to Hindi (हिन्दी)"

@@ -150,8 +150,9 @@ export const SocOperations: React.FC = () => {
               <span>{actionFeedback}</span>
             </div>
             <button
+              type="button"
               onClick={() => setActionFeedback(null)}
-              className="text-cyan-400 hover:text-white text-xs cursor-pointer"
+              className="btn-ghost"
             >
               {isHindi ? 'बंद करें' : 'Dismiss'}
             </button>
@@ -240,7 +241,7 @@ export const SocOperations: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setViewMode('simulator')}
-                className="btn-primary shrink-0 text-sm py-3 px-5"
+                className="btn-primary shrink-0"
               >
                 <span>{isHindi ? 'लाइव सिमुलेटर खोलें' : 'Launch Interactive SOC Simulator'}</span>
                 <ChevronRight className="w-4 h-4" />
@@ -262,7 +263,7 @@ export const SocOperations: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setViewMode('overview')}
-                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="btn-ghost"
                 >
                   ← {isHindi ? 'वापस सारांश पर जाएं' : 'Back to High-Level Summary'}
                 </button>
