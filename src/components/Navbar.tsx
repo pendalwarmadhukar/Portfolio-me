@@ -119,15 +119,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 download={PERSONAL_INFO.resumeFilename}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-cyan-300 hover:text-white hover:bg-cyan-900/60 rounded-md transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-cyan-300 hover:text-white hover:bg-cyan-900/60 rounded-lg transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
                 title="Download Resume PDF"
               >
                 <Download className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-y-0.5 transition-transform" />
                 <span>{t.nav.resume}</span>
               </a>
               <button
+                type="button"
                 onClick={onOpenResume}
-                className="p-1.5 text-cyan-400/80 hover:text-cyan-200 hover:bg-cyan-900/60 rounded-md transition-colors cursor-pointer"
+                className="p-1.5 text-cyan-400/80 hover:text-cyan-200 hover:bg-cyan-900/60 rounded-lg transition-colors cursor-pointer"
                 title="Preview Resume Dossier"
                 aria-label="Preview Resume Dossier"
               >
@@ -137,8 +138,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
             {/* Mobile Hamburger Button */}
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white bg-slate-900/60 border border-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+              className="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white bg-slate-900/80 border border-slate-800 transition-colors"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -183,17 +185,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
               download={PERSONAL_INFO.resumeFilename}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-sm"
+              className="btn-primary flex-1 py-2.5"
             >
               <Download className="w-4 h-4" />
               <span>Download Resume (PDF)</span>
             </a>
             <button
+              type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenResume();
               }}
-              className="inline-flex items-center justify-center p-2.5 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/70 border border-cyan-500/40 hover:bg-cyan-900/60 transition-colors"
+              className="btn-secondary p-2.5"
               title="Preview Dossier"
             >
               <FileText className="w-4 h-4" />

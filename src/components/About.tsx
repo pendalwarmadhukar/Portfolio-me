@@ -77,11 +77,11 @@ export const About: React.FC = () => {
                     </span>
                   </div>
                 )}
-                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-slate-900/90 backdrop-blur-md border border-cyan-500/40 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-md">
+                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-slate-900/90 backdrop-blur-md border border-cyan-500/40 text-xs font-mono text-cyan-300 flex items-center gap-1.5 shadow-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span>{t.about.badgeYear}</span>
                 </div>
-                <div className="absolute bottom-3 left-3 right-3 px-3 py-1.5 rounded-md bg-[#0a0e17]/85 backdrop-blur-md border border-slate-700/60 text-[11px] font-mono text-slate-300 flex items-center justify-between">
+                <div className="absolute bottom-3 left-3 right-3 px-3 py-1.5 rounded-lg bg-[#0a0e17]/85 backdrop-blur-md border border-slate-700/60 text-xs font-mono text-slate-300 flex items-center justify-between">
                   <span>{t.about.badgeStatus}</span>
                   <span className="text-cyan-400 font-semibold">{t.about.badgeActive}</span>
                 </div>
@@ -96,19 +96,19 @@ export const About: React.FC = () => {
                 </p>
                 <div className="pt-3 border-t border-slate-800/80 text-xs text-slate-400 space-y-1.5 font-mono">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">{t.about.degreeLabel}</span>
+                    <span className="text-slate-400">{t.about.degreeLabel}</span>
                     <span className="text-slate-300">{t.about.degreeValue}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">{t.about.focusLabel}</span>
+                    <span className="text-slate-400">{t.about.focusLabel}</span>
                     <span className="text-slate-300">{t.about.focusValue}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">{t.about.toolsLabel}</span>
+                    <span className="text-slate-400">{t.about.toolsLabel}</span>
                     <span className="text-slate-300">{t.about.toolsValue}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">{t.about.statusLabel}</span>
+                    <span className="text-slate-400">{t.about.statusLabel}</span>
                     <span className="text-emerald-400">{t.about.statusValue}</span>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ export const About: React.FC = () => {
           {/* Right Column: Bio Narrative */}
           <div className="lg:col-span-8 space-y-6">
             <div className="p-6 sm:p-8 rounded-2xl bg-[#111827] border border-slate-800 shadow-xl space-y-4">
-              <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-3 py-1 rounded-md">
+              <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-3 py-1 rounded-lg">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>{isHindi ? 'अंडरग्रेजुएट साइबर सुरक्षा विशेषज्ञ' : 'Undergraduate Cyber Security Specialist'}</span>
               </div>
@@ -150,7 +150,7 @@ export const About: React.FC = () => {
 
             {/* Career Focus as 4 Cards */}
             <div>
-              <h3 className="text-sm font-mono text-slate-400 uppercase tracking-wider mb-4">
+              <h3 className="text-sm font-mono text-slate-400 font-semibold mb-4">
                 {t.about.coreFocusTitle}
               </h3>
 
@@ -163,7 +163,7 @@ export const About: React.FC = () => {
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.45, delay: idx * 0.1, ease: 'easeOut' }}
                     whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                    className="p-5 rounded-xl bg-[#111827]/80 hover:bg-[#151f33] border border-slate-800 hover:border-cyan-500/30 transition-colors duration-200 shadow-md group"
+                    className="p-5 rounded-2xl bg-[#111827]/80 hover:bg-[#151f33] border border-slate-800 hover:border-cyan-500/30 transition-colors duration-200 shadow-md group"
                   >
                     <div className="flex items-center gap-3 mb-2.5">
                       <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">

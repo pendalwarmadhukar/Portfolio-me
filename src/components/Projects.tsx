@@ -20,6 +20,10 @@ import {
   RotateCcw,
   Clock,
   Radio,
+  CheckCircle2,
+  AlertTriangle,
+  Zap,
+  Server
 } from 'lucide-react';
 import { getProjectReadingTime } from '../utils/readingTime.ts';
 
@@ -80,6 +84,200 @@ const CATEGORY_FILTERS: CategoryFilter[] = [
   },
 ];
 
+// Issue 15: Distinct, recognizable UI thumbnails for every project
+const ProjectThumbnail: React.FC<{ project: Project }> = ({ project }) => {
+  if (project.id === 'sentineldesk-soc') {
+    return (
+      <img
+        src="/soc_dashboard.jpg"
+        alt="SentinelDesk SOC Dashboard"
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+    );
+  }
+
+  if (project.id === 'cloudshield') {
+    return (
+      <img
+        src="/cloudshield_arch.jpg"
+        alt="CloudShield AWS Architecture"
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+    );
+  }
+
+  // AWS Security Monitoring UI Mockup
+  if (project.id === 'aws-cloud-security-monitoring') {
+    return (
+      <div className="w-full h-full bg-[#0a1120] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#0c162a] transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-transparent to-amber-950/20" />
+        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-blue-900/40">
+          <div className="flex items-center gap-1.5 text-xs text-blue-400 font-semibold">
+            <Cpu className="w-3.5 h-3.5 text-blue-400" />
+            <span>AWS CloudWatch · CloudTrail</span>
+          </div>
+          <span className="px-2 py-0.5 rounded text-xs bg-amber-950/60 border border-amber-600/40 text-amber-300">
+            SNS Active
+          </span>
+        </div>
+
+        <div className="relative z-10 space-y-1.5 my-auto text-xs">
+          <div className="p-2 rounded-lg bg-slate-900/80 border border-blue-900/30 flex items-center justify-between">
+            <span className="text-slate-300">RootAccountLogin</span>
+            <span className="text-rose-400">CRITICAL</span>
+          </div>
+          <div className="p-2 rounded-lg bg-slate-900/80 border border-blue-900/30 flex items-center justify-between">
+            <span className="text-slate-300">SecurityGroup: AuthorizeIngress</span>
+            <span className="text-amber-400">WARNING</span>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-between pt-2 border-t border-blue-900/40 text-xs text-slate-400">
+          <span>Target: EC2 / S3</span>
+          <span className="text-cyan-400">Notification Dispatched</span>
+        </div>
+      </div>
+    );
+  }
+
+  // DevSecOps CI/CD Pipeline Mockup
+  if (project.id === 'devsecops-trivy-pipeline') {
+    return (
+      <div className="w-full h-full bg-[#071512] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#0a1c18] transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/40 via-transparent to-cyan-950/20" />
+        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-emerald-900/40">
+          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+            <GitBranch className="w-3.5 h-3.5 text-emerald-400" />
+            <span>CI/CD Pipeline Security Gate</span>
+          </div>
+          <span className="px-2 py-0.5 rounded text-xs bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">
+            PASSED
+          </span>
+        </div>
+
+        <div className="relative z-10 grid grid-cols-3 gap-2 my-auto text-center text-xs">
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-emerald-900/30">
+            <div className="text-slate-400">Build</div>
+            <div className="text-emerald-400 font-bold mt-1">Docker</div>
+          </div>
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-emerald-500/40 shadow-sm">
+            <div className="text-slate-400">Trivy Scan</div>
+            <div className="text-cyan-300 font-bold mt-1">0 Critical</div>
+          </div>
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-emerald-900/30">
+            <div className="text-slate-400">Deploy</div>
+            <div className="text-emerald-400 font-bold mt-1">Approved</div>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-between pt-2 border-t border-emerald-900/40 text-xs text-slate-400">
+          <span>GitHub Actions</span>
+          <span className="text-emerald-400">Shift-Left Security</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Credit Card Fraud ML Mockup
+  if (project.id === 'credit-card-fraud-detection') {
+    return (
+      <div className="w-full h-full bg-[#120a1f] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#170e28] transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/40 via-transparent to-pink-950/20" />
+        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-violet-900/40">
+          <div className="flex items-center gap-1.5 text-xs text-violet-400 font-semibold">
+            <Binary className="w-3.5 h-3.5 text-violet-400" />
+            <span>ML Fraud Detection Engine</span>
+          </div>
+          <span className="px-2 py-0.5 rounded text-xs bg-violet-950/60 border border-violet-500/40 text-violet-300">
+            PR-AUC 0.984
+          </span>
+        </div>
+
+        <div className="relative z-10 space-y-1.5 my-auto text-xs">
+          <div className="p-2 rounded-lg bg-slate-900/80 border border-violet-900/30 flex items-center justify-between">
+            <span className="text-slate-300">Tx Anomaly Score</span>
+            <span className="text-rose-400 font-bold">0.942 [High Risk]</span>
+          </div>
+          <div className="flex items-center justify-between px-1 text-slate-400">
+            <span>Precision: 99.2%</span>
+            <span>Recall: 94.8%</span>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-between pt-2 border-t border-violet-900/40 text-xs text-slate-400">
+          <span>Imbalanced Dataset</span>
+          <span className="text-violet-300">Real-Time Scoring</span>
+        </div>
+      </div>
+    );
+  }
+
+  // NetSentinel Terminal Recon Mockup
+  if (project.id === 'netsentinel') {
+    return (
+      <div className="w-full h-full bg-[#081014] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#0a151b] transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/30 via-transparent to-slate-950" />
+        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-cyan-900/40">
+          <div className="flex items-center gap-1.5 text-xs text-cyan-400 font-semibold">
+            <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+            <span>NetSentinel · Host Scanner</span>
+          </div>
+          <span className="px-2 py-0.5 rounded text-xs bg-cyan-950/60 border border-cyan-500/40 text-cyan-300">
+            Bash + Nmap
+          </span>
+        </div>
+
+        <div className="relative z-10 space-y-1 my-auto text-xs text-slate-300">
+          <div className="text-cyan-400">$ netsentinel --audit 192.168.1.0/24</div>
+          <div className="flex items-center justify-between text-slate-400">
+            <span>22/tcp [OpenSSH]</span>
+            <span className="text-emerald-400">MONITORED</span>
+          </div>
+          <div className="flex items-center justify-between text-slate-400">
+            <span>443/tcp [HTTPS]</span>
+            <span className="text-emerald-400">VALIDATED</span>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-between pt-2 border-t border-cyan-900/40 text-xs text-slate-400">
+          <span>Auth.log Auditing</span>
+          <span className="text-cyan-300">Zero Unmapped Ports</span>
+        </div>
+      </div>
+    );
+  }
+
+  // SpamGuard AI Mockup
+  return (
+    <div className="w-full h-full bg-[#0d1522] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#101b2c] transition-colors">
+      <div className="relative z-10 flex items-center justify-between pb-2 border-b border-slate-800">
+        <div className="flex items-center gap-1.5 text-xs text-teal-400 font-semibold">
+          <Brain className="w-3.5 h-3.5 text-teal-400" />
+          <span>NLP Phishing &amp; Spam Filter</span>
+        </div>
+        <span className="px-2 py-0.5 rounded text-xs bg-teal-950/60 border border-teal-500/40 text-teal-300">
+          NLP
+        </span>
+      </div>
+
+      <div className="relative z-10 space-y-1.5 my-auto text-xs">
+        <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+          <span className="text-slate-300">Payload Classification</span>
+          <span className="text-rose-400 font-bold">98.7% Phish</span>
+        </div>
+        <div className="text-slate-400 text-xs truncate">
+          Tokens: "urgent", "verify-account", "auth-token"
+        </div>
+      </div>
+
+      <div className="relative z-10 flex items-center justify-between pt-2 border-t border-slate-800 text-xs text-slate-400">
+        <span>TF-IDF Vectorizer</span>
+        <span className="text-teal-300">Quarantine Action</span>
+      </div>
+    </div>
+  );
+};
+
 export const Projects: React.FC = () => {
   const { t, language } = useLanguage();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -127,71 +325,64 @@ export const Projects: React.FC = () => {
     setSearchQuery('');
   };
 
-  const getCardIcon = (type: Project['customVisualType']) => {
-    switch (type) {
-      case 'cloudshield':
-        return <ShieldCheck className="w-8 h-8 text-cyan-400" />;
-      case 'aws-monitoring':
-        return <Cpu className="w-8 h-8 text-blue-400" />;
-      case 'devsecops':
-        return <GitBranch className="w-8 h-8 text-emerald-400" />;
-      case 'fraud':
-        return <Binary className="w-8 h-8 text-violet-400" />;
-      case 'netsentinel':
-        return <Terminal className="w-8 h-8 text-cyan-400" />;
-      case 'spamguard':
-        return <Brain className="w-8 h-8 text-teal-400" />;
-      case 'sentineldesk-soc':
-        return <Radio className="w-8 h-8 text-cyan-400" />;
-    }
-  };
-
   const activeCategoryLabel = CATEGORY_FILTERS.find((c) => c.id === activeCategoryId)?.getLabel(t) || t.projects.allProjects;
 
   return (
     <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0d131f] relative border-t border-slate-800/60">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
-          <div>
-            <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-              <Filter className="w-3.5 h-3.5" />
-              <span>{t.projects.tag}</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              {t.projects.title}
-            </h2>
-            <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
-            <p className="mt-3 text-xs sm:text-sm text-slate-400 max-w-xl">
-              {t.projects.subtitle}
-            </p>
+        <div className="mb-8">
+          <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+            <Filter className="w-3.5 h-3.5" />
+            <span>{t.projects.tag}</span>
           </div>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            {t.projects.title}
+          </h2>
+          <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
+          <p className="mt-3 text-xs sm:text-sm text-slate-400 max-w-xl">
+            {t.projects.subtitle}
+          </p>
+        </div>
 
-          {/* Quick Search Input */}
-          <div className="relative w-full lg:w-72">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t.projects.searchPlaceholder}
-              className="w-full pl-9 pr-8 py-2 rounded-xl bg-[#111827] border border-slate-800 text-xs font-mono text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/40 transition-colors"
-            />
-            {searchQuery && (
+        {/* Unified Controls & Filter Toolbar (Issue 11 Fix: eliminates the gap on wide viewports) */}
+        <div className="mb-8 p-4 rounded-2xl bg-[#111827] border border-slate-800 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="relative w-full sm:w-80">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t.projects.searchPlaceholder}
+                className="w-full pl-9 pr-8 py-2 rounded-lg bg-[#0a0e17] border border-slate-800 text-xs font-mono text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-0.5 cursor-pointer"
+                  title="Clear search"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            {(activeCategoryId !== 'all' || searchQuery.trim() !== '') && (
               <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-0.5"
-                title="Clear search"
+                type="button"
+                onClick={resetAllFilters}
+                className="btn-ghost self-start sm:self-auto"
               >
-                <X className="w-3.5 h-3.5" />
+                <RotateCcw className="h-3.5 w-3.5" />
+                <span>{t.projects.resetFilters}</span>
               </button>
             )}
           </div>
-        </div>
 
-        {/* Category Filter Pills / Toggles Bar */}
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="-mx-1 flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+          {/* Category Filter Pills / Toggles Bar */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             {CATEGORY_FILTERS.map((cat) => {
               const isActive = activeCategoryId === cat.id;
               const count = categoryCounts[cat.id] || 0;
@@ -200,19 +391,18 @@ export const Projects: React.FC = () => {
               return (
                 <button
                   key={cat.id}
+                  type="button"
                   onClick={() => handleCategoryClick(cat.id)}
-                  className={`group relative inline-flex shrink-0 items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-mono font-medium transition-all duration-200 ${
-                    isActive
-                      ? 'border border-cyan-400/50 bg-cyan-950/80 text-cyan-300 shadow-md shadow-cyan-950/40'
-                      : 'border border-slate-800 bg-[#111827] text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                  className={`btn-filter whitespace-nowrap ${
+                    isActive ? 'btn-filter-active' : 'btn-filter-inactive'
                   }`}
                 >
                   <span>{label}</span>
                   <span
-                    className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono transition-colors ${
+                    className={`rounded-full px-2 py-0.5 text-xs font-mono transition-colors ${
                       isActive
                         ? 'border border-cyan-400/30 bg-cyan-500/20 text-cyan-200'
-                        : 'bg-slate-800/80 text-slate-400 group-hover:text-slate-300'
+                        : 'bg-slate-800 text-slate-400'
                     }`}
                   >
                     {count}
@@ -221,23 +411,13 @@ export const Projects: React.FC = () => {
               );
             })}
           </div>
-
-          {(activeCategoryId !== 'all' || searchQuery.trim() !== '') && (
-            <button
-              onClick={resetAllFilters}
-              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs font-mono text-slate-400 transition-colors hover:border-cyan-500/30 hover:text-cyan-300"
-            >
-              <RotateCcw className="h-3 w-3" />
-              <span>{t.projects.resetFilters}</span>
-            </button>
-          )}
         </div>
 
         {/* Filter Results Summary */}
         <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-6">
           <div>
             {t.projects.showing} <span className="text-cyan-400 font-semibold">{filteredProjects.length}</span> {t.projects.of}{' '}
-            <span className="text-slate-300">{PROJECTS.length}</span> {t.projects.projectsLabel}
+            <span className="text-white">{PROJECTS.length}</span> {t.projects.projectsLabel}
             {activeCategoryId !== 'all' && (
               <span className="ml-2 text-slate-400">
                 {t.projects.inCategory} <span className="text-cyan-300">"{activeCategoryLabel}"</span>
@@ -269,43 +449,18 @@ export const Projects: React.FC = () => {
                   whileHover={{ y: -6, transition: { duration: 0.25 } }}
                   className="flex flex-col rounded-2xl bg-[#111827] border border-slate-800/90 shadow-xl hover:border-cyan-500/40 hover:shadow-cyan-950/20 transition-colors duration-300 group overflow-hidden"
                 >
-                  {/* Thumbnail Container */}
+                  {/* Thumbnail Container (Issue 15: Distinct, recognizable interfaces) */}
                   <div className="relative aspect-video w-full overflow-hidden bg-slate-950 border-b border-slate-800/80">
-                    {project.id === 'cloudshield' ? (
-                      <img
-                        src="/cloudshield_arch.jpg"
-                        alt="CloudShield Architecture"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : project.id === 'sentineldesk-soc' ? (
-                      <img
-                        src="/soc_dashboard.jpg"
-                        alt="SentinelDesk SOC Dashboard"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div
-                        className={`w-full h-full bg-gradient-to-br ${project.imageFallbackGradient} flex flex-col items-center justify-center p-6 relative overflow-hidden`}
-                      >
-                        <div className="absolute inset-0 cyber-dots opacity-30" />
-                        <div className="relative z-10 p-3.5 rounded-xl bg-slate-900/80 border border-slate-700/80 shadow-inner group-hover:scale-110 transition-transform">
-                          {getCardIcon(project.customVisualType)}
-                        </div>
-                        <div className="relative z-10 mt-3 text-[11px] font-mono text-cyan-300/80 tracking-wide uppercase">
-                          {project.architectureSteps[0]} →{' '}
-                          {project.architectureSteps[project.architectureSteps.length - 1]}
-                        </div>
-                      </div>
-                    )}
+                    <ProjectThumbnail project={project} />
 
                     {/* Category Tag Badge */}
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#0a0e17]/85 backdrop-blur-md border border-cyan-500/30 text-[11px] font-mono text-cyan-300 shadow-sm">
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#0a0e17]/85 backdrop-blur-md border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-sm z-10">
                       {project.category}
                     </div>
 
                     {/* Estimated Reading Time Indicator */}
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-md bg-[#0a0e17]/85 backdrop-blur-md border border-slate-700/80 text-[10px] font-mono text-slate-300 shadow-sm">
-                      <Clock className="w-3 h-3 text-cyan-400" />
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-md bg-[#0a0e17]/85 backdrop-blur-md border border-slate-700/80 text-xs font-mono text-slate-300 shadow-sm z-10">
+                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
                       <span>{getProjectReadingTime(project, language)}</span>
                     </div>
                   </div>
@@ -321,9 +476,9 @@ export const Projects: React.FC = () => {
                         {project.shortDescription}
                       </p>
 
-                      <div className="mb-4 rounded-lg border border-cyan-500/20 bg-cyan-950/20 px-3 py-2">
-                        <div className="text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Impact</div>
-                        <div className="mt-1 text-[11px] leading-relaxed text-cyan-100/90">
+                      <div className="mb-4 rounded-xl border border-cyan-500/20 bg-cyan-950/20 px-3 py-2">
+                        <div className="text-xs font-mono text-cyan-400">Impact</div>
+                        <div className="mt-1 text-xs leading-relaxed text-slate-300">
                           {project.keyFeatures[0] || 'Security-focused project designed for real-world defense scenarios.'}
                         </div>
                       </div>
@@ -333,13 +488,13 @@ export const Projects: React.FC = () => {
                         {project.technologies.slice(0, 4).map((tech) => (
                           <span
                             key={tech}
-                            className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-400 group-hover:border-slate-700/80 transition-colors"
+                            className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 group-hover:border-slate-700/80 transition-colors"
                           >
                             {tech}
                           </span>
                         ))}
                         {project.technologies.length > 4 && (
-                          <span className="px-1.5 py-0.5 text-[11px] font-mono text-slate-500">
+                          <span className="px-2 py-1 text-xs font-mono text-slate-400">
                             +{project.technologies.length - 4}
                           </span>
                         )}
@@ -354,8 +509,9 @@ export const Projects: React.FC = () => {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-colors"
+                            className="btn-icon"
                             aria-label={`GitHub repository for ${project.title}`}
+                            title="GitHub Repository"
                           >
                             <Github className="w-4 h-4" />
                           </a>
@@ -365,8 +521,9 @@ export const Projects: React.FC = () => {
                             href={project.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/40 transition-colors"
+                            className="btn-icon text-cyan-400 hover:text-white"
                             aria-label={`Live demo for ${project.title}`}
+                            title="Live Demo"
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>
@@ -374,14 +531,15 @@ export const Projects: React.FC = () => {
                       </div>
 
                       <div className="flex items-center gap-2.5">
-                        <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono text-slate-400">
-                          <Clock className="w-3 h-3 text-cyan-400/80" />
+                        <span className="hidden sm:inline-flex items-center gap-1 text-xs font-mono text-slate-400">
+                          <Clock className="w-3.5 h-3.5 text-cyan-400/80" />
                           <span>{getProjectReadingTime(project, language)}</span>
                         </span>
 
                         <button
+                          type="button"
                           onClick={() => setSelectedProject(project)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium text-cyan-400 bg-cyan-950/50 hover:bg-cyan-900/60 border border-cyan-500/30 hover:border-cyan-400 transition-all cursor-pointer"
+                          className="btn-secondary"
                         >
                           <span>{t.projects.readMore}</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -396,13 +554,15 @@ export const Projects: React.FC = () => {
         ) : (
           <div className="p-12 rounded-2xl bg-[#111827]/60 border border-slate-800 text-center flex flex-col items-center">
             <Filter className="w-10 h-10 text-slate-600 mb-3" />
-            <h4 className="text-base font-semibold text-white mb-1">{t.projects.noProjectsFound}</h4>
+            {/* Heading Level Fix (Issue 9): h3 inside section under h2 */}
+            <h3 className="text-base font-semibold text-white mb-1">{t.projects.noProjectsFound}</h3>
             <p className="text-xs text-slate-400 max-w-sm mb-4">
               {t.projects.noProjectsDesc}
             </p>
             <button
+              type="button"
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-mono font-medium text-cyan-300 bg-cyan-950/80 border border-cyan-500/40 hover:bg-cyan-900 transition-colors cursor-pointer"
+              className="btn-secondary"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>{t.projects.showAllProjects}</span>
@@ -419,4 +579,3 @@ export const Projects: React.FC = () => {
     </section>
   );
 };
-

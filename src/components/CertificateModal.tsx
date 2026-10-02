@@ -50,8 +50,8 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
         <div className="sticky top-0 z-20 flex items-center justify-between px-5 sm:px-7 py-4 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800">
           <div className="pr-4">
             <div className="flex flex-wrap items-center gap-2 mb-1">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-[11px] font-mono text-cyan-300">
-                <Award className="w-3 h-3 text-cyan-400" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-xs font-mono text-cyan-300">
+                <Award className="w-3.5 h-3.5 text-cyan-400" />
                 <span>{cert.badgeLabel || cert.type}</span>
               </span>
               <span className="text-slate-600">•</span>
@@ -63,7 +63,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
+            className="btn-icon"
             aria-label="Close certificate modal"
           >
             <X className="w-5 h-5" />
@@ -100,9 +100,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
                   href={cert.imageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-mono text-cyan-300 hover:text-white transition-colors"
+                  className="btn-ghost"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Open Full Size Image</span>
                 </a>
               </div>
@@ -111,25 +111,25 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
 
           {/* Details Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-            <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
-                <Award className="w-3 h-3 text-cyan-400" />
+            <div className="p-3.5 rounded-lg bg-slate-900/70 border border-slate-800">
+              <div className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-cyan-400" />
                 Issuer
               </div>
               <div className="text-sm font-semibold text-white">{cert.issuer}</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
-                <Calendar className="w-3 h-3 text-cyan-400" />
+            <div className="p-3.5 rounded-lg bg-slate-900/70 border border-slate-800">
+              <div className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-cyan-400" />
                 Issue Date
               </div>
               <div className="text-sm font-semibold text-white">{cert.date || 'Verified'}</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
-                <Tag className="w-3 h-3 text-cyan-400" />
+            <div className="p-3.5 rounded-lg bg-slate-900/70 border border-slate-800">
+              <div className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <Tag className="w-3.5 h-3.5 text-cyan-400" />
                 Category
               </div>
               <div className="text-sm font-semibold text-cyan-300">{cert.category || cert.type}</div>
@@ -139,7 +139,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
           {/* Achievement / Points Card if exists */}
           {(cert.achievement || cert.points || cert.team) && (
             <div className="p-4 rounded-xl bg-cyan-950/30 border border-cyan-500/30 space-y-1.5">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-cyan-400">
+              <div className="text-xs font-mono uppercase tracking-wider text-cyan-400">
                 Key Achievement &amp; Performance
               </div>
               <div className="flex flex-wrap items-center gap-4 text-sm text-slate-200">
@@ -194,16 +194,16 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
 
           {/* Credential ID row */}
           {cert.credentialId && (
-            <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-3">
+            <div className="p-3.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-cyan-400" />
                 <span className="text-xs font-mono text-slate-400">Credential ID:</span>
-                <span className="text-xs font-mono font-semibold text-slate-200">{cert.credentialId}</span>
+                <span className="text-xs font-mono font-semibold text-white">{cert.credentialId}</span>
               </div>
               <button
                 type="button"
                 onClick={handleCopyId}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 hover:text-white transition-colors cursor-pointer"
+                className="btn-ghost"
                 title="Copy Credential ID"
               >
                 {copiedId ? (
@@ -235,9 +235,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
                 href={cert.verificationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-sm"
+                className="btn-primary"
               >
-                <span>Verify on Credly</span>
+                <span>Verify Credential</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
@@ -246,7 +246,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
               <a
                 href={cert.imageUrl}
                 download
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 transition-colors"
+                className="btn-secondary"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download</span>
@@ -256,7 +256,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ cert, onClos
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-xs font-mono text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 transition-colors cursor-pointer"
+              className="btn-ghost"
             >
               Close
             </button>

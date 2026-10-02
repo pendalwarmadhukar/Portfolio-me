@@ -58,45 +58,59 @@ export const Skills: React.FC = () => {
     <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0a0e17] relative">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
-              {t.skills.tag}
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              {t.skills.title}
-            </h2>
-            <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
+        <div className="mb-8">
+          <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
+            {t.skills.tag}
           </div>
-
-          {/* Quick Search */}
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              placeholder={isHindi ? "कौशल खोजें (उदा. AWS, Splunk, लिनक्स)..." : "Search skill (e.g. AWS, Splunk, Linux)..."}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-lg bg-[#111827] border border-slate-800 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-            />
-          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            {t.skills.title}
+          </h2>
+          <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
-          {categoryOptions.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all cursor-pointer ${
-                selectedCategory === cat.id
-                  ? 'bg-cyan-950 border border-cyan-500/50 text-cyan-300 font-semibold shadow-sm'
-                  : 'bg-[#111827] border border-slate-800/80 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* Unified Controls & Filter Toolbar (Issue 11 Fix) */}
+        <div className="mb-8 p-4 rounded-2xl bg-[#111827] border border-slate-800 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="relative w-full sm:w-80">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                placeholder={isHindi ? "कौशल खोजें (उदा. AWS, Splunk, लिनक्स)..." : "Search skill (e.g. AWS, Splunk, Linux)..."}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 rounded-lg bg-[#0a0e17] border border-slate-800 text-xs font-mono text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors"
+              />
+            </div>
+
+            {(selectedCategory !== 'all' || searchQuery.trim() !== '') && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSearchQuery('');
+                }}
+                className="btn-ghost self-start sm:self-auto"
+              >
+                <span>{isHindi ? 'फ़िल्टर हटाएं' : 'Reset Filters'}</span>
+              </button>
+            )}
+          </div>
+
+          {/* Filter Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {categoryOptions.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`btn-filter whitespace-nowrap ${
+                  selectedCategory === cat.id ? 'btn-filter-active' : 'btn-filter-inactive'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Categories Grid */}
@@ -128,9 +142,9 @@ export const Skills: React.FC = () => {
                 {cat.skills.map((skill) => (
                   <div
                     key={skill}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#0a0e17] border border-slate-800/80 text-xs font-mono text-slate-300 hover:text-cyan-300 hover:border-cyan-500/30 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0a0e17] border border-slate-800/80 text-xs font-mono text-slate-300 hover:text-cyan-300 hover:border-cyan-500/30 transition-colors"
                   >
-                    <CheckCircle2 className="w-3 h-3 text-cyan-400/80 shrink-0" />
+                    <CheckCircle2 className="w-3 h-3 text-cyan-400 shrink-0" />
                     <span>{skill}</span>
                   </div>
                 ))}

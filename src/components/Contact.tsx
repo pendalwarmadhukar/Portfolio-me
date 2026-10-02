@@ -100,7 +100,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
           {/* Left Column: Contact Cards */}
           <div className="lg:col-span-5 space-y-4">
             {/* Email Card with Quick Copy */}
-            <div className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
+            <div className="p-5 rounded-2xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400">
                   <Mail className="w-5 h-5" />
@@ -118,7 +118,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
 
               <button
                 onClick={copyEmailToClipboard}
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="btn-icon text-slate-400 hover:text-white"
                 title="Copy email to clipboard"
                 aria-label="Copy email"
               >
@@ -135,7 +135,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center gap-3 group"
+              className="p-5 rounded-2xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center gap-3 group"
             >
               <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-blue-400 group-hover:border-blue-500/40 transition-colors">
                 <Linkedin className="w-5 h-5" />
@@ -153,7 +153,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
               href={PERSONAL_INFO.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center gap-3 group"
+              className="p-5 rounded-2xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center gap-3 group"
             >
               <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 group-hover:text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
                 <Github className="w-5 h-5" />
@@ -171,7 +171,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
               href={PERSONAL_INFO.portfolioUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center justify-between group"
+              className="p-5 rounded-2xl bg-[#111827] border border-slate-800 hover:border-cyan-500/30 transition-colors flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
@@ -188,7 +188,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
             </a>
 
             {/* Resume Button Card */}
-            <div className="p-5 rounded-xl bg-gradient-to-br from-cyan-950/40 via-[#111827] to-slate-900 border border-cyan-500/40 hover:border-cyan-400 transition-all space-y-3.5 shadow-lg shadow-cyan-950/20">
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-[#111827] to-slate-900 border border-cyan-500/40 hover:border-cyan-400 transition-all space-y-3.5 shadow-lg shadow-cyan-950/20">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-lg bg-cyan-950 border border-cyan-500/40 text-cyan-300">
                   <FileText className="w-5 h-5" />
@@ -207,7 +207,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   download={PERSONAL_INFO.resumeFilename}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-sm font-semibold"
+                  className="btn-primary flex-1 !text-xs"
                   title="Download Resume PDF"
                 >
                   <Download className="w-4 h-4" />
@@ -216,7 +216,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                 <button
                   type="button"
                   onClick={onOpenResume}
-                  className="inline-flex items-center justify-center px-3.5 py-2.5 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/70 hover:bg-cyan-900/70 border border-cyan-500/40 transition-colors cursor-pointer"
+                  className="btn-secondary !text-xs"
                   title="Preview Dossier"
                 >
                   <span>Preview</span>
@@ -236,7 +236,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
               </p>
 
               {submitted ? (
-                <div className="p-6 sm:p-8 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
+                <div className="p-6 sm:p-8 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-3">
                   <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
                   <h4 className="text-lg font-bold text-white font-mono">
                     {t.contact.successTitle}
@@ -248,7 +248,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                     <button
                       type="button"
                       onClick={() => setSubmitted(false)}
-                      className="px-4 py-2 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 transition-colors cursor-pointer"
+                      className="btn-secondary !text-xs"
                     >
                       Send another message
                     </button>
@@ -321,7 +321,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-xs font-mono font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 transition-all cursor-pointer shadow-md"
+                    className="btn-primary w-full sm:w-auto"
                   >
                     {isSubmitting ? (
                       <>

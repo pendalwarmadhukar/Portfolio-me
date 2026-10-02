@@ -47,7 +47,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 {project.category}
               </span>
               <span className="text-slate-600">•</span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-[11px] font-mono text-cyan-300">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-xs font-mono text-cyan-300">
                 <Clock className="w-3 h-3 text-cyan-400" />
                 <span>{t.projects.estimatedReadTime}: {readingTime}</span>
               </span>
@@ -58,7 +58,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors focus-visible:ring-2 focus-visible:ring-cyan-400"
+            className="btn-icon"
             aria-label={t.projects.closeModal}
           >
             <X className="w-5 h-5" />
@@ -74,7 +74,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 <strong className="text-white">{t.projects.estimatedReadTime}:</strong> {readingTime}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-slate-400 text-[11px]">
+            <div className="flex items-center gap-2 text-slate-400 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>{isHindi ? 'विस्तृत तकनीकी विनिर्देश नीचे उपलब्ध हैं' : 'Full Technical Specifications Available Below'}</span>
             </div>
@@ -160,7 +160,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 rounded-md bg-cyan-950/60 border border-cyan-500/30 text-xs font-mono text-cyan-300"
+                  className="px-3 py-1 rounded-lg bg-cyan-950/60 border border-cyan-500/30 text-xs font-mono text-cyan-300"
                 >
                   {tech}
                 </span>
@@ -176,7 +176,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors"
+                  className="btn-ghost"
                 >
                   <Github className="w-4 h-4" />
                   <span>{t.projects.viewGithub}</span>
@@ -187,7 +187,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                   href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 transition-colors"
+                  className="btn-primary"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>{t.projects.liveDemo}</span>
@@ -197,7 +197,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
             <button
               onClick={onClose}
-              className="px-5 py-2 rounded-lg text-xs font-mono text-slate-400 hover:text-white bg-slate-900 hover:bg-slate-800 transition-colors cursor-pointer"
+              className="btn-ghost"
             >
               {t.projects.closeModal}
             </button>

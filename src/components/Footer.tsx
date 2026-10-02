@@ -57,8 +57,9 @@ export const Footer: React.FC = () => {
             <Mail className="w-4 h-4" />
           </a>
           <button
+            type="button"
             onClick={scrollToTop}
-            className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="btn-icon p-2"
             aria-label={t.footer.backToTop}
             title={t.footer.backToTop}
           >
@@ -66,7 +67,7 @@ export const Footer: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto mt-4 text-center sm:text-left text-slate-600 text-[11px]">
+      <div className="max-w-6xl mx-auto mt-4 text-center sm:text-left text-slate-400 text-xs">
         {t.footer.rightsReserved} {t.footer.designedWith}.
       </div>
     </footer>

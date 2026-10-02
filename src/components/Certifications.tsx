@@ -49,10 +49,8 @@ export const Certifications: React.FC = () => {
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
-                  className={`shrink-0 rounded-lg border px-3.5 py-2 text-[11px] font-mono uppercase tracking-[0.14em] transition-all duration-200 cursor-pointer ${
-                    isActive
-                      ? 'border-cyan-500/50 bg-cyan-950/60 text-cyan-300 shadow-lg shadow-cyan-950/30'
-                      : 'border-slate-800 bg-slate-900/60 text-slate-400 hover:border-cyan-500/30 hover:text-cyan-300'
+                  className={`btn-filter ${
+                    isActive ? 'btn-filter-active' : 'btn-filter-inactive'
                   }`}
                 >
                   {filter}
@@ -71,15 +69,15 @@ export const Certifications: React.FC = () => {
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
               whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="group relative rounded-[28px] border border-slate-800/80 bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(15,23,42,0.9))] p-4 shadow-[0_18px_45px_rgba(2,6,23,0.45)] backdrop-blur-sm hover:border-cyan-500/40 hover:shadow-[0_24px_55px_rgba(34,211,238,0.12)] flex flex-col justify-between"
+              className="group relative rounded-2xl border border-slate-800/80 bg-slate-900/90 p-4 shadow-xl backdrop-blur-sm hover:border-cyan-500/40 hover:shadow-cyan-950/20 flex flex-col justify-between"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.12),transparent_42%)] opacity-80 pointer-events-none rounded-[28px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.12),transparent_42%)] opacity-80 pointer-events-none rounded-2xl" />
 
               <div className="relative">
                 {/* Certificate Image Frame with Click-to-preview overlay */}
                 <div
                   onClick={() => setSelectedCert(cert)}
-                  className="relative h-56 overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950 shadow-inner cursor-pointer group/image"
+                  className="relative h-56 overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950 shadow-inner cursor-pointer group/image"
                   title="Click to view certificate"
                 >
                   {cert.imageUrl ? (
@@ -94,7 +92,7 @@ export const Certifications: React.FC = () => {
                         <div className="p-3 rounded-full bg-cyan-950/80 border border-cyan-400/50 text-cyan-300 shadow-lg shadow-cyan-950/50 transform group-hover/image:scale-110 transition-transform">
                           <ZoomIn className="w-5 h-5" />
                         </div>
-                        <span className="text-xs font-mono font-medium tracking-wider uppercase text-cyan-200">
+                        <span className="text-xs font-mono font-medium tracking-wider text-cyan-200">
                           Click to View Certificate
                         </span>
                       </div>
@@ -104,52 +102,52 @@ export const Certifications: React.FC = () => {
                       <div className="mb-3 rounded-full border border-cyan-500/30 bg-slate-900/80 p-3 text-cyan-300">
                         <Award className="h-7 w-7" />
                       </div>
-                      <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-cyan-300/80">
+                      <div className="text-xs font-mono uppercase tracking-wider text-cyan-300">
                         {cert.badgeLabel || cert.type}
                       </div>
                       <div className="mt-4 text-lg font-bold text-white">{cert.title}</div>
                     </div>
                   )}
 
-                  <div className="absolute left-3 top-3 rounded-full border border-cyan-500/30 bg-slate-950/80 px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300 backdrop-blur-sm z-10">
+                  <div className="absolute left-3 top-3 rounded-full border border-cyan-500/30 bg-slate-950/90 px-3 py-1 text-xs font-mono text-cyan-300 backdrop-blur-sm z-10">
                     {cert.badgeLabel || cert.type}
                   </div>
                 </div>
 
                 <div className="mt-5">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center rounded-full border border-cyan-500/20 bg-cyan-950/40 px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.16em] text-cyan-300">
+                    <span className="inline-flex items-center rounded-full border border-cyan-500/20 bg-cyan-950/40 px-3 py-1 text-xs font-mono text-cyan-300">
                       {cert.type}
                     </span>
-                    <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500">
+                    <span className="text-xs font-mono text-slate-400 truncate max-w-[180px]">
                       {cert.issuer}
                     </span>
                   </div>
 
                   <h3 className="text-xl font-bold text-white">{cert.title}</h3>
 
-                  <div className="mt-3 space-y-2.5 text-[12px] text-slate-300">
+                  <div className="mt-3 space-y-2.5 text-xs text-slate-300">
                     <div className="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2">
                       <span className="text-slate-400">Issuer</span>
-                      <span className="font-medium text-slate-200">{cert.issuer}</span>
+                      <span className="font-medium text-white">{cert.issuer}</span>
                     </div>
 
                     <div className="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2">
                       <span className="text-slate-400">Issued</span>
-                      <span className="font-medium text-slate-200">{cert.date}</span>
+                      <span className="font-medium text-white">{cert.date}</span>
                     </div>
 
                     {cert.achievement && (
-                      <div className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 px-3 py-2 text-cyan-100">
-                        <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-cyan-300/80">
+                      <div className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 px-3 py-2 text-cyan-200">
+                        <span className="text-xs font-mono uppercase tracking-wider text-cyan-400">
                           Achievement
                         </span>
-                        <div className="mt-1 font-medium">{cert.achievement}</div>
+                        <div className="mt-1 font-medium text-white">{cert.achievement}</div>
                       </div>
                     )}
 
                     {cert.points && (
-                      <div className="pt-1 text-sm text-slate-200">
+                      <div className="pt-1 text-sm text-slate-300">
                         <span className="font-mono text-cyan-300">{cert.points}</span>
                         {cert.rank && <span className="ml-2 text-slate-400">| Rank {cert.rank}</span>}
                       </div>
@@ -165,8 +163,8 @@ export const Certifications: React.FC = () => {
                   <p className="mt-4 text-sm leading-relaxed text-slate-300">{cert.description}</p>
 
                   {cert.credentialId && (
-                    <div className="mt-3 text-[11px] font-mono text-slate-400">
-                      ID: <span className="text-slate-200">{cert.credentialId}</span>
+                    <div className="mt-3 text-xs font-mono text-slate-400">
+                      ID: <span className="text-white">{cert.credentialId}</span>
                     </div>
                   )}
                 </div>
@@ -177,7 +175,7 @@ export const Certifications: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedCert(cert)}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-950/70 hover:bg-cyan-900/80 px-3.5 py-2 text-xs font-mono font-medium text-cyan-300 hover:text-white transition-all shadow-sm shadow-cyan-950/40 cursor-pointer"
+                  className="btn-secondary"
                   title={`View ${cert.title} certificate`}
                 >
                   <Eye className="h-3.5 w-3.5" />
@@ -190,14 +188,15 @@ export const Certifications: React.FC = () => {
                       href={cert.verificationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 hover:border-cyan-500/40 bg-slate-900/80 hover:bg-slate-800 px-3 py-2 text-[11px] font-mono text-slate-300 hover:text-cyan-200 transition-all"
+                      className="btn-ghost"
+                      title={`Verify ${cert.title} on issuer platform`}
                     >
-                      <span>Verify</span>
-                      <ExternalLink className="h-3 w-3" />
+                      <span>Verify Credential</span>
+                      <ExternalLink className="h-3.5 w-3.5 text-cyan-400" />
                     </a>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/60 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-[0.12em] text-slate-500">
-                      <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" />
+                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs font-mono text-slate-400">
+                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                       <span>Verified</span>
                     </span>
                   )}

@@ -122,7 +122,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
               download={PERSONAL_INFO.resumeFilename}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-colors shadow-sm cursor-pointer"
+              className="btn-primary"
               title="Download Original PDF Resume"
             >
               <Download className="w-3.5 h-3.5" />
@@ -130,21 +130,21 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
             </a>
             <button
               onClick={handleDownloadText}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-cyan-950 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-900 transition-colors cursor-pointer"
+              className="btn-secondary hidden sm:inline-flex"
             >
               <Download className="w-3.5 h-3.5" />
               <span>{isHindi ? 'डाउनलोड (.txt)' : 'Download (.txt)'}</span>
             </button>
             <button
               onClick={handlePrint}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition-colors cursor-pointer"
+              className="btn-ghost hidden sm:inline-flex"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>{isHindi ? 'प्रिंट करें' : 'Print'}</span>
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+              className="btn-icon"
               aria-label={t.resume.close}
             >
               <X className="w-4 h-4" />
@@ -209,7 +209,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
 
           {/* Professional Summary */}
           <div>
-            <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 font-bold">
+            <h2 className="text-xs font-mono text-cyan-400 mb-2 font-bold">
               {isHindi ? 'व्यावसायिक सारांश' : 'Professional Summary'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -219,24 +219,24 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
 
           {/* Education */}
           <div>
-            <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 font-bold">
+            <h2 className="text-xs font-mono text-cyan-400 mb-2 font-bold">
               {isHindi ? 'शिक्षा' : 'Education'}
             </h2>
-            <div className="p-3.5 rounded-xl bg-[#111827] border border-slate-800 flex justify-between items-start">
+            <div className="p-4 rounded-xl bg-[#111827] border border-slate-800 flex justify-between items-start">
               <div>
                 <h3 className="text-sm font-bold text-white font-mono">
                   {isHindi ? 'बैचलर ऑफ टेक्नोलॉजी (बी.टेक) - साइबर सुरक्षा' : 'Bachelor of Technology (B.Tech) in Cyber Security'}
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-400 mt-0.5">
                   {isHindi ? 'इंजीनियरिंग विश्वविद्यालय पाठ्यक्रम · तृतीय वर्ष स्नातक' : 'Engineering University Curriculum · 3rd Year Undergraduate'}
                 </p>
-                <p className="text-[11px] text-slate-400 mt-1 font-mono">
+                <p className="text-xs text-slate-400 mt-1 font-mono">
                   {isHindi
                     ? 'प्रमुख पाठ्यक्रम: नेटवर्क सुरक्षा, ऑपरेटिंग सिस्टम, क्रिप्टोग्राफी, डेटाबेस सुरक्षा, डिजिटल फोरेंसिक, लिनक्स प्रशासन'
                     : 'Coursework: Network Security, Operating Systems, Cryptography, Database Security, Digital Forensics, Linux Administration'}
                 </p>
               </div>
-              <span className="text-xs font-mono text-cyan-300 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 shrink-0 ml-3">
+              <span className="text-xs font-mono text-cyan-300 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 shrink-0 ml-3">
                 {isHindi ? '2023 - वर्तमान' : '2023 - Present'}
               </span>
             </div>
@@ -244,16 +244,16 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
 
           {/* Skills Breakdown */}
           <div>
-            <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2.5 font-bold">
+            <h2 className="text-xs font-mono text-cyan-400 mb-2.5 font-bold">
               {isHindi ? 'प्रमुख तकनीकी क्षमताएं' : 'Core Technical Competencies'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               {SKILL_CATEGORIES.map((cat) => (
-                <div key={cat.title} className="p-3 rounded-lg bg-[#111827] border border-slate-800/80">
-                  <div className="font-mono text-white font-semibold mb-1 text-[11px]">
+                <div key={cat.title} className="p-3.5 rounded-lg bg-[#111827] border border-slate-800/80">
+                  <div className="font-mono text-white font-semibold mb-1 text-xs">
                     {t.skills.categories[cat.title as keyof typeof t.skills.categories] || cat.title}
                   </div>
-                  <div className="text-slate-400 text-[11px] leading-relaxed">
+                  <div className="text-slate-400 text-xs leading-relaxed">
                     {cat.skills.join(', ')}
                   </div>
                 </div>
@@ -263,28 +263,28 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
 
           {/* Projects */}
           <div>
-            <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2.5 font-bold">
+            <h2 className="text-xs font-mono text-cyan-400 mb-2.5 font-bold">
               {isHindi ? 'व्यावहारिक सुरक्षा प्रोजेक्ट्स' : 'Practical Security Projects'}
             </h2>
             <div className="space-y-3">
               {PROJECTS.map((proj) => (
-                <div key={proj.id} className="p-3.5 rounded-xl bg-[#111827] border border-slate-800">
+                <div key={proj.id} className="p-4 rounded-xl bg-[#111827] border border-slate-800">
                   <div className="flex justify-between items-start mb-1">
                     <h3 className="text-xs sm:text-sm font-bold text-white font-mono">
                       {proj.title}
                     </h3>
-                    <span className="text-[10px] font-mono text-cyan-400 px-2 py-0.5 rounded bg-slate-900">
+                    <span className="text-xs font-mono text-cyan-400 px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-800">
                       {proj.category}
                     </span>
                   </div>
                   <p className="text-xs text-slate-300 mb-2">
                     {proj.shortDescription}
                   </p>
-                  <div className="text-[11px] font-mono text-slate-400">
+                  <div className="text-xs font-mono text-slate-400">
                     <strong className="text-slate-300">{isHindi ? 'पाइपलाइन: ' : 'Pipeline: '}</strong>
                     {proj.architectureSteps.join(' → ')}
                   </div>
-                  <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-mono text-slate-500">
+                  <div className="mt-2 flex flex-wrap gap-1 text-xs font-mono text-slate-400">
                     {proj.technologies.join(' · ')}
                   </div>
                 </div>
@@ -294,19 +294,19 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
 
           {/* Certifications */}
           <div>
-            <h2 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2.5 font-bold">
+            <h2 className="text-xs font-mono text-cyan-400 mb-2.5 font-bold">
               {isHindi ? 'प्रमाणपत्र और तकनीकी मील के पत्थर' : 'Certifications & Technical Milestones'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {CERTIFICATIONS.map((cert) => (
-                <div key={cert.id} className="p-3 rounded-lg bg-[#111827] border border-slate-800 text-xs">
+                <div key={cert.id} className="p-3.5 rounded-lg bg-[#111827] border border-slate-800 text-xs">
                   <div className="font-mono text-white font-semibold">
                     {cert.title}
                   </div>
-                  <div className="text-[11px] text-slate-400">
+                  <div className="text-xs text-slate-400 mt-0.5">
                     {cert.issuer} {cert.date ? `· ${cert.date}` : ''}
                   </div>
-                  <div className="text-[10px] font-mono text-cyan-400 mt-1">
+                  <div className="text-xs font-mono text-cyan-400 mt-1">
                     {cert.status}
                   </div>
                 </div>

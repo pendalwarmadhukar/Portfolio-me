@@ -37,8 +37,8 @@ export const ScrollToTopButton: React.FC = () => {
 
   if (!isVisible) return null;
 
-  // Circumference for 44px circle with radius 18
-  const radius = 18;
+  // Circumference for 48px circle with radius 20
+  const radius = 20;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
 
@@ -46,26 +46,26 @@ export const ScrollToTopButton: React.FC = () => {
     <div className="fixed bottom-6 right-6 z-40 transition-all duration-300 animate-fade-in">
       <button
         onClick={scrollToTop}
-        className="relative group p-3 rounded-full bg-[#111827]/90 hover:bg-[#152238] border border-cyan-500/40 hover:border-cyan-400 shadow-xl shadow-cyan-950/40 backdrop-blur-md text-cyan-400 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 flex items-center justify-center"
+        className="relative group w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-[#111827]/90 hover:bg-[#152238] border border-cyan-500/40 hover:border-cyan-400 shadow-xl shadow-cyan-950/40 backdrop-blur-md text-cyan-400 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 flex items-center justify-center"
         aria-label="Scroll back to top of page"
         title="Scroll to top"
       >
         {/* Circular Progress Ring */}
         <svg
           className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
-          viewBox="0 0 44 44"
+          viewBox="0 0 48 48"
         >
           <circle
-            cx="22"
-            cy="22"
+            cx="24"
+            cy="24"
             r={radius}
             className="stroke-slate-800/80"
             strokeWidth="2.5"
             fill="transparent"
           />
           <circle
-            cx="22"
-            cy="22"
+            cx="24"
+            cy="24"
             r={radius}
             className="stroke-cyan-400 transition-all duration-150 ease-out"
             strokeWidth="2.5"
