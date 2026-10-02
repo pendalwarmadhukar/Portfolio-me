@@ -109,14 +109,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               <span>{t.hero.resumeBtn}</span>
               <Download className="w-4 h-4 text-cyan-400 group-hover:translate-y-0.5 transition-transform" />
             </a>
+            {/* Issue 8: add "Preview" label — icon alone doesn't convey "dossier" distinction */}
             <button
               type="button"
               onClick={onOpenResume}
-              className="btn-icon p-3 shrink-0"
+              className="btn-secondary shrink-0 py-3 px-4"
               title="Preview Resume Dossier"
               aria-label="Preview Resume Dossier"
             >
               <FileText className="w-4 h-4" />
+              <span className="text-xs">Preview</span>
             </button>
           </div>
         </div>

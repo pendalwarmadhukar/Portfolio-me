@@ -70,34 +70,19 @@ export const Skills: React.FC = () => {
 
         {/* Unified Controls & Filter Toolbar */}
         <div className="mb-8 p-4 rounded-2xl bg-[#111827] border border-slate-800 space-y-4">
-          {/* Search + Reset — grouped together, no dead-space gap */}
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1 max-w-sm">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                placeholder={isHindi ? "कौशल खोजें (उदा. AWS, Splunk, लिनक्स)..." : "Search skill (e.g. AWS, Splunk, Linux)..."}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 rounded-lg bg-[#0a0e17] border border-slate-800 text-xs font-mono text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors"
-              />
-            </div>
-
-            {(selectedCategory !== 'all' || searchQuery.trim() !== '') && (
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSearchQuery('');
-                }}
-                className="btn-ghost shrink-0"
-              >
-                <span>{isHindi ? 'फ़िल्टर हटाएं' : 'Reset Filters'}</span>
-              </button>
-            )}
+          {/* Search row — standalone, full-width */}
+          <div className="relative w-full sm:max-w-sm">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              placeholder={isHindi ? "कौशल खोजें (उदा. AWS, Splunk, लिनक्स)..." : "Search skill (e.g. AWS, Splunk, Linux)..."}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 rounded-lg bg-[#0a0e17] border border-slate-800 text-xs font-mono text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors"
+            />
           </div>
 
-          {/* Filter Tabs */}
+          {/* Filter Tabs + Reset — Reset sits at end of the same row it controls (Issue 6) */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             {categoryOptions.map((cat) => (
               <button
@@ -111,6 +96,20 @@ export const Skills: React.FC = () => {
                 {cat.label}
               </button>
             ))}
+
+            {/* Reset appears at end of filter row — proximate to what it resets */}
+            {(selectedCategory !== 'All' || searchQuery.trim() !== '') && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCategory('All');
+                  setSearchQuery('');
+                }}
+                className="btn-ghost shrink-0 ml-1"
+              >
+                <span>{isHindi ? 'फ़िल्टर हटाएं' : 'Reset'}</span>
+              </button>
+            )}
           </div>
         </div>
 

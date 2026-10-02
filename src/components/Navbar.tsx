@@ -97,11 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className={`px-3 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-md whitespace-nowrap ${
-                    isActive
-                      ? 'text-cyan-400 bg-cyan-950/40 border border-cyan-500/20'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                  }`}
+                  className={`btn-nav ${isActive ? 'btn-nav-active' : ''}`}
                 >
                   {link.label}
                 </a>

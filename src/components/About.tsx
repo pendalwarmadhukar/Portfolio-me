@@ -52,8 +52,8 @@ export const About: React.FC = () => {
           <div className="h-0.5 w-12 bg-cyan-500 mt-3 sm:mx-0 mx-auto" />
         </div>
 
-        {/* Grid: Profile Card + Bio */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-16">
+        {/* Grid: Profile Card + Bio — Issue 9: Profile left, bio fills remaining space; career cards span full width below */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-8">
           {/* Left Column: Profile Card */}
           <div className="lg:col-span-4 flex flex-col items-center sm:items-start">
             <div className="w-full max-w-sm rounded-2xl bg-[#111827] border border-slate-800 p-6 shadow-xl relative group">
@@ -148,13 +148,13 @@ export const About: React.FC = () => {
               </div>
             </div>
 
-            {/* Career Focus as 4 compact, lower-weight cards (Issue 8) */}
+            {/* Career Focus — Issue 3: no uppercase on 27-char label; Issue 9: cards below bio not squeezed right */}
             <div>
-              <h3 className="text-xs font-mono text-slate-500 tracking-wider mb-3 uppercase">
+              <h3 className="text-xs font-mono text-slate-500 tracking-wider mb-3">
                 {t.about.coreFocusTitle}
               </h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {careerFocusList.map((focus, idx) => (
                   <motion.div
                     key={focus.title}

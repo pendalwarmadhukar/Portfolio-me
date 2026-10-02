@@ -476,14 +476,7 @@ export const Projects: React.FC = () => {
                         {project.shortDescription}
                       </p>
 
-                      <div className="mb-4 rounded-xl border border-cyan-500/20 bg-cyan-950/20 px-3 py-2">
-                        <div className="text-xs font-mono text-cyan-400">Impact</div>
-                        <div className="mt-1 text-xs leading-relaxed text-slate-300">
-                          {project.keyFeatures[0] || 'Security-focused project designed for real-world defense scenarios.'}
-                        </div>
-                      </div>
-
-                      {/* Tech Stack Pills */}
+                      {/* Tech Stack Pills — max 4 shown; full list in modal (Issue 5) */}
                       <div className="flex flex-wrap gap-1.5 mb-6">
                         {project.technologies.slice(0, 4).map((tech) => (
                           <span

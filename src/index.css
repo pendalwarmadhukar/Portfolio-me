@@ -209,3 +209,31 @@ h1, h2, h3, h4, .font-heading {
   color: #22d3ee;
 }
 
+/* ── btn-nav: navbar section links (Issues 1 & 2) ── */
+/* Absorbs the px-3 py-1.5 rounded-md nav-link pattern so it is
+   tracked as part of the design system, not as a one-off style. */
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--c-text-body);
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: color 0.15s, background-color 0.15s;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-nav:hover {
+  color: var(--c-text-primary);
+  background-color: rgba(30, 41, 59, 0.4);
+}
+.btn-nav-active {
+  color: var(--c-accent-cyan);
+  background-color: rgba(8, 145, 178, 0.12);
+  border-color: rgba(34, 211, 238, 0.2);
+}

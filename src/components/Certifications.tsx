@@ -25,7 +25,7 @@ export const Certifications: React.FC = () => {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="mb-10 text-center lg:text-left">
-          <div className="mb-3 flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-[0.22em] text-cyan-400 lg:justify-start">
+          <div className="mb-3 flex items-center justify-center gap-2 text-xs font-mono tracking-[0.12em] text-cyan-400 lg:justify-start">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Security Credentials</span>
           </div>
@@ -188,11 +188,11 @@ export const Certifications: React.FC = () => {
                       href={cert.verificationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-ghost"
+                      className="btn-secondary"
                       title={`Verify ${cert.title} on issuer platform`}
                     >
                       <span>Verify Credential</span>
-                      <ExternalLink className="h-3.5 w-3.5 text-cyan-400" />
+                      <ExternalLink className="h-3.5 w-3.5" />
                     </a>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs font-mono text-slate-400">
