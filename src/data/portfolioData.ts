@@ -171,86 +171,6 @@ export const PROJECTS: Project[] = [
     customVisualType: "sentineldesk-soc"
   },
   {
-    id: "cloudshield",
-    title: "CloudShield",
-    category: "Cloud Security",
-    shortDescription: "An AWS-focused cloud security project designed around secure cloud configuration, IAM, encryption and security best practices.",
-    overview: "CloudShield is an architectural security hardening initiative tailored for AWS environments. It implements least-privilege identity access management (IAM), automated encryption across storage repositories, and continuous security compliance verification.",
-    problemStatement: "Cloud misconfigurations and over-privileged IAM policies represent the primary vector for unauthorized data exposure in modern enterprise cloud footprints.",
-    solution: "Engineered a baseline configuration framework utilizing AWS CLI, tailored IAM role hierarchies with strict RBAC boundaries, client-side & server-side S3 encryption, and hardened EC2 security groups with restricted ingress vectoring.",
-    technologies: ["AWS", "IAM", "S3", "EC2", "AWS CLI"],
-    architectureSteps: [
-      "AWS Cloud",
-      "IAM",
-      "EC2",
-      "S3",
-      "Security Controls"
-    ],
-    keyFeatures: [
-      "Least-privilege IAM policies with zero wildcard administrative delegation",
-      "Automated S3 bucket encryption (SSE-S3 / SSE-KMS) and public access blocking",
-      "Hardened EC2 security group rules eliminating default open port 22/3389 exposures",
-      "Scripted AWS CLI audit routines for identity validation and compliance assessment"
-    ],
-    githubUrl: "https://github.com/pendalwarmadhukar/CloudShield",
-    imageFallbackGradient: "from-sky-950 via-slate-900 to-cyan-950",
-    customVisualType: "cloudshield"
-  },
-  {
-    id: "aws-cloud-security-monitoring",
-    title: "AWS Cloud Security Monitoring and Alerting System",
-    category: "AWS Security & Monitoring",
-    shortDescription: "A cloud security monitoring system focused on AWS activity monitoring, security controls and alert notifications.",
-    overview: "A proactive cloud infrastructure monitoring framework designed to capture administrative API calls, policy modifications, and suspicious resource provisioning across an AWS environment in near real-time.",
-    problemStatement: "Organizations frequently lack real-time visibility into unauthorized configuration drifts and anomalous API interactions within their cloud workloads.",
-    solution: "Configured AWS CloudTrail centralized audit logging streamed into metric filters and alarm thresholds that trigger Amazon SNS alert notifications directly to security personnel.",
-    technologies: ["Amazon EC2", "AWS IAM", "Security Groups", "AWS CloudTrail", "Amazon SNS", "Linux"],
-    architectureSteps: [
-      "EC2",
-      "CloudTrail",
-      "Monitoring",
-      "Detection",
-      "SNS Alert"
-    ],
-    keyFeatures: [
-      "Centralized event auditing across multi-region infrastructure using AWS CloudTrail",
-      "Automated detection filters for sensitive actions (e.g. root login, security group changes)",
-      "High-priority notification distribution through Amazon SNS email and webhook topics",
-      "Linux-based log extraction and event triage scripts for security analysts"
-    ],
-    githubUrl: "https://github.com/pendalwarmadhukar",
-    imageFallbackGradient: "from-blue-950 via-slate-900 to-indigo-950",
-    customVisualType: "aws-monitoring"
-  },
-  {
-    id: "devsecops-trivy-pipeline",
-    title: "DevSecOps Secure CI/CD Pipeline with Trivy Security Scanning",
-    category: "DevSecOps",
-    shortDescription: "A secure CI/CD pipeline integrating container security scanning using Trivy.",
-    overview: "An automated DevSecOps integration that introduces shift-left vulnerability assessment into the software delivery pipeline, catching CVEs and misconfigurations prior to container registry deployment.",
-    problemStatement: "Vulnerable third-party packages and misconfigured container base images often bypass developer QA and compromise production container environments.",
-    solution: "Integrated Trivy automated vulnerability scanner directly into the GitHub Actions CI/CD workflow to scan Docker image layers and enforce gate-blocking criteria on Critical and High severity findings.",
-    technologies: ["GitHub", "Docker", "Trivy", "CI/CD", "Flask", "DevSecOps"],
-    architectureSteps: [
-      "Code",
-      "GitHub",
-      "Build",
-      "Docker",
-      "Trivy Scan",
-      "Security Validation",
-      "Deployment"
-    ],
-    keyFeatures: [
-      "Automated container build pipeline with Docker multi-stage optimization",
-      "Static vulnerability scanning with Trivy targeting OS packages and Python dependencies",
-      "Policy gate enforcement to block deployment if Critical severity CVEs are detected",
-      "Structured vulnerability report output and SARIF export for audit traceability"
-    ],
-    githubUrl: "https://github.com/pendalwarmadhukar",
-    imageFallbackGradient: "from-teal-950 via-slate-900 to-cyan-950",
-    customVisualType: "devsecops"
-  },
-  {
     id: "credit-card-fraud-detection",
     title: "Credit Card Fraud Detection",
     category: "Machine Learning & Security",
@@ -559,15 +479,6 @@ export const CERTIFICATIONS: Certification[] = [
 ];
 
 export const GITHUB_REPOS: GitHubRepo[] = [
-  {
-    name: "CloudShield",
-    description: "An AWS-focused cloud security project designed around secure cloud configuration, IAM, encryption and security best practices.",
-    technologies: ["AWS", "IAM", "S3", "EC2", "AWS CLI"],
-    repoUrl: "https://github.com/pendalwarmadhukar/CloudShield",
-    stars: 12,
-    forks: 4,
-    languageColor: "#3b82f6"
-  },
   {
     name: "SpamGuard-AI",
     description: "An AI-based project focused on detecting and analyzing spam-related activity using machine learning algorithms.",

@@ -59,26 +59,18 @@ TECHNICAL SKILLS:
 - Data & AI: Machine Learning, Pandas, Data Analysis
 
 KEY PROJECTS:
-1. CloudShield (Cloud Security)
-   AWS-focused security hardening framework utilizing AWS CLI, least-privilege IAM policies, S3 encryption, and hardened EC2 security groups.
-   Architecture: AWS Cloud -> IAM -> EC2 -> S3 -> Security Controls
+1. SentinelDesk — SOC Monitoring & Incident Response
+   Enterprise-grade SOC monitoring dashboard with real-time SIEM ingestion, threat intel, and alert triage.
+   Architecture: SIEM Ingestion -> Real-Time Stream -> Alert Triage -> Threat Intel -> Incident Response -> Compliance Report
 
-2. AWS Cloud Security Monitoring and Alerting System
-   Proactive audit framework streaming AWS CloudTrail event logs to metric filters and Amazon SNS alarm notifications.
-   Architecture: EC2 -> CloudTrail -> Monitoring -> Detection -> SNS Alert
-
-3. DevSecOps Secure CI/CD Pipeline with Trivy Security Scanning
-   Shift-left vulnerability assessment integrating Trivy container scanning into GitHub Actions to block high/critical CVE deployments.
-   Architecture: Code -> GitHub -> Build -> Docker -> Trivy Scan -> Security Validation -> Deployment
-
-4. NetSentinel (Network Security)
+2. NetSentinel (Network Security)
    Script-driven host & network security auditing tool in Bash and Nmap for exposure identification and auth log brute-force detection.
    Architecture: Network -> Scan -> Exposure Analysis -> Log Analysis -> Risk Identification
 
-5. Credit Card Fraud Detection (Machine Learning & Security)
+3. Credit Card Fraud Detection (Machine Learning & Security)
    Predictive ML model handling extreme class imbalance to identify fraudulent transaction patterns and generate risk scoring.
 
-6. SpamGuard-AI (AI / Security)
+4. SpamGuard-AI (AI / Security)
    Natural language classification pipeline in Python detecting deceptive and phishing text payloads.
 
 CERTIFICATIONS & VERIFIED PATHWAYS:

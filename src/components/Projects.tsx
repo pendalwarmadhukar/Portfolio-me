@@ -96,88 +96,6 @@ const ProjectThumbnail: React.FC<{ project: Project }> = ({ project }) => {
     );
   }
 
-  if (project.id === 'cloudshield') {
-    return (
-      <img
-        src="/cloudshield_arch.jpg"
-        alt="CloudShield AWS Architecture"
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-      />
-    );
-  }
-
-  // AWS Security Monitoring UI Mockup
-  if (project.id === 'aws-cloud-security-monitoring') {
-    return (
-      <div className="w-full h-full bg-[#0a1120] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#0c162a] transition-colors">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-transparent to-amber-950/20" />
-        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-blue-900/40">
-          <div className="flex items-center gap-1.5 text-xs text-blue-400 font-semibold">
-            <Cpu className="w-3.5 h-3.5 text-blue-400" />
-            <span>AWS CloudWatch · CloudTrail</span>
-          </div>
-          <span className="px-2 py-0.5 rounded text-xs bg-amber-950/60 border border-amber-600/40 text-amber-300">
-            SNS Active
-          </span>
-        </div>
-
-        <div className="relative z-10 space-y-1.5 my-auto text-xs">
-          <div className="p-2 rounded-lg bg-slate-900/80 border border-blue-900/30 flex items-center justify-between">
-            <span className="text-slate-300">RootAccountLogin</span>
-            <span className="text-rose-400">CRITICAL</span>
-          </div>
-          <div className="p-2 rounded-lg bg-slate-900/80 border border-blue-900/30 flex items-center justify-between">
-            <span className="text-slate-300">SecurityGroup: AuthorizeIngress</span>
-            <span className="text-amber-400">WARNING</span>
-          </div>
-        </div>
-
-        <div className="relative z-10 flex items-center justify-between pt-2 border-t border-blue-900/40 text-xs text-slate-400">
-          <span>Target: EC2 / S3</span>
-          <span className="text-cyan-400">Notification Dispatched</span>
-        </div>
-      </div>
-    );
-  }
-
-  // DevSecOps CI/CD Pipeline Mockup
-  if (project.id === 'devsecops-trivy-pipeline') {
-    return (
-      <div className="w-full h-full bg-[#071512] p-4 flex flex-col justify-between font-mono relative overflow-hidden group-hover:bg-[#0a1c18] transition-colors">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/40 via-transparent to-cyan-950/20" />
-        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-emerald-900/40">
-          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-            <GitBranch className="w-3.5 h-3.5 text-emerald-400" />
-            <span>CI/CD Pipeline Security Gate</span>
-          </div>
-          <span className="px-2 py-0.5 rounded text-xs bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">
-            PASSED
-          </span>
-        </div>
-
-        <div className="relative z-10 grid grid-cols-3 gap-2 my-auto text-center text-xs">
-          <div className="p-2 rounded-lg bg-slate-900/90 border border-emerald-900/30">
-            <div className="text-slate-400">Build</div>
-            <div className="text-emerald-400 font-bold mt-1">Docker</div>
-          </div>
-          <div className="p-2 rounded-lg bg-slate-900/90 border border-emerald-500/40 shadow-sm">
-            <div className="text-slate-400">Trivy Scan</div>
-            <div className="text-cyan-300 font-bold mt-1">0 Critical</div>
-          </div>
-          <div className="p-2 rounded-lg bg-slate-900/90 border border-emerald-900/30">
-            <div className="text-slate-400">Deploy</div>
-            <div className="text-emerald-400 font-bold mt-1">Approved</div>
-          </div>
-        </div>
-
-        <div className="relative z-10 flex items-center justify-between pt-2 border-t border-emerald-900/40 text-xs text-slate-400">
-          <span>GitHub Actions</span>
-          <span className="text-emerald-400">Shift-Left Security</span>
-        </div>
-      </div>
-    );
-  }
-
   // Credit Card Fraud ML Mockup
   if (project.id === 'credit-card-fraud-detection') {
     return (
@@ -383,7 +301,7 @@ export const Projects: React.FC = () => {
 
           {/* Category Filter Pills / Toggles Bar */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-            {CATEGORY_FILTERS.map((cat) => {
+            {CATEGORY_FILTERS.filter((cat) => cat.id === 'all' || (categoryCounts[cat.id] || 0) > 0).map((cat) => {
               const isActive = activeCategoryId === cat.id;
               const count = categoryCounts[cat.id] || 0;
               const label = cat.getLabel(t);
