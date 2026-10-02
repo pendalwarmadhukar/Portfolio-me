@@ -459,8 +459,8 @@ export const SocOperations: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Analyst Control Actions */}
-                <div className="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                {/* Analyst Control Actions — mt-6 breathing room from text above (Issue 9) */}
+                <div className="mt-6 pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
                   <div className="flex flex-wrap items-center gap-2">
                     <button
                       type="button"

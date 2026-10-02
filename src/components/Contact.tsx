@@ -213,13 +213,15 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   <Download className="w-4 h-4" />
                   <span>Download Resume (PDF)</span>
                 </a>
+                {/* Icon-only preview — same pattern as Hero & Navbar preview buttons (Issue 7) */}
                 <button
                   type="button"
                   onClick={onOpenResume}
-                  className="btn-secondary !text-xs"
-                  title="Preview Dossier"
+                  className="btn-icon shrink-0"
+                  title="Preview Resume Dossier"
+                  aria-label="Preview Resume Dossier"
                 >
-                  <span>Preview</span>
+                  <FileText className="w-4 h-4" />
                 </button>
               </div>
             </div>

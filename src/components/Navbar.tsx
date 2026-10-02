@@ -58,6 +58,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
   return (
     <header
+      role="banner"
+      aria-label="Site header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         isScrolled
           ? 'bg-[#0a0e17]/85 backdrop-blur-xl border-b border-cyan-950/40 shadow-[0_16px_30px_rgba(2,6,23,0.35)] py-3.5'
@@ -87,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
           </a>
 
           {/* Zone 2: Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2">
+          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-1.5 xl:gap-2">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (

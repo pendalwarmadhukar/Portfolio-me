@@ -332,7 +332,7 @@ export const Projects: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="mb-8">
-          <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+          <div className="text-xs font-mono text-cyan-400 tracking-wider mb-2 flex items-center gap-2">
             <Filter className="w-3.5 h-3.5" />
             <span>{t.projects.tag}</span>
           </div>

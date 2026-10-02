@@ -68,10 +68,11 @@ export const Skills: React.FC = () => {
           <div className="h-0.5 w-12 bg-cyan-500 mt-3" />
         </div>
 
-        {/* Unified Controls & Filter Toolbar (Issue 11 Fix) */}
+        {/* Unified Controls & Filter Toolbar */}
         <div className="mb-8 p-4 rounded-2xl bg-[#111827] border border-slate-800 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative w-full sm:w-80">
+          {/* Search + Reset — grouped together, no dead-space gap */}
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1 max-w-sm">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
@@ -89,7 +90,7 @@ export const Skills: React.FC = () => {
                   setSelectedCategory('all');
                   setSearchQuery('');
                 }}
-                className="btn-ghost self-start sm:self-auto"
+                className="btn-ghost shrink-0"
               >
                 <span>{isHindi ? 'फ़िल्टर हटाएं' : 'Reset Filters'}</span>
               </button>

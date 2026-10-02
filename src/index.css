@@ -7,6 +7,23 @@
 
 :root {
   color-scheme: dark;
+
+  /* ── Colour system tokens (10 semantic slots) ── */
+  --c-bg-base:      #0a0e17;   /* page background        */
+  --c-bg-surface:   #111827;   /* card / panel surface   */
+  --c-bg-deep:      #0d131f;   /* alternate section bg   */
+  --c-border:       #1e293b;   /* default border         */
+
+  --c-text-primary: #f8fafc;   /* headings / white       */
+  --c-text-body:    #cbd5e1;   /* slate-300 body copy    */
+  --c-text-muted:   #94a3b8;   /* slate-400 labels       */
+
+  --c-accent-cyan:  #22d3ee;   /* primary brand accent   */
+  --c-accent-cyan-soft: #67e8f9;
+
+  --c-state-success: #34d399;  /* emerald-400 success    */
+  --c-state-warning: #fbbf24;  /* amber-400  warning     */
+  --c-state-danger:  #f87171;  /* rose-400   danger      */
 }
 
 html {

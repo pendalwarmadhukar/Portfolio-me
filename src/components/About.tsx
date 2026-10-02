@@ -148,13 +148,13 @@ export const About: React.FC = () => {
               </div>
             </div>
 
-            {/* Career Focus as 4 Cards */}
+            {/* Career Focus as 4 compact, lower-weight cards (Issue 8) */}
             <div>
-              <h3 className="text-sm font-mono text-slate-400 font-semibold mb-4">
+              <h3 className="text-xs font-mono text-slate-500 tracking-wider mb-3 uppercase">
                 {t.about.coreFocusTitle}
               </h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {careerFocusList.map((focus, idx) => (
                   <motion.div
                     key={focus.title}
@@ -162,18 +162,21 @@ export const About: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.45, delay: idx * 0.1, ease: 'easeOut' }}
-                    whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                    className="p-5 rounded-2xl bg-[#111827]/80 hover:bg-[#151f33] border border-slate-800 hover:border-cyan-500/30 transition-colors duration-200 shadow-md group"
+                    className="p-4 rounded-xl bg-[#111827]/60 border border-slate-800/70 transition-colors duration-200 group hover:border-slate-700"
                   >
-                    <div className="flex items-center gap-3 mb-2.5">
-                      <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
-                        {iconMap[focus.icon]}
+                    <div className="flex items-center gap-2.5 mb-1.5">
+                      {/* Smaller, lower-contrast icon container */}
+                      <div className="p-1.5 rounded-lg bg-slate-900/80 border border-slate-800/60 shrink-0">
+                        {/* Scale icon down via className override */}
+                        <span className="[&>svg]:w-4 [&>svg]:h-4 [&>svg]:opacity-70">
+                          {iconMap[focus.icon]}
+                        </span>
                       </div>
-                      <h4 className="text-base font-semibold text-white font-mono group-hover:text-cyan-300 transition-colors">
+                      <h4 className="text-sm font-medium text-slate-200 font-mono">
                         {focus.title}
                       </h4>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-xs text-slate-400 leading-relaxed pl-9">
                       {focus.description}
                     </p>
                   </motion.div>

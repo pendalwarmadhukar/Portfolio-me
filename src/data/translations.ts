@@ -309,7 +309,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       },
     },
     projects: {
-      tag: "Engineering Showcase",
+      tag: "Engineering showcase",
       title: "Practical Security Projects",
       subtitle: "Production-oriented implementations encompassing cloud defense, vulnerability automation, network auditing, and ML threat detection.",
       searchPlaceholder: "Search tech, AWS, Docker...",
