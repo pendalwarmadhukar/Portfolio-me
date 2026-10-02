@@ -2,7 +2,7 @@ import React from 'react';
 import { NetworkNodesCanvas } from './NetworkNodesCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { ArrowRight, Download, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon, FileText, Globe } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon, FileText } from 'lucide-react';
 
 interface HeroProps {
   onOpenResume: () => void;
@@ -86,78 +86,56 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           {t.hero.secondaryTagline}
         </p>
 
-        {/* Call to Action Buttons */}
-        <div className="flex w-full max-w-md flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 mb-10">
+        {/* Call to Action Buttons: Clear Primary & Secondary Hierarchy */}
+        <div className="flex w-full max-w-sm flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 mb-8">
           <a
             href="#projects"
             onClick={scrollToProjects}
-            className="btn-primary w-full sm:flex-1"
+            className="btn-primary w-full sm:w-auto px-6 py-3 justify-center"
           >
             <span>{t.hero.viewProjects}</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 ml-1.5" aria-hidden="true" />
           </a>
 
-          <div className="flex w-full sm:flex-1 items-center gap-2">
-            <a
-              href={PERSONAL_INFO.resumeUrl}
-              download={PERSONAL_INFO.resumeFilename}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary flex-1"
-              title="Download Resume PDF"
-            >
-              <span>{t.hero.resumeBtn}</span>
-              <Download className="w-4 h-4 text-cyan-400 group-hover:translate-y-0.5 transition-transform" />
-            </a>
-            <button
-              type="button"
-              onClick={onOpenResume}
-              className="btn-secondary shrink-0"
-              title="Preview Resume Dossier"
-              aria-label="Preview Resume Dossier"
-            >
-              <FileText className="w-4 h-4" />
-              <span>Preview</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onOpenResume}
+            className="btn-secondary w-full sm:w-auto px-6 py-3 justify-center"
+            title="Open Resume Dossier"
+            aria-label="Preview and download Resume Dossier"
+            aria-haspopup="dialog"
+          >
+            <FileText className="w-4 h-4 text-cyan-400" aria-hidden="true" />
+            <span>{t.hero.resumeBtn}</span>
+          </button>
         </div>
 
-        {/* Social Icons */}
-        <div className="mb-8 flex items-center justify-center gap-3 text-slate-400 sm:gap-4">
-          <a
-            href={PERSONAL_INFO.portfolioUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-icon"
-            aria-label="Live Portfolio"
-            title="Live Portfolio: portfolio-madhukar.vercel.app"
-          >
-            <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
-          </a>
+        {/* Social Profiles (Removed self-referential live site link) */}
+        <div className="mb-8 flex items-center justify-center gap-3 text-slate-400 sm:gap-4" role="group" aria-label="Social and contact profiles">
           <a
             href={PERSONAL_INFO.github}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-icon sm:p-3"
-            aria-label="GitHub Profile"
+            aria-label="Madhukar's GitHub Profile (opens in new tab)"
           >
-            <Github className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Github className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </a>
           <a
             href={PERSONAL_INFO.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-icon sm:p-3"
-            aria-label="LinkedIn Profile"
+            aria-label="Madhukar's LinkedIn Profile (opens in new tab)"
           >
-            <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </a>
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
             className="btn-icon sm:p-3"
-            aria-label="Email Madhukar"
+            aria-label="Send an email to Madhukar"
           >
-            <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Mail className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </a>
         </div>
 
