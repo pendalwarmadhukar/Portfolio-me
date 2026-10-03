@@ -102,9 +102,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className={`btn-nav flex items-center gap-1 ${isActive ? 'btn-nav-active' : ''} ${
-                    isLeet ? 'leetcode-nav-link' : ''
-                  }`}
+                  data-accent={isLeet ? 'amber' : undefined}
+                  className={`btn-nav flex items-center gap-1 ${isActive ? 'btn-nav-active' : ''}`}
                 >
                   {isLeet && <LeetCodeIcon className="w-3 h-3 text-amber-400 shrink-0" />}
                   {link.label}
@@ -124,9 +123,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
                   title={link.label}
-                  className={`btn-nav-compact flex items-center gap-1 ${isActive ? 'btn-nav-active' : ''} ${
-                    isLeet ? 'leetcode-nav-link' : ''
-                  }`}
+                  data-accent={isLeet ? 'amber' : undefined}
+                  className={`btn-nav compact flex items-center gap-1 ${isActive ? 'btn-nav-active' : ''}`}
                 >
                   {isLeet && <LeetCodeIcon className="w-3 h-3 text-amber-400 shrink-0" />}
                   <span className="text-[11px]">{link.label}</span>

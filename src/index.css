@@ -8,22 +8,22 @@
 :root {
   color-scheme: dark;
 
-  /* ── Colour system tokens (10 semantic slots) ── */
-  --c-bg-base:      #0a0e17;   /* page background        */
-  --c-bg-surface:   #111827;   /* card / panel surface   */
-  --c-bg-deep:      #0d131f;   /* alternate section bg   */
-  --c-border:       #1e293b;   /* default border         */
+  /* ── Colour system tokens ── */
+  --c-bg-base:      #0a0e17;
+  --c-bg-surface:   #111827;
+  --c-bg-deep:      #0d131f;
+  --c-border:       #1e293b;
 
-  --c-text-primary: #f8fafc;   /* headings / white       */
-  --c-text-body:    #cbd5e1;   /* slate-300 body copy    */
-  --c-text-muted:   #94a3b8;   /* slate-400 labels       */
+  --c-text-primary: #f8fafc;
+  --c-text-body:    #cbd5e1;
+  --c-text-muted:   #94a3b8;
 
-  --c-accent-cyan:  #22d3ee;   /* primary brand accent   */
+  --c-accent-cyan:      #22d3ee;
   --c-accent-cyan-soft: #67e8f9;
 
-  --c-state-success: #34d399;  /* emerald-400 success    */
-  --c-state-warning: #fbbf24;  /* amber-400  warning     */
-  --c-state-danger:  #f87171;  /* rose-400   danger      */
+  --c-state-success: #34d399;
+  --c-state-warning: #fbbf24;
+  --c-state-danger:  #f87171;
 }
 
 html {
@@ -91,11 +91,17 @@ h1, h2, h3, h4, .font-heading {
 }
 
 /* ==========================================================================
-   Unified Design System - Button Hierarchy (Consolidated into 3 Core Variants)
-   Shared foundations: radius: 0.5rem (8px), font: var(--font-mono), font-size: 0.75rem (12px), padding: 0.625rem 1rem
+   Unified Button System — 5 variants (down from 7)
+   ─────────────────────────────────────────────────────────────────────────
+   1. btn-primary   — filled cyan   : main CTA (View Project, Download Resume)
+   2. btn-secondary — outline cyan  : secondary CTA (GitHub, Live Demo, View Profile)
+   3. btn-ghost     — neutral dark  : tertiary / cancel / contextual (Close, SOC status)
+   4. btn-filter    — pill toggle   : filter bars, language switcher
+   5. btn-icon      — square icon   : icon-only actions (copy, close, socials)
+   nav links use btn-nav — a contextual navigation pattern, not a 6th button style
    ========================================================================== */
 
-/* Shared Base Button Foundations */
+/* ── Shared base ─────────────────────────────────────── */
 .btn-primary,
 .btn-secondary,
 .btn-ghost,
@@ -114,7 +120,7 @@ h1, h2, h3, h4, .font-heading {
   white-space: nowrap;
 }
 
-/* Variant 1: Primary Action */
+/* ── 1. Primary ──────────────────────────────────────── */
 .btn-primary {
   padding: 0.625rem 1rem;
   font-weight: 600;
@@ -129,7 +135,7 @@ h1, h2, h3, h4, .font-heading {
   transform: translateY(-1px);
 }
 
-/* Variant 2: Secondary Action */
+/* ── 2. Secondary ────────────────────────────────────── */
 .btn-secondary {
   padding: 0.625rem 1rem;
   font-weight: 500;
@@ -145,7 +151,7 @@ h1, h2, h3, h4, .font-heading {
   transform: translateY(-1px);
 }
 
-/* Variant 3: Ghost Action */
+/* ── 3. Ghost — neutral dark action ─────────────────── */
 .btn-ghost {
   padding: 0.625rem 1rem;
   font-weight: 500;
@@ -159,7 +165,7 @@ h1, h2, h3, h4, .font-heading {
   background-color: #1a2234;
 }
 
-/* Variant 4: Filter Pills & Toggles */
+/* ── 4. Filter / pill toggle ─────────────────────────── */
 .btn-filter {
   padding: 0.5rem 0.875rem;
   font-weight: 500;
@@ -180,7 +186,7 @@ h1, h2, h3, h4, .font-heading {
   color: #f1f5f9;
 }
 
-/* Variant 5: Standardized Square Icon Button */
+/* ── 5. Icon button ──────────────────────────────────── */
 .btn-icon {
   display: inline-flex;
   align-items: center;
@@ -201,7 +207,8 @@ h1, h2, h3, h4, .font-heading {
   color: #22d3ee;
 }
 
-/* Navbar Links */
+/* ── Nav links (contextual navigation pattern) ───────── */
+/* Base — full size (xl screens 1280px+) */
 .btn-nav {
   padding: 0.4rem 0.6rem;
   font-weight: 500;
@@ -216,45 +223,32 @@ h1, h2, h3, h4, .font-heading {
   color: var(--c-text-primary);
   background-color: rgba(30, 41, 59, 0.4);
 }
+
+/* Size modifier — compact (lg screens 1024–1279px).
+   Replaces the former btn-nav-compact separate class. */
+.btn-nav.compact {
+  padding: 0.35rem 0.5rem;
+  gap: 0.25rem;
+}
+
+/* State modifier — active scrolled section */
 .btn-nav-active {
   color: var(--c-accent-cyan);
   background-color: rgba(8, 145, 178, 0.12);
   border-color: rgba(34, 211, 238, 0.2);
 }
 
-/* Compact nav variant for lg screens (1024–1279px) */
-.btn-nav-compact {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  padding: 0.35rem 0.5rem;
-  font-weight: 500;
-  color: var(--c-text-body);
-  background-color: transparent;
-  border: 1px solid transparent;
-  text-decoration: none;
-  border-radius: 0.4rem;
-  white-space: nowrap;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  font-family: var(--font-mono);
+/* Accent modifier — data-accent="amber" for LeetCode nav link.
+   Replaces the former leetcode-nav-link standalone class. */
+.btn-nav[data-accent="amber"] {
+  color: #fbbf24;
 }
-.btn-nav-compact:hover {
-  color: var(--c-text-primary);
-  background-color: rgba(30, 41, 59, 0.4);
+.btn-nav[data-accent="amber"]:hover {
+  color: #fde68a;
+  background-color: rgba(251, 191, 36, 0.1);
 }
-
-/* LeetCode amber accent nav link */
-.leetcode-nav-link {
-  color: #fbbf24 !important;
-}
-.leetcode-nav-link:hover {
-  color: #fde68a !important;
-  background-color: rgba(251, 191, 36, 0.1) !important;
-}
-.leetcode-nav-link.btn-nav-active {
-  color: #fbbf24 !important;
-  background-color: rgba(251, 191, 36, 0.12) !important;
-  border-color: rgba(251, 191, 36, 0.3) !important;
+.btn-nav[data-accent="amber"].btn-nav-active {
+  color: #fbbf24;
+  background-color: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.3);
 }
