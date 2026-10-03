@@ -3,6 +3,7 @@ import { NetworkNodesCanvas } from './NetworkNodesCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { ArrowRight, Github, Linkedin, Mail, ShieldCheck, Terminal as TerminalIcon, FileText } from 'lucide-react';
+import { LeetCodeIcon } from './LeetCodeIcon.tsx';
 
 interface HeroProps {
   onOpenResume: () => void;
@@ -110,13 +111,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
           </button>
         </div>
 
-        {/* Social Profiles (Removed self-referential live site link) */}
+        {/* Social Profiles */}
         <div className="mb-8 flex items-center justify-center gap-3 text-slate-400 sm:gap-4" role="group" aria-label="Social and contact profiles">
           <a
             href={PERSONAL_INFO.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-icon sm:p-3"
+            className="btn-icon sm:p-3 hover:text-cyan-400"
             aria-label="Madhukar's GitHub Profile (opens in new tab)"
           >
             <Github className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
@@ -125,31 +126,47 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             href={PERSONAL_INFO.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-icon sm:p-3"
+            className="btn-icon sm:p-3 hover:text-cyan-400"
             aria-label="Madhukar's LinkedIn Profile (opens in new tab)"
           >
             <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </a>
           <a
+            href={PERSONAL_INFO.leetcode}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-icon sm:p-3 hover:text-amber-400 hover:border-amber-500/50"
+            aria-label="Madhukar's LeetCode Profile (opens in new tab)"
+          >
+            <LeetCodeIcon className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400" />
+          </a>
+          <a
             href={`mailto:${PERSONAL_INFO.email}`}
-            className="btn-icon sm:p-3"
+            className="btn-icon sm:p-3 hover:text-cyan-400"
             aria-label="Send an email to Madhukar"
           >
             <Mail className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-3xl mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl mb-10">
           {[
             { value: '3+', label: 'Security projects' },
+            { value: '390+', label: 'LeetCode Solved', highlight: true },
             { value: 'SOC', label: 'Blue team focus' },
             { value: 'AWS', label: 'Cloud security' },
           ].map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-slate-800/80 bg-slate-900/65 px-4 py-3 backdrop-blur-sm shadow-[0_12px_25px_rgba(15,23,42,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:border-cyan-500/30"
+              className={`rounded-2xl border bg-slate-900/65 px-4 py-3 backdrop-blur-sm shadow-[0_12px_25px_rgba(15,23,42,0.35)] transition-transform duration-200 hover:-translate-y-0.5 ${
+                stat.highlight
+                  ? 'border-amber-500/40 hover:border-amber-400 shadow-amber-950/20'
+                  : 'border-slate-800/80 hover:border-cyan-500/30'
+              }`}
             >
-              <div className="text-xl font-bold text-cyan-300 font-mono">{stat.value}</div>
+              <div className={`text-xl font-bold font-mono ${stat.highlight ? 'text-amber-400' : 'text-cyan-300'}`}>
+                {stat.value}
+              </div>
               <div className="text-xs font-mono text-slate-400 mt-1">{stat.label}</div>
             </div>
           ))}

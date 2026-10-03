@@ -107,6 +107,17 @@ export const About: React.FC = () => {
                     <span className="text-slate-400">{t.about.toolsLabel}</span>
                     <span className="text-slate-300">{t.about.toolsValue}</span>
                   </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-400">{isHindi ? 'समस्या समाधान' : 'Problem Solving'}</span>
+                    <a
+                      href={PERSONAL_INFO.leetcode}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-amber-400 hover:text-amber-300 hover:underline font-semibold"
+                    >
+                      390+ LeetCode
+                    </a>
+                  </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">{t.about.statusLabel}</span>
                     <span className="text-emerald-400">{t.about.statusValue}</span>

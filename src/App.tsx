@@ -8,6 +8,7 @@ import { Projects } from './components/Projects.tsx';
 import { SocOperations } from './components/SocOperations.tsx';
 import { Certifications } from './components/Certifications.tsx';
 import { GitHubSection } from './components/GitHubSection.tsx';
+import { LeetCodeSection } from './components/LeetCodeSection.tsx';
 import { Contact } from './components/Contact.tsx';
 import { Footer } from './components/Footer.tsx';
 import { ResumeModal } from './components/ResumeModal.tsx';
@@ -45,6 +46,10 @@ export default function App() {
 
           <ScrollFadeIn>
             <Certifications />
+          </ScrollFadeIn>
+
+          <ScrollFadeIn>
+            <LeetCodeSection />
           </ScrollFadeIn>
 
           <ScrollFadeIn>

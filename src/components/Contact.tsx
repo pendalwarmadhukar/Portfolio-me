@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { Mail, Linkedin, Github, FileText, Send, CheckCircle2, Copy, Check, Download, AlertCircle, Loader2, Globe, ExternalLink } from 'lucide-react';
+import { LeetCodeIcon } from './LeetCodeIcon.tsx';
 
 interface ContactProps {
   onOpenResume: () => void;
@@ -164,6 +165,30 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   github.com/pendalwarmadhukar
                 </div>
               </div>
+            </a>
+
+            {/* LeetCode */}
+            <a
+              href={PERSONAL_INFO.leetcode}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-2xl bg-[#111827] border border-slate-800 hover:border-amber-500/40 transition-colors flex items-center justify-between group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-amber-400 group-hover:border-amber-500/50 transition-colors">
+                  <LeetCodeIcon className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-mono text-slate-400 flex items-center gap-2">
+                    <span>LeetCode</span>
+                    <span className="text-[10px] text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/20 font-semibold">390+ Solved</span>
+                  </div>
+                  <div className="text-sm font-semibold text-white group-hover:text-amber-300 transition-colors">
+                    leetcode.com/u/Pendalwar_Madhukar126
+                  </div>
+                </div>
+              </div>
+              <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-amber-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
 
             {/* Live Portfolio */}

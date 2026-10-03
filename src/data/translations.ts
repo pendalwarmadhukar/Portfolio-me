@@ -10,6 +10,7 @@ export interface Translations {
     soc: string;
     certifications: string;
     github: string;
+    leetcode: string;
     contact: string;
     resume: string;
     switchLangAria: string;
@@ -175,6 +176,25 @@ export interface Translations {
     forks: string;
     visitProfile: string;
   };
+  // LeetCode
+  leetcode: {
+    tag: string;
+    title: string;
+    subtitle: string;
+    viewProfile: string;
+    rankLabel: string;
+    solvedLabel: string;
+    easyLabel: string;
+    mediumLabel: string;
+    hardLabel: string;
+    badgesLabel: string;
+    activeDaysLabel: string;
+    maxStreakLabel: string;
+    submissionsLabel: string;
+    recentAcceptedTitle: string;
+    topTopicsTitle: string;
+    viewProblem: string;
+  };
   // Contact
   contact: {
     tag: string;
@@ -243,6 +263,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       soc: "SOC",
       certifications: "Certifications",
       github: "GitHub",
+      leetcode: "LeetCode",
       contact: "Contact",
       resume: "Resume",
       switchLangAria: "Switch to Hindi language",
@@ -409,6 +430,24 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       forks: "Forks",
       visitProfile: "Visit Full GitHub Profile",
     },
+    leetcode: {
+      tag: "DSA & Problem Solving",
+      title: "LeetCode Profile & Statistics",
+      subtitle: "Competitive programming, data structures, and algorithm solutions by",
+      viewProfile: "View LeetCode Profile",
+      rankLabel: "Global Rank",
+      solvedLabel: "Problems Solved",
+      easyLabel: "Easy",
+      mediumLabel: "Medium",
+      hardLabel: "Hard",
+      badgesLabel: "Earned Badges",
+      activeDaysLabel: "Active Days",
+      maxStreakLabel: "Max Streak",
+      submissionsLabel: "Submissions (1 Year)",
+      recentAcceptedTitle: "Recent Accepted Solutions",
+      topTopicsTitle: "Core Problem Solving Domains",
+      viewProblem: "Solve on LeetCode",
+    },
     contact: {
       tag: "Get In Touch",
       title: "Let's Connect",
@@ -472,6 +511,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       soc: "एसओसी",
       certifications: "प्रमाणन",
       github: "गिटहब",
+      leetcode: "लीटकोड",
       contact: "संपर्क",
       resume: "बायोडाटा",
       switchLangAria: "अंग्रेजी भाषा में बदलें",
@@ -637,6 +677,24 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       stars: "स्टार्स",
       forks: "फ़ोर्क्स",
       visitProfile: "संपूर्ण गिटहब प्रोफ़ाइल देखें",
+    },
+    leetcode: {
+      tag: "डीएसए और समस्या समाधान",
+      title: "लीटकोड प्रोफाइल और आंकड़े",
+      subtitle: "डेटा स्ट्रक्चर्स, एल्गोरिदम और प्रोग्रामिंग समाधान द्वारा",
+      viewProfile: "लीटकोड प्रोफ़ाइल देखें",
+      rankLabel: "वैश्विक रैंक",
+      solvedLabel: "हल किए गए प्रश्न",
+      easyLabel: "सरल (Easy)",
+      mediumLabel: "मध्यम (Medium)",
+      hardLabel: "कठिन (Hard)",
+      badgesLabel: "अर्जित बैज",
+      activeDaysLabel: "सक्रिय दिन",
+      maxStreakLabel: "अधिकतम स्ट्रीक",
+      submissionsLabel: "वार्षिक सबमिशन",
+      recentAcceptedTitle: "हाल ही में हल किए गए प्रश्न",
+      topTopicsTitle: "मुख्य समस्या समाधान क्षेत्र",
+      viewProblem: "लीटकोड पर देखें",
     },
     contact: {
       tag: "संपर्क करें",

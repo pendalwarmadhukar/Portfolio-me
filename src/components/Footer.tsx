@@ -2,6 +2,7 @@ import React from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { Shield, Github, Linkedin, Mail, ArrowUp, Globe } from 'lucide-react';
+import { LeetCodeIcon } from './LeetCodeIcon.tsx';
 
 export const Footer: React.FC = () => {
   const { t, isHindi } = useLanguage();
@@ -48,6 +49,16 @@ export const Footer: React.FC = () => {
             aria-label="LinkedIn"
           >
             <Linkedin className="w-4 h-4" />
+          </a>
+          <a
+            href={PERSONAL_INFO.leetcode}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-400 transition-colors"
+            aria-label="LeetCode"
+            title="LeetCode Profile"
+          >
+            <LeetCodeIcon className="w-4 h-4" />
           </a>
           <a
             href={`mailto:${PERSONAL_INFO.email}`}

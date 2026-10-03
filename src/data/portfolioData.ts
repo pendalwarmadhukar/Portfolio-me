@@ -1,4 +1,4 @@
-import { Project, SkillCategory, SocAlert, Certification, GitHubRepo } from '../types.ts';
+import { Project, SkillCategory, SocAlert, Certification, GitHubRepo, LeetCodeStats } from '../types.ts';
 
 export const PERSONAL_INFO = {
   name: "Madhukar Pendalwar",
@@ -10,6 +10,8 @@ export const PERSONAL_INFO = {
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/madhukar-pendalwar-2a5746348/",
+  leetcode: "https://leetcode.com/u/Pendalwar_Madhukar126/",
+  leetcodeUsername: "Pendalwar_Madhukar126",
   portfolioUrl: "https://portfolio-madhukar.vercel.app/",
   website: "https://portfolio-madhukar.vercel.app/",
   resumeUrl: "/Download%20Resume/Madhukar_Pendalwar_Cybersecurity_Resume.pdf",
@@ -113,6 +115,8 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     title: "Programming & Development",
     icon: "Code2",
     skills: [
+      "Data Structures & Algorithms (DSA)",
+      "LeetCode Problem Solving (390+)",
       "Python",
       "C++",
       "C",
@@ -507,3 +511,68 @@ export const GITHUB_REPOS: GitHubRepo[] = [
     languageColor: "#8b5cf6"
   }
 ];
+
+export const LEETCODE_STATS: LeetCodeStats = {
+  username: "Pendalwar_Madhukar126",
+  displayName: "Pendalwar Madhukar",
+  profileUrl: "https://leetcode.com/u/Pendalwar_Madhukar126/",
+  ranking: "336,530",
+  totalSolved: 391,
+  totalQuestions: 4069,
+  easy: {
+    solved: 140,
+    total: 968
+  },
+  medium: {
+    solved: 190,
+    total: 2122
+  },
+  hard: {
+    solved: 61,
+    total: 979
+  },
+  badgesCount: 3,
+  recentBadge: "50 Days Badge 2026",
+  activeDays: 72,
+  maxStreak: 31,
+  annualSubmissions: 252,
+  topTopics: [
+    { name: "Algorithms", solved: 280 },
+    { name: "Dynamic Programming", solved: 85 },
+    { name: "Data Structures", solved: 195 },
+    { name: "Binary Trees & Graphs", solved: 72 },
+    { name: "Backtracking & Recursion", solved: 48 },
+    { name: "Greedy & Math", solved: 64 }
+  ],
+  recentAccepted: [
+    {
+      title: "Longest Valid Parentheses",
+      difficulty: "Hard",
+      tags: ["String", "Dynamic Programming", "Stack"],
+      solvedTime: "Recent",
+      url: "https://leetcode.com/problems/longest-valid-parentheses/"
+    },
+    {
+      title: "Path Sum",
+      difficulty: "Easy",
+      tags: ["Tree", "Depth-First Search", "Binary Tree"],
+      solvedTime: "Recent",
+      url: "https://leetcode.com/problems/path-sum/"
+    },
+    {
+      title: "Generate Parentheses",
+      difficulty: "Medium",
+      tags: ["String", "Dynamic Programming", "Backtracking"],
+      solvedTime: "Recent",
+      url: "https://leetcode.com/problems/generate-parentheses/"
+    },
+    {
+      title: "Stone Game VIII",
+      difficulty: "Hard",
+      tags: ["Array", "Math", "Dynamic Programming", "Game Theory"],
+      solvedTime: "Recent",
+      url: "https://leetcode.com/problems/stone-game-viii/"
+    }
+  ]
+};
+

@@ -72,3 +72,31 @@ export interface GitHubRepo {
   forks?: number;
   languageColor: string;
 }
+
+export interface LeetCodeProblem {
+  title: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  tags: string[];
+  solvedTime?: string;
+  url?: string;
+}
+
+export interface LeetCodeStats {
+  username: string;
+  displayName: string;
+  profileUrl: string;
+  ranking: string;
+  totalSolved: number;
+  totalQuestions: number;
+  easy: { solved: number; total: number };
+  medium: { solved: number; total: number };
+  hard: { solved: number; total: number };
+  badgesCount: number;
+  recentBadge: string;
+  activeDays: number;
+  maxStreak: number;
+  annualSubmissions: number;
+  topTopics: { name: string; solved: number }[];
+  recentAccepted: LeetCodeProblem[];
+}
+
