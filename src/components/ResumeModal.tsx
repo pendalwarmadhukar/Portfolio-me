@@ -205,12 +205,29 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
 
             {/* Official Photo Avatar */}
             <div className="shrink-0">
-              <div className="w-24 h-28 rounded-xl overflow-hidden border border-cyan-500/40 shadow-md bg-slate-900">
+              <div className="w-24 h-28 rounded-xl overflow-hidden border border-cyan-500/40 shadow-md bg-slate-900 flex items-center justify-center">
                 <img
-                  src="/src/assets/images/student_suit_portrait_1790238192156.jpg"
+                  src="/profile.png"
                   alt="Madhukar Pendalwar"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-top"
+                  onError={(e) => {
+                    const img = e.currentTarget;
+                    if (!img.dataset.fallbackUsed) {
+                      img.dataset.fallbackUsed = '1';
+                      img.src = '/src/assets/images/profile.png';
+                    } else {
+                      // Show initials placeholder
+                      img.style.display = 'none';
+                      const parent = img.parentElement;
+                      if (parent && !parent.querySelector('.initials-fallback')) {
+                        const div = document.createElement('div');
+                        div.className = 'initials-fallback w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-900 to-slate-900 text-cyan-300 font-mono font-bold text-2xl';
+                        div.textContent = 'MP';
+                        parent.appendChild(div);
+                      }
+                    }
+                  }}
                 />
               </div>
             </div>

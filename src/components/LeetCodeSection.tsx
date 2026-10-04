@@ -22,6 +22,7 @@ export const LeetCodeSection: React.FC = () => {
   const [stats, setStats] = useState(LEETCODE_STATS);
   const [isLive, setIsLive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
   // Auto-fetch live stats so day-to-day solved problems update automatically
   useEffect(() => {
@@ -67,6 +68,7 @@ export const LeetCodeSection: React.FC = () => {
             annualSubmissions: annualSubs || prev.annualSubmissions,
           }));
           setIsLive(true);
+          setLastUpdated(new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }));
         }
       } catch (err) {
         // Fallback to verified baseline stats
@@ -120,8 +122,13 @@ export const LeetCodeSection: React.FC = () => {
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-mono rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{isLive ? 'Daily Auto-Sync: Active' : 'Daily Live Sync'}</span>
+                <span>{isLive ? 'Live · Auto-Sync Active' : 'Daily Live Sync'}</span>
               </span>
+              {!isLive && !isLoading && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-mono rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                  <span>Saved data · Last updated: Oct 2026</span>
+                </span>
+              )}
             </h2>
             <div className="h-0.5 w-12 bg-amber-500 mt-3" />
             <p className="mt-3 text-xs sm:text-sm text-slate-400">

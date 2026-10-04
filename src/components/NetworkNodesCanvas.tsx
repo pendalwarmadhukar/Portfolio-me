@@ -322,6 +322,53 @@ class CanvasErrorBoundary extends React.Component<{ children: React.ReactNode },
 }
 
 export const NetworkNodesCanvas: React.FC = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // On mobile: render a lightweight CSS animated background instead of Three.js
+  // This avoids loading ~500KB of WebGL code on small devices
+  if (isMobile) {
+    return (
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
+        aria-hidden="true"
+      >
+        {/* Animated gradient glow — lightweight mobile alternative */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse at 30% 50%, rgba(6,182,212,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, rgba(59,130,246,0.06) 0%, transparent 50%)',
+          }}
+        />
+        {/* Static dot particles via SVG — zero JS cost */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-20"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          {Array.from({ length: 24 }).map((_, i) => (
+            <circle
+              key={i}
+              cx={`${(i * 41) % 100}%`}
+              cy={`${(i * 37 + 13) % 100}%`}
+              r="1.5"
+              fill="#38bdf8"
+              opacity={0.4 + (i % 3) * 0.2}
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
   return (
     <div
       className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"

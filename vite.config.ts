@@ -20,7 +20,25 @@ export default defineConfig(() => {
     },
     preview: {
       host: '0.0.0.0',
-      allowedHosts: true,
+      allowedHosts: true as true,
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id: string) {
+            if (id.includes('three') || id.includes('@react-three')) {
+              return 'three-vendor';
+            }
+            if (id.includes('framer-motion') || id.includes('motion')) {
+              return 'motion-vendor';
+            }
+            if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+              return 'react-vendor';
+            }
+          },
+        },
+      },
     },
   };
 });
+
