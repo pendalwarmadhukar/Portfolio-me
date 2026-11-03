@@ -17,6 +17,7 @@ const NetworkScene: React.FC = () => {
   const linesMeshRef = useRef<THREE.LineSegments>(null);
   const pointsMeshRef = useRef<THREE.Points>(null);
   const shieldGroupRef = useRef<THREE.Group>(null);
+  const cubesGroupRef = useRef<THREE.Group>(null);
 
   const { pointer, viewport } = useThree();
 
@@ -215,6 +216,23 @@ const NetworkScene: React.FC = () => {
       shieldGroupRef.current.rotation.y = time * 0.2;
       shieldGroupRef.current.position.y = Math.sin(time * 0.8) * 0.08;
     }
+
+    // Orbiting 3D Cyber Data Blocks
+    if (cubesGroupRef.current) {
+      cubesGroupRef.current.children.forEach((child, i) => {
+        const angleOffset = (i / 4) * Math.PI * 2;
+        const radius = 2.45 + (i % 2) * 0.35;
+        const tilt = i % 2 === 0 ? 0.65 : -0.55;
+        const curAngle = angleOffset + time * (0.65 + i * 0.05);
+        const x = Math.cos(curAngle) * radius;
+        const z = Math.sin(curAngle) * radius;
+        const y = z * Math.sin(tilt) + Math.sin(time * 1.6 + i) * 0.12;
+        const zFinal = z * Math.cos(tilt);
+        child.position.set(x, y, zFinal);
+        child.rotation.x = time * 1.5;
+        child.rotation.y = time * 2;
+      });
+    }
   });
 
   return (
@@ -223,11 +241,13 @@ const NetworkScene: React.FC = () => {
       <group ref={shieldGroupRef} scale={1.15}>
         <mesh geometry={shieldGeometry}>
           <meshStandardMaterial
-            color="#0f172a"
-            roughness={0.3}
+            color="#0b1220"
+            emissive="#06b6d4"
+            emissiveIntensity={0.12}
+            roughness={0.25}
             metalness={0.9}
             transparent
-            opacity={0.85}
+            opacity={0.9}
           />
         </mesh>
         <lineSegments>
@@ -244,6 +264,22 @@ const NetworkScene: React.FC = () => {
           <planeGeometry args={[0.14, 0.28]} />
           <meshBasicMaterial color="#38bdf8" transparent opacity={0.75} />
         </mesh>
+      </group>
+
+      {/* Orbiting 3D Cyber Data Blocks */}
+      <group ref={cubesGroupRef}>
+        {['#38bdf8', '#06b6d4', '#10b981', '#a855f7'].map((c, idx) => (
+          <mesh key={idx}>
+            <boxGeometry args={[0.13, 0.13, 0.13]} />
+            <meshStandardMaterial
+              color={c}
+              emissive={c}
+              emissiveIntensity={0.85}
+              roughness={0.2}
+              metalness={0.8}
+            />
+          </mesh>
+        ))}
       </group>
 
       {/* Interactive Network Nodes Points */}
