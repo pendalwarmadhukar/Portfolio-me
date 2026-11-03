@@ -88,8 +88,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <span className="font-mono text-sm font-semibold tracking-tight text-white group-hover:text-cyan-300 transition-colors whitespace-nowrap hidden sm:block">
+            <span className="font-mono text-sm font-semibold tracking-tight text-white group-hover:text-cyan-300 transition-colors whitespace-nowrap hidden sm:flex items-center gap-2">
               Madhukar Pendalwar
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 font-normal">
+                CyberVerse
+              </span>
             </span>
           </a>
 
