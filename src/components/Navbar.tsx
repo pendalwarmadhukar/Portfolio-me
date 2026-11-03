@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, X, FileText, Download, Code2 } from 'lucide-react';
+import { Shield, Menu, X, FileText, Download, Code2, Terminal } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { LanguageToggle } from './LanguageToggle.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
@@ -7,9 +7,10 @@ import { LeetCodeIcon } from './LeetCodeIcon.tsx';
 
 interface NavbarProps {
   onOpenResume: () => void;
+  onOpenTerminal?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) => {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -140,6 +141,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
               <LanguageToggle />
             </div>
 
+            {/* Cyber Terminal Launch Button */}
+            <button
+              type="button"
+              onClick={onOpenTerminal}
+              className="btn-icon text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 relative group"
+              title="Launch Cyber Terminal [ ` ]"
+              aria-label="Launch Cyber Terminal"
+            >
+              <Terminal className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+            </button>
+
             {/* Resume Action Group */}
             <div className="flex items-center gap-1">
               <a
@@ -210,6 +222,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 </a>
               );
             })}
+          </div>
+
+          {/* Mobile Terminal Action */}
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenTerminal?.();
+              }}
+              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-cyan-950/50 border border-cyan-500/30 text-cyan-300 font-mono text-xs hover:bg-cyan-900/40 transition"
+            >
+              <Terminal className="w-4 h-4 text-cyan-400" />
+              <span>Launch Cyber Terminal [&gt;_]</span>
+            </button>
           </div>
 
           {/* Mobile Resume Actions */}
