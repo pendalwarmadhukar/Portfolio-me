@@ -1,15 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
-interface CyberVerseGlobeCanvasProps {
-  className?: string;
-}
-
-export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ className = '' }) => {
+export const CyberGlobeCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -18,41 +15,43 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
     let animId: number;
 
     const resize = () => {
-      if (!canvas.parentElement) return;
-      width = canvas.parentElement.clientWidth;
-      height = canvas.parentElement.clientHeight;
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      width = parent.clientWidth;
+      height = parent.clientHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
+      ctx.resetTransform();
       ctx.scale(dpr, dpr);
     };
 
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // 3D Camera & Orbit Variables
+    // 3D Camera & Rotation State
     let rotX = 0.22;
     let rotY = -0.6;
     let isDragging = false;
     let lastX = 0;
     let lastY = 0;
     let autoRotate = true;
-    let autoRotateTimeout: any;
+    let idleTimer: any;
 
     const onPointerDown = (e: PointerEvent) => {
       isDragging = true;
       autoRotate = false;
+      clearTimeout(idleTimer);
       lastX = e.clientX;
       lastY = e.clientY;
-      clearTimeout(autoRotateTimeout);
     };
 
     const onPointerMove = (e: PointerEvent) => {
       if (!isDragging) return;
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
-      rotY += dx * 0.005;
-      rotX += dy * 0.005;
+      rotY += dx * 0.006;
+      rotX += dy * 0.006;
       rotX = Math.max(-1.1, Math.min(1.1, rotX));
       lastX = e.clientX;
       lastY = e.clientY;
@@ -60,27 +59,27 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
 
     const onPointerUp = () => {
       isDragging = false;
-      clearTimeout(autoRotateTimeout);
-      autoRotateTimeout = setTimeout(() => {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
         autoRotate = true;
       }, 2500);
     };
 
     canvas.addEventListener('pointerdown', onPointerDown);
-    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerup', onPointerUp);
 
-    // 3D Globe Parameters
+    // 3D Geometry
     const globeRadius = 1.95;
 
-    function project(x: number, y: number, z: number) {
+    const project = (x: number, y: number, z: number) => {
       const y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
       const z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
 
       const x2 = x * Math.cos(rotY) + z1 * Math.sin(rotY);
       const z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
 
-      const fov = 480;
+      const fov = 500;
       const distance = 4.6;
       const scale = fov / (distance + z2);
 
@@ -88,34 +87,25 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         x: width / 2 + x2 * scale,
         y: height / 2 - y1 * scale,
         z: z2,
-        scale,
+        scale: scale,
       };
-    }
+    };
 
-    // Continent Landmass Clusters [minLat, maxLat, minLon, maxLon]
+    // Realistic Continental Landmass Nodes
     const continentBounds: [number, number, number, number][] = [
       [15, 65, -135, -60], // North America
       [-50, 10, -80, -35],  // South America
       [36, 65, -10, 40],    // Europe
       [-32, 35, -15, 48],   // Africa
       [10, 68, 45, 135],    // Asia
-      [8, 34, 68, 88],      // India Subcontinent focus
+      [8, 34, 68, 88],      // India Focus
       [-38, -12, 115, 150], // Australia
     ];
 
-    interface EarthNode {
-      x: number;
-      y: number;
-      z: number;
-      isIndia: boolean;
-    }
-
-    const earthNodes: EarthNode[] = [];
+    const earthNodes: { x: number; y: number; z: number; isIndia: boolean }[] = [];
     continentBounds.forEach((c) => {
       const [minLat, maxLat, minLon, maxLon] = c;
-      const isInd = c[0] === 8 && c[2] === 68;
-      const count = isInd ? 42 : 36;
-
+      const count = c[0] === 8 && c[2] === 68 ? 45 : 36;
       for (let i = 0; i < count; i++) {
         const lat = minLat + Math.random() * (maxLat - minLat);
         const lon = minLon + Math.random() * (maxLon - minLon);
@@ -126,20 +116,12 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
           x: globeRadius * Math.sin(phi) * Math.cos(theta),
           y: globeRadius * Math.cos(phi),
           z: globeRadius * Math.sin(phi) * Math.sin(theta),
-          isIndia: isInd,
+          isIndia: c[0] === 8 && c[2] === 68,
         });
       }
     });
 
-    // Cyber Threat & Defense Trajectory Arcs
-    const threatArcs = [
-      { startLat: 52, startLon: 13, endLat: 20, endLon: 73, color: '#38bdf8', speed: 1.25 }, // Europe -> India
-      { startLat: 37, startLon: -122, endLat: 20, endLon: 73, color: '#06b6d4', speed: 1.1 }, // US West -> India
-      { startLat: 35, startLon: 139, endLat: 20, endLon: 73, color: '#3b82f6', speed: 1.45 }, // Tokyo -> India
-      { startLat: -23, startLon: -46, endLat: 20, endLon: 73, color: '#0ea5e9', speed: 1.2 }, // Sao Paulo -> India
-    ];
-
-    function latLonToXYZ(lat: number, lon: number, r: number) {
+    const latLonToXYZ = (lat: number, lon: number, r: number) => {
       const phi = (90 - lat) * (Math.PI / 180);
       const theta = lon * (Math.PI / 180);
       return {
@@ -147,7 +129,15 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         y: r * Math.cos(phi),
         z: r * Math.sin(phi) * Math.sin(theta),
       };
-    }
+    };
+
+    // Simulated Cyber Threat Arcs
+    const threatArcs = [
+      { startLat: 52, startLon: 13, endLat: 20, endLon: 73, color: '#38bdf8', speed: 1.3 },
+      { startLat: 37, startLon: -122, endLat: 20, endLon: 73, color: '#06b6d4', speed: 1.1 },
+      { startLat: 35, startLon: 139, endLat: 20, endLon: 73, color: '#3b82f6', speed: 1.5 },
+      { startLat: -23, startLon: -46, endLat: 20, endLon: 73, color: '#0ea5e9', speed: 1.2 },
+    ];
 
     let time = 0;
 
@@ -156,30 +146,30 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
       time += 0.016;
 
       if (autoRotate) {
-        rotY += 0.004;
+        rotY += 0.005;
       }
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Globe Atmosphere Outer Radial Glow
+      // 1. Central Ambient Atmospheric Radial Glow
       const center2D = project(0, 0, 0);
       const glowGrad = ctx.createRadialGradient(
         center2D.x,
         center2D.y,
-        globeRadius * 50,
+        globeRadius * 55,
         center2D.x,
         center2D.y,
-        globeRadius * 140
+        globeRadius * 145
       );
-      glowGrad.addColorStop(0, 'rgba(6, 182, 212, 0.18)');
+      glowGrad.addColorStop(0, 'rgba(6, 182, 212, 0.16)');
       glowGrad.addColorStop(0.5, 'rgba(14, 165, 233, 0.06)');
       glowGrad.addColorStop(1, 'rgba(5, 11, 24, 0)');
       ctx.fillStyle = glowGrad;
       ctx.beginPath();
-      ctx.arc(center2D.x, center2D.y, globeRadius * 140, 0, Math.PI * 2);
+      ctx.arc(center2D.x, center2D.y, globeRadius * 145, 0, Math.PI * 2);
       ctx.fill();
 
-      // 2. Longitude Arcs
+      // 2. Wireframe Longitude & Latitude Rings
       for (let deg = 0; deg < 360; deg += 30) {
         const rad = deg * (Math.PI / 180);
         ctx.beginPath();
@@ -188,14 +178,14 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.globalAlpha = 0.12;
         let isFirst = true;
 
-        for (let lat = -90; lat <= 90; lat += 12) {
+        for (let lat = -90; lat <= 90; lat += 10) {
           const phi = (90 - lat) * (Math.PI / 180);
           const p = project(
             globeRadius * Math.sin(phi) * Math.cos(rad),
             globeRadius * Math.cos(phi),
             globeRadius * Math.sin(phi) * Math.sin(rad)
           );
-          if (p.z > -0.65) {
+          if (p.z > -0.6) {
             if (isFirst) {
               ctx.moveTo(p.x, p.y);
               isFirst = false;
@@ -210,7 +200,6 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.globalAlpha = 1;
       }
 
-      // Latitude Circles
       for (let lat = -60; lat <= 60; lat += 30) {
         const phi = (90 - lat) * (Math.PI / 180);
         const r = globeRadius * Math.sin(phi);
@@ -222,10 +211,10 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.globalAlpha = 0.14;
         let isFirst = true;
 
-        for (let a = 0; a <= 360; a += 15) {
+        for (let a = 0; a <= 360; a += 12) {
           const theta = a * (Math.PI / 180);
           const p = project(r * Math.cos(theta), y, r * Math.sin(theta));
-          if (p.z > -0.65) {
+          if (p.z > -0.6) {
             if (isFirst) {
               ctx.moveTo(p.x, p.y);
               isFirst = false;
@@ -240,10 +229,10 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.globalAlpha = 1;
       }
 
-      // 3. Dual Orbital Security Perimeter Rings
+      // 3. Dual Equatorial & Orbital Security Rings
       [
-        { radius: 2.32, tiltX: 0.55, color: '#38bdf8', opacity: 0.32 },
-        { radius: 2.62, tiltX: -0.42, color: '#06b6d4', opacity: 0.2 },
+        { radius: 2.35, tiltX: 0.55, color: '#38bdf8', opacity: 0.35 },
+        { radius: 2.65, tiltX: -0.4, color: '#06b6d4', opacity: 0.22 },
       ].forEach((ring) => {
         ctx.beginPath();
         ctx.strokeStyle = ring.color;
@@ -263,13 +252,12 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.globalAlpha = 1;
       });
 
-      // 4. Continent Landmass Nodes & Web Connections
+      // 4. Landmass Constellation Web
       const projLandNodes = earthNodes.map((n) => ({
         ...project(n.x, n.y, n.z),
         isIndia: n.isIndia,
       }));
 
-      // Render Network lines between close landmass nodes
       for (let i = 0; i < projLandNodes.length; i++) {
         if (projLandNodes[i].z < -0.3) continue;
         for (let j = i + 1; j < projLandNodes.length; j++) {
@@ -294,7 +282,7 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
       projLandNodes.forEach((p) => {
         if (p.z > -0.6) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.z > 0 ? (p.isIndia ? 3 : 2) : 1.3, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, p.z > 0 ? (p.isIndia ? 3 : 2) : 1.4, 0, Math.PI * 2);
           ctx.fillStyle = p.isIndia ? '#34d399' : p.z > 0.4 ? '#38bdf8' : '#0284c7';
           ctx.shadowColor = p.isIndia ? '#10b981' : '#38bdf8';
           ctx.shadowBlur = p.z > 0 ? 8 : 0;
@@ -305,7 +293,7 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         }
       });
 
-      // 5. Threat Trajectory Arcs & Intercept Particle Beams
+      // 5. Threat Trajectory Arcs & Particle Beams
       threatArcs.forEach((arc) => {
         const start = latLonToXYZ(arc.startLat, arc.startLon, globeRadius);
         const end = latLonToXYZ(arc.endLat, arc.endLon, globeRadius);
@@ -329,7 +317,6 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
           ctx.stroke();
           ctx.globalAlpha = 1;
 
-          // Flying particle bullet along arc
           const tPos = (time * arc.speed) % 1;
           const bx =
             (1 - tPos) * (1 - tPos) * pStart.x +
@@ -341,7 +328,7 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
             tPos * tPos * pEnd.y;
 
           ctx.beginPath();
-          ctx.arc(bx, by, 3, 0, Math.PI * 2);
+          ctx.arc(bx, by, 3.2, 0, Math.PI * 2);
           ctx.fillStyle = '#ffffff';
           ctx.shadowColor = arc.color;
           ctx.shadowBlur = 12;
@@ -350,12 +337,11 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         }
       });
 
-      // 6. Home Security Beacon (India / Vadodara / Pune Coordinates)
+      // 6. Home Security Beacon (India: 19.07°N, 72.87°E)
       const indiaCoord = latLonToXYZ(19.5, 73.8, globeRadius);
       const pIndia = project(indiaCoord.x, indiaCoord.y, indiaCoord.z);
 
       if (pIndia.z > -0.5) {
-        // Pulsing radar defense ring
         const pulseR = 8 + Math.sin(time * 4) * 4;
         ctx.beginPath();
         ctx.arc(pIndia.x, pIndia.y, pulseR, 0, Math.PI * 2);
@@ -365,7 +351,6 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.stroke();
         ctx.globalAlpha = 1;
 
-        // Core Beacon Dot
         ctx.beginPath();
         ctx.arc(pIndia.x, pIndia.y, 4, 0, Math.PI * 2);
         ctx.fillStyle = '#10b981';
@@ -374,8 +359,7 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Coordinates Label Tag
-        ctx.font = '10px ui-monospace, SFMono-Regular, Menlo, monospace';
+        ctx.font = '10px monospace';
         ctx.fillStyle = '#6ee7b7';
         ctx.fillText('SOC_HQ: 19.07°N, 72.87°E', pIndia.x + 12, pIndia.y - 8);
       }
@@ -385,7 +369,7 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
 
     return () => {
       cancelAnimationFrame(animId);
-      clearTimeout(autoRotateTimeout);
+      clearTimeout(idleTimer);
       window.removeEventListener('resize', resize);
       canvas.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
@@ -394,10 +378,12 @@ export const CyberVerseGlobeCanvas: React.FC<CyberVerseGlobeCanvasProps> = ({ cl
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={`w-full h-full cursor-grab active:cursor-grabbing select-none ${className}`}
-      title="Interactive 3D Cyber Globe · Drag to Rotate"
-    />
+    <div className="absolute inset-0 w-full h-full overflow-hidden select-none">
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full cursor-grab active:cursor-grabbing"
+        title="Click and drag to rotate the 3D globe 360°"
+      />
+    </div>
   );
 };

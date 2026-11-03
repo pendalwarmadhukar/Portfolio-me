@@ -1,5 +1,5 @@
 import React from 'react';
-import { CyberVerseGlobeCanvas } from './CyberVerseGlobeCanvas.tsx';
+import { CyberGlobeCanvas } from './CyberGlobeCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import {
@@ -9,6 +9,7 @@ import {
   Mail,
   ShieldCheck,
   FileText,
+  Shield,
   Activity,
   Terminal,
   ExternalLink,
@@ -22,138 +23,171 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
   const { t } = useLanguage();
 
-  const scrollToProjects = (e: React.MouseEvent) => {
+  const scrollToSection = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
-    const projectsElem = document.getElementById('projects');
-    if (projectsElem) {
-      projectsElem.scrollIntoView({ behavior: 'smooth' });
+    const elem = document.getElementById(id);
+    if (elem) {
+      elem.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-between pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#050b18]"
+      className="relative min-h-screen flex flex-col justify-between pt-24 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#050b18]"
     >
-      {/* Deep Cinematic Ambient Glow Elements */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-[-10%] left-[20%] w-[550px] h-[550px] rounded-full bg-cyan-600/10 blur-[130px]" />
-        <div className="absolute top-[35%] right-[10%] w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[140px]" />
-        <div className="absolute bottom-[-10%] left-[30%] w-[650px] h-[350px] rounded-full bg-sky-950/20 blur-[150px]" />
+      {/* Cinematic Deep Navy Ambient Lighting */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[20%] w-[650px] h-[650px] rounded-full bg-cyan-600/10 blur-[130px]" />
+        <div className="absolute top-[30%] right-[10%] w-[550px] h-[550px] rounded-full bg-blue-600/10 blur-[140px]" />
+        <div className="absolute bottom-[-10%] left-[30%] w-[700px] h-[400px] rounded-full bg-sky-950/25 blur-[160px]" />
       </div>
 
-      {/* Top Tag & Typography Header */}
-      <div className="relative z-20 max-w-4xl mx-auto text-center flex flex-col items-center pt-2 sm:pt-4">
-        {/* Defensive Status Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#070f20]/80 border border-cyan-500/25 text-xs font-mono text-cyan-300 mb-5 backdrop-blur-md shadow-lg shadow-cyan-950/30">
+      {/* Top Title & Headline Area */}
+      <div className="relative z-20 max-w-4xl mx-auto text-center flex flex-col items-center space-y-3 pt-2">
+        {/* Defensive Shield Live Status Badge */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-badge text-xs font-mono text-cyan-300 backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>CYBERVERSE // GLOBAL THREAT DEFENSE & DETECTION</span>
+          <span>CYBERVERSE // GLOBAL THREAT DEFENSE</span>
           <span className="text-slate-500">·</span>
-          <span className="text-emerald-400 font-semibold">SHIELD ACTIVE</span>
+          <span className="text-slate-400">SOC L1/L2 READINESS</span>
         </div>
 
-        {/* Clean High-Contrast White Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-3 text-balance leading-tight">
-          Building Resilient Systems.{' '}
+        {/* Clean White Typography Headline */}
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight font-heading">
+          Building Resilient Systems. <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-cyan-400 to-blue-500">
             Defending Digital Borders.
           </span>
         </h1>
 
-        {/* Monospace Subtitle */}
-        <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-sans leading-relaxed mb-6">
-          3rd-Year B.Tech Cyber Security student specializing in{' '}
-          <strong className="text-white font-medium">SOC Tier 1/2 Operations</strong>,{' '}
-          <strong className="text-white font-medium">Cloud Security (AWS)</strong>, and{' '}
-          <strong className="text-white font-medium">Full-Stack Security Engineering</strong>.
+        {/* Candidate Profile Avatar & Subtitle */}
+        <div className="flex items-center gap-3 pt-1">
+          <div className="relative group">
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400 bg-slate-900 shadow-lg shadow-cyan-950/50">
+              <img
+                src="/profile.png"
+                alt="Madhukar Pendalwar"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div
+              className="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-slate-900 border border-cyan-400 text-cyan-400"
+              title="Verified Candidate"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+            </div>
+          </div>
+          <div className="text-left font-mono">
+            <div className="text-white font-bold text-sm tracking-wide">
+              {PERSONAL_INFO.name}
+            </div>
+            <div className="text-xs text-cyan-400/90 font-medium">
+              B.Tech Cyber Security (3rd Year) · Parul University
+            </div>
+          </div>
+        </div>
+
+        {/* Summary Description */}
+        <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          Specializing in <strong className="text-white font-medium">SOC & Blue Team Operations</strong>,{' '}
+          <strong className="text-white font-medium">Cloud Security Architecture (AWS)</strong>, and{' '}
+          <strong className="text-white font-medium">Security Analytics</strong>. Building hands-on SIEM monitoring and resilient cloud systems.
         </p>
 
-        {/* Primary Recruiter Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+        {/* Primary Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
             href="#projects"
-            onClick={scrollToProjects}
-            className="btn-primary px-6 py-2.5 font-mono text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20"
+            onClick={(e) => scrollToSection(e, 'projects')}
+            className="btn-primary px-5 py-2.5 rounded-xl font-mono text-xs font-bold shadow-lg shadow-cyan-500/20 flex items-center gap-2 cursor-pointer"
           >
             <span>{t.hero.viewProjects}</span>
-            <ArrowRight className="w-4 h-4 ml-0.5" aria-hidden="true" />
+            <ArrowRight className="w-4 h-4" />
+          </a>
+
+          <a
+            href="#soc"
+            onClick={(e) => scrollToSection(e, 'soc')}
+            className="btn-secondary px-5 py-2.5 rounded-xl font-mono text-xs font-semibold flex items-center gap-2 cursor-pointer"
+          >
+            <Activity className="w-4 h-4 text-cyan-400" />
+            <span>Launch SOC Simulator</span>
           </a>
 
           <button
             type="button"
             onClick={onOpenResume}
-            className="btn-secondary px-6 py-2.5 font-mono text-xs flex items-center gap-2"
-            title="Open Resume Dossier"
-            aria-label="Preview and download Resume Dossier"
+            className="glass-badge hover:border-cyan-400 px-4 py-2.5 rounded-xl font-mono text-xs font-semibold text-slate-200 hover:text-white transition flex items-center gap-2 cursor-pointer"
+            title="Preview and download official Resume PDF"
           >
-            <FileText className="w-4 h-4 text-cyan-400" aria-hidden="true" />
+            <FileText className="w-4 h-4 text-cyan-400" />
             <span>{t.hero.resumeBtn}</span>
           </button>
         </div>
 
-        {/* Social Icons Strip */}
-        <div className="flex items-center justify-center gap-2.5 text-slate-400 mb-2">
+        {/* Social Profile Links */}
+        <div className="flex items-center justify-center gap-2.5 pt-1 text-slate-400">
           <a
             href={PERSONAL_INFO.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-icon p-2 hover:text-cyan-400"
+            className="p-2 rounded-lg glass-badge hover:text-cyan-400 hover:border-cyan-400 transition"
             aria-label="GitHub Profile"
           >
-            <Github className="h-4 w-4" />
+            <Github className="w-4 h-4" />
           </a>
           <a
             href={PERSONAL_INFO.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-icon p-2 hover:text-cyan-400"
+            className="p-2 rounded-lg glass-badge hover:text-cyan-400 hover:border-cyan-400 transition"
             aria-label="LinkedIn Profile"
           >
-            <Linkedin className="h-4 w-4" />
+            <Linkedin className="w-4 h-4" />
           </a>
           <a
             href={PERSONAL_INFO.leetcode}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-icon p-2 hover:text-amber-400 hover:border-amber-500/40"
+            className="p-2 rounded-lg glass-badge hover:text-amber-400 hover:border-amber-400 transition"
             aria-label="LeetCode Profile"
           >
-            <LeetCodeIcon className="h-4 w-4 text-amber-400" />
+            <LeetCodeIcon className="w-4 h-4 text-amber-400" />
           </a>
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
-            className="btn-icon p-2 hover:text-cyan-400"
+            className="p-2 rounded-lg glass-badge hover:text-cyan-400 hover:border-cyan-400 transition"
             aria-label="Email Madhukar"
           >
-            <Mail className="h-4 w-4" />
+            <Mail className="w-4 h-4" />
           </a>
         </div>
       </div>
 
       {/* Central 3D Globe Stage with Floating Glass Panels */}
-      <div className="relative w-full max-w-6xl mx-auto flex-1 min-h-[440px] sm:min-h-[500px] flex items-center justify-center my-4">
-        {/* 3D Globe Canvas */}
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0">
-          <CyberVerseGlobeCanvas />
+      <div className="relative w-full max-w-7xl mx-auto flex-1 min-h-[460px] sm:min-h-[520px] flex items-center justify-center my-4">
+        {/* Interactive 3D Hologram Globe Canvas */}
+        <CyberGlobeCanvas />
+
+        {/* 360° Drag Hint Overlay */}
+        <div className="absolute top-2 right-4 text-[11px] font-mono text-slate-400/80 pointer-events-none z-10 glass-badge px-3 py-1 rounded-full">
+          ↔ Click & Drag to Orbit Globe 360°
         </div>
 
-        {/* 3D Drag Hint Overlay */}
-        <div className="absolute top-2 right-4 text-[11px] font-mono text-slate-400/90 pointer-events-none z-10 bg-[#070f20]/80 border border-cyan-500/20 backdrop-blur-md px-3 py-1 rounded-full shadow-md hidden sm:block">
-          ↔ Click & Drag to Rotate Globe 360°
-        </div>
-
-        {/* Left Floating Subtle Glass Panel: Live SOC Telemetry */}
-        <div className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 w-64 lg:w-72 rounded-2xl p-4 bg-[#0a1428]/60 backdrop-blur-xl border border-cyan-500/25 shadow-2xl shadow-cyan-950/40 hidden md:block z-10 font-mono text-xs">
+        {/* Left Floating Glass Panel: Live SOC Telemetry */}
+        <div className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-64 sm:w-72 glass-panel rounded-2xl p-4 hidden md:block z-10 font-mono text-xs">
           <div className="flex items-center justify-between pb-2.5 border-b border-cyan-500/20 text-cyan-300">
             <div className="flex items-center gap-2 font-bold tracking-wide">
-              <Activity className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               <span>SOC TELEMETRY</span>
             </div>
             <span className="text-[10px] text-slate-400">REALTIME</span>
           </div>
 
           <div className="space-y-3 pt-3 text-slate-300 text-[11px]">
-            <div className="bg-[#060c18]/80 p-2.5 rounded-lg border border-slate-800/80">
+            <div className="bg-[#070e1c]/80 p-2.5 rounded-lg border border-slate-800/80">
               <div className="flex justify-between text-slate-400 text-[10px]">
                 <span>INGRESS SURVEILLANCE</span>
                 <span className="text-emerald-400 font-bold">NORMAL</span>
@@ -174,25 +208,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
                 <span className="text-emerald-400 font-bold">SESSION REVOKED</span>
               </div>
               <div className="flex items-center justify-between text-slate-300">
-                <span className="text-cyan-400">WAF Rule Enforcement:</span>
-                <span className="text-emerald-400 font-bold">PROTECTED</span>
+                <span className="text-cyan-400">WAF Threat Rules:</span>
+                <span className="text-emerald-400 font-bold">ENFORCED</span>
               </div>
             </div>
 
             <div className="p-2 rounded bg-cyan-950/40 border border-cyan-500/30 text-[10px] text-cyan-200">
-              🛡️ SentinelDesk Ingestion active across internal subnets.
+              🛡️ SentinelDesk Ingestion pipeline active across 4 edge subnets.
             </div>
           </div>
         </div>
 
-        {/* Right Floating Subtle Glass Panel: Verified Candidate Dossier */}
-        <div className="absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 w-64 lg:w-72 rounded-2xl p-4 bg-[#0a1428]/60 backdrop-blur-xl border border-cyan-500/25 shadow-2xl shadow-cyan-950/40 hidden md:block z-10 font-mono text-xs">
+        {/* Right Floating Glass Panel: Candidate Verified Profile */}
+        <div className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-64 sm:w-72 glass-panel rounded-2xl p-4 hidden md:block z-10 font-mono text-xs">
           <div className="flex items-center justify-between pb-2.5 border-b border-cyan-500/20 text-cyan-300">
             <div className="flex items-center gap-2 font-bold tracking-wide">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>SECURITY DOSSIER</span>
             </div>
-            <span className="text-[10px] text-emerald-400 font-bold">VERIFIED</span>
+            <span className="text-[10px] text-slate-400">VERIFIED</span>
           </div>
 
           <div className="space-y-3 pt-3 text-slate-300 text-[11px]">
@@ -202,8 +236,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               <div className="text-slate-400 text-[10px]">Parul University · 2023–2027</div>
             </div>
 
-            <div className="bg-[#060c18]/80 p-2.5 rounded-lg border border-slate-800/80 space-y-1.5">
-              <div className="text-[10px] text-slate-400 font-bold">CORE COMPETENCIES</div>
+            <div className="bg-[#070e1c]/80 p-2.5 rounded-lg border border-slate-800/80 space-y-1.5">
+              <div className="text-[10px] text-slate-400 font-bold">KEY COMPETENCIES</div>
               <div className="flex flex-wrap gap-1">
                 <span className="px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 text-[9px] border border-cyan-800">
                   SIEM (Wazuh/Splunk)
@@ -224,32 +258,32 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             </div>
 
             <div className="flex items-center justify-between pt-1 text-[10px]">
-              <span className="text-slate-400">READINESS:</span>
-              <span className="text-emerald-400 font-bold">● Available for Internships</span>
+              <span className="text-slate-400">AVAILABILITY:</span>
+              <span className="text-emerald-400 font-bold">● Open for Internships</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Metric Strip (Recruiter Quick Glance) */}
-      <div className="w-full max-w-5xl mx-auto rounded-xl bg-[#081022]/70 border border-slate-800/80 backdrop-blur-md px-4 py-2.5 z-20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+      {/* Bottom Metric Ticker */}
+      <div className="relative z-20 w-full max-w-5xl mx-auto glass-badge rounded-xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
         <div className="flex flex-wrap items-center gap-4 sm:gap-6">
           <div className="flex items-center gap-1.5">
-            <span className="text-slate-400">BASE:</span>
+            <span className="text-slate-400">LOCATION:</span>
             <span className="text-white font-semibold">Vadodara / Pune, India</span>
           </div>
-          <div className="hidden sm:flex items-center gap-1.5">
-            <span className="text-slate-400">CREDENTIALS:</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-slate-400">CERTS:</span>
             <span className="text-cyan-300 font-semibold">5 Verified (TryHackMe / IBM)</span>
           </div>
-          <div className="hidden lg:flex items-center gap-1.5">
-            <span className="text-slate-400">LEETCODE:</span>
-            <span className="text-amber-400 font-semibold">390+ Solved</span>
+          <div className="hidden sm:flex items-center gap-1.5">
+            <span className="text-slate-400">CORE PROJECTS:</span>
+            <span className="text-emerald-400 font-semibold">SentinelDesk & CloudShield</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-400 text-[11px]">
-          <span>DEFENSIVE TLS 1.3</span>
+        <div className="flex items-center gap-2 ml-auto">
+          <span className="text-slate-400 text-[11px]">ENCRYPTED TLS 1.3</span>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
         </div>
       </div>
