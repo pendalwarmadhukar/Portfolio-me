@@ -7,6 +7,8 @@ export const PERSONAL_INFO = {
   tagline: "“Building secure systems and investigating digital threats.”",
   secondaryTagline: "SOC & Blue Team • Cloud Security • Digital Forensics • Cyber Investigation",
   email: "madhukarpendalwar43@gmail.com",
+  institution: "Siddhartha Institute of Technology & Sciences, Hyderabad",
+  location: "Hyderabad, India",
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/madhukar-pendalwar-2a5746348/",

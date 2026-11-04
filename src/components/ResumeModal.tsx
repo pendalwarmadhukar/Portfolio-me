@@ -49,6 +49,7 @@ Aspiring SOC Analyst, Cloud Security Specialist, and Blue Team defender with str
 
 EDUCATION:
 Bachelor of Technology (B.Tech) in Cyber Security (3rd Year)
+Institution: Siddhartha Institute of Technology & Sciences, Hyderabad (2023 - 2027)
 Academic Standing: Good standing with focus on practical security laboratory engineering.
 
 TECHNICAL SKILLS:
@@ -254,7 +255,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                   {isHindi ? 'बैचलर ऑफ टेक्नोलॉजी (बी.टेक) - साइबर सुरक्षा' : 'Bachelor of Technology (B.Tech) in Cyber Security'}
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  {isHindi ? 'इंजीनियरिंग विश्वविद्यालय पाठ्यक्रम · तृतीय वर्ष स्नातक' : 'Engineering University Curriculum · 3rd Year Undergraduate'}
+                  {isHindi ? 'इंजीनियरिंग विश्वविद्यालय पाठ्यक्रम · तृतीय वर्ष स्नातक' : 'Siddhartha Institute of Technology & Sciences, Hyderabad · 3rd Year Undergraduate'}
                 </p>
                 <p className="text-xs text-slate-400 mt-1 font-mono">
                   {isHindi

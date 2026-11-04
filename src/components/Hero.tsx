@@ -84,7 +84,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
               {PERSONAL_INFO.name}
             </div>
             <div className="text-xs text-cyan-400/90 font-medium">
-              B.Tech Cyber Security (3rd Year) · Parul University
+              B.Tech Cyber Security (3rd Year) · Siddhartha Institute of Technology & Sciences, Hyderabad
             </div>
           </div>
         </div>
@@ -233,7 +233,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
             <div>
               <div className="text-white font-bold text-sm">Madhukar Pendalwar</div>
               <div className="text-cyan-400 text-[11px]">B.Tech Cyber Security (3rd Year)</div>
-              <div className="text-slate-400 text-[10px]">Parul University · 2023–2027</div>
+              <div className="text-slate-400 text-[10px]">Siddhartha Institute of Technology & Sciences, Hyderabad · 2023–2027</div>
             </div>
 
             <div className="bg-[#070e1c]/80 p-2.5 rounded-lg border border-slate-800/80 space-y-1.5">
@@ -270,7 +270,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume }) => {
         <div className="flex flex-wrap items-center gap-4 sm:gap-6">
           <div className="flex items-center gap-1.5">
             <span className="text-slate-400">LOCATION:</span>
-            <span className="text-white font-semibold">Vadodara / Pune, India</span>
+            <span className="text-white font-semibold">Hyderabad, India</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-slate-400">CERTS:</span>

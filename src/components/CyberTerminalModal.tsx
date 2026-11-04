@@ -117,9 +117,9 @@ export const CyberTerminalModal: React.FC<CyberTerminalModalProps> = ({
 <div class="border-l-2 border-cyan-400 pl-3 py-1 space-y-1 text-slate-300">
   <p><span class="text-cyan-400 font-semibold">NAME:</span> ${PERSONAL_INFO.name}</p>
   <p><span class="text-cyan-400 font-semibold">ROLE:</span> ${PERSONAL_INFO.role}</p>
-  <p><span class="text-cyan-400 font-semibold">EDUCATION:</span> B.Tech in Cyber Security (3rd Year, Parul University, 2023 - 2027)</p>
+  <p><span class="text-cyan-400 font-semibold">EDUCATION:</span> B.Tech in Cyber Security (3rd Year, Siddhartha Institute of Technology & Sciences, Hyderabad, 2023 - 2027)</p>
   <p><span class="text-cyan-400 font-semibold">TARGET:</span> SOC Analyst (L1/L2), Incident Responder, Cloud Security Engineer</p>
-  <p><span class="text-cyan-400 font-semibold">LOCATION:</span> Vadodara / Pune, India</p>
+  <p><span class="text-cyan-400 font-semibold">LOCATION:</span> Hyderabad, India</p>
   <p><span class="text-cyan-400 font-semibold">STATUS:</span> <span class="text-emerald-400 font-medium">● Open to Summer Internships & Security Opportunities</span></p>
 </div>`;
         break;
@@ -204,7 +204,7 @@ export const CyberTerminalModal: React.FC<CyberTerminalModalProps> = ({
         outputHtml = `
 <div class="bg-[#0b101b] p-3 rounded border border-cyan-500/40 space-y-1.5 text-slate-300">
   <p class="text-cyan-300 font-bold">MADHUKAR PENDALWAR - RESUME BRIEF</p>
-  <p>Degree: B.Tech Cyber Security (3rd Year, Parul University, Vadodara)</p>
+  <p>Degree: B.Tech Cyber Security (3rd Year, Siddhartha Institute of Technology & Sciences, Hyderabad)</p>
   <p>Core Expertise: SIEM Log Analysis, AWS Cloud Architecture, Threat Investigation, Full-Stack Dev</p>
   <p>LeetCode: 50+ DSA Problems Solved (Arrays, Two Pointers, Hash Maps, Strings)</p>
   <p class="text-emerald-400 font-semibold mt-2">→ Launching complete interactive Resume Dossier modal...</p>

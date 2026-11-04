@@ -338,7 +338,7 @@ export const CyberGlobeCanvas: React.FC = () => {
       });
 
       // 6. Home Security Beacon (India: 19.07°N, 72.87°E)
-      const indiaCoord = latLonToXYZ(19.5, 73.8, globeRadius);
+      const indiaCoord = latLonToXYZ(17.385, 78.487, globeRadius);
       const pIndia = project(indiaCoord.x, indiaCoord.y, indiaCoord.z);
 
       if (pIndia.z > -0.5) {
@@ -361,7 +361,7 @@ export const CyberGlobeCanvas: React.FC = () => {
 
         ctx.font = '10px monospace';
         ctx.fillStyle = '#6ee7b7';
-        ctx.fillText('SOC_HQ: 19.07°N, 72.87°E', pIndia.x + 12, pIndia.y - 8);
+        ctx.fillText('SOC_HQ: 17.38°N, 78.49°E (Hyderabad)', pIndia.x + 12, pIndia.y - 8);
       }
     };
 
@@ -387,3 +387,4 @@ export const CyberGlobeCanvas: React.FC = () => {
     </div>
   );
 };
+
