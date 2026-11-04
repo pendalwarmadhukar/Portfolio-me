@@ -35,7 +35,7 @@ export const CyberVerseModal: React.FC<CyberVerseModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="CyberVerse 3D Interactive Environment"
-      className="fixed inset-0 z-50 flex flex-col bg-[#030712]/95 backdrop-blur-2xl text-white overflow-hidden animate-fadeIn"
+      className="fixed inset-0 z-50 flex flex-col bg-[#030712] text-white overflow-hidden animate-fadeIn"
     >
       {/* Top Bar Navigation */}
       <div className="relative z-30 px-4 sm:px-6 py-3 bg-[#050c1c] border-b border-cyan-500/30 flex items-center justify-between gap-3 shrink-0">
@@ -86,7 +86,7 @@ export const CyberVerseModal: React.FC<CyberVerseModalProps> = ({
       </div>
 
       {/* Full 3D Interactive Viewport */}
-      <div className="relative flex-1 w-full h-full">
+      <div className="relative flex-1 min-h-0 w-full h-full overflow-hidden">
         <CyberVerse3DView
           isFullscreen={true}
           onOpenResume={onOpenResume}
