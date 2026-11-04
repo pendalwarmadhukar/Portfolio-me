@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, X, FileText, Download, Code2, Terminal } from 'lucide-react';
+import { Shield, Menu, X, FileText, Download, Code2, Terminal, Globe } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { LanguageToggle } from './LanguageToggle.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
@@ -8,9 +8,14 @@ import { LeetCodeIcon } from './LeetCodeIcon.tsx';
 interface NavbarProps {
   onOpenResume: () => void;
   onOpenTerminal?: () => void;
+  onOpenCyberVerse?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onOpenResume,
+  onOpenTerminal,
+  onOpenCyberVerse,
+}) => {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
       setIsScrolled(window.scrollY > 20);
 
       // Scrollspy
-      const sections = navLinks.map(l => l.href.substring(1));
+      const sections = navLinks.map((l) => l.href.substring(1));
       const scrollPos = window.scrollY + 120;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -72,7 +77,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-2">
-
           {/* Zone 1: Logo / Wordmark */}
           <a
             href="#home"
@@ -113,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
             })}
           </nav>
 
-          {/* Zone 2b: Compact nav for lg screens (1024–1279px) — shows icons or shorter labels */}
+          {/* Zone 2b: Compact nav for lg screens (1024–1279px) */}
           <nav aria-label="Compact navigation" className="hidden lg:flex xl:hidden items-center gap-0.5 flex-1 justify-center">
             {navLinks.map((link: any) => {
               const isActive = activeSection === link.href.substring(1);
@@ -136,6 +140,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
 
           {/* Zone 3: Actions + Mobile Toggle */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* 3D CyberVerse Button */}
+            {onOpenCyberVerse && (
+              <button
+                type="button"
+                onClick={onOpenCyberVerse}
+                className="btn-icon text-cyan-400 hover:text-white hover:border-cyan-400 relative group hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-cyan-950/40 border border-cyan-500/40 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+                title="Enter CyberVerse 3D Interactive Environment"
+                aria-label="Enter CyberVerse 3D"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                <span className="font-mono text-xs font-bold text-cyan-300">3D</span>
+              </button>
+            )}
+
             {/* Language Switcher */}
             <div className="hidden sm:block">
               <LanguageToggle />
@@ -145,7 +163,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
             <button
               type="button"
               onClick={onOpenTerminal}
-              className="btn-icon text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 relative group"
+              className="btn-icon text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 relative group cursor-pointer"
               title="Launch Cyber Terminal [ ` ]"
               aria-label="Launch Cyber Terminal"
             >
@@ -159,7 +177,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
                 download={PERSONAL_INFO.resumeFilename}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary text-xs px-3 py-2"
+                className="btn-primary text-xs px-3 py-2 cursor-pointer"
                 title="Download Resume PDF"
               >
                 <Download className="w-3.5 h-3.5 shrink-0" />
@@ -168,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
               <button
                 type="button"
                 onClick={onOpenResume}
-                className="btn-icon"
+                className="btn-icon cursor-pointer"
                 title="Preview Resume Dossier"
                 aria-label="Preview Resume Dossier"
               >
@@ -180,7 +198,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="btn-icon lg:hidden"
+              className="btn-icon lg:hidden cursor-pointer"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -199,6 +217,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
             <LanguageToggle compact={false} />
           </div>
 
+          {/* 3D Mobile Action */}
+          {onOpenCyberVerse && (
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenCyberVerse();
+                }}
+                className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-cyan-950/70 border border-cyan-400/50 text-cyan-300 font-mono text-xs hover:bg-cyan-900/60 transition shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer"
+              >
+                <Globe className="w-4 h-4 text-cyan-400" />
+                <span>Enter CyberVerse 3D World</span>
+              </button>
+            </div>
+          )}
+
           {/* Nav Links */}
           <div className="grid grid-cols-2 gap-1 pt-1">
             {navLinks.map((link: any) => {
@@ -209,7 +244,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                     isActive
                       ? 'text-cyan-400 bg-cyan-950/60 font-semibold'
                       : isLeet
@@ -232,7 +267,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
                 setMobileMenuOpen(false);
                 onOpenTerminal?.();
               }}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-cyan-950/50 border border-cyan-500/30 text-cyan-300 font-mono text-xs hover:bg-cyan-900/40 transition"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-cyan-950/50 border border-cyan-500/30 text-cyan-300 font-mono text-xs hover:bg-cyan-900/40 transition cursor-pointer"
             >
               <Terminal className="w-4 h-4 text-cyan-400" />
               <span>Launch Cyber Terminal [&gt;_]</span>
@@ -246,7 +281,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
               download={PERSONAL_INFO.resumeFilename}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary flex-1 justify-center"
+              className="btn-primary flex-1 justify-center cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download Resume (PDF)</span>
@@ -257,7 +292,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenTerminal }) 
                 setMobileMenuOpen(false);
                 onOpenResume();
               }}
-              className="btn-icon"
+              className="btn-icon cursor-pointer"
               title="Preview Dossier"
               aria-label="Preview Resume Dossier"
             >
