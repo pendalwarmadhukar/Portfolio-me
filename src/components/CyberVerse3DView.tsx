@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
-import {
-  Activity,
-  Send,
-  Layers,
-  Maximize2,
-  FileText,
-} from 'lucide-react';
+import { Activity, Layers, Send, Maximize2, FileText } from 'lucide-react';
 
 interface CyberVerse3DViewProps {
   onOpenResume?: () => void;
@@ -28,115 +22,90 @@ interface StationInfo {
   nextStation: number;
 }
 
+const STATIONS: StationInfo[] = [
+  {
+    tag: 'STATION 01 // GLOBAL CORE',
+    title: 'Global Threat Defense Core',
+    subtitle: 'Earth Hologram · Hyderabad Active Node',
+    desc: '3rd-Year B.Tech Cyber Security at Siddhartha Institute of Technology & Sciences, Hyderabad. Specializing in SOC Operations, AWS Cloud Security, and Incident Investigation.',
+    btnPrimaryText: 'Fly to SOC Lab →',
+    targetRotX: 0.22, targetRotY: -0.55, targetZoom: 1.15,
+    actionType: 'fly', nextStation: 1,
+  },
+  {
+    tag: 'STATION 02 // SOC DEFENSE LAB',
+    title: 'Interactive SOC Operations Station',
+    subtitle: 'Dual-Curved Battle Station · Wazuh SIEM',
+    desc: 'Simulated 3D dual-display SOC operations center. Real-time Wazuh SIEM threat stream, MITRE ATT&CK T1110 brute force defense, and AWS CloudTrail session monitoring.',
+    btnPrimaryText: 'Inspect 3D Projects →',
+    targetRotX: 0.42, targetRotY: -0.65, targetZoom: 1.05,
+    actionType: 'fly', nextStation: 2,
+  },
+  {
+    tag: 'STATION 03 // 3D PROJECT VAULT',
+    title: 'Holographic Security Vault',
+    subtitle: 'Architectural Defense Systems',
+    desc: "Inspect 4 primary architectural projects: SentinelDesk (Full-Stack SOC), CloudShield (AWS Zero-Trust), NetSentinel (Bash/Nmap), and ML Fraud Detection.",
+    btnPrimaryText: 'Open 3D Terminal →',
+    targetRotX: 0.15, targetRotY: 0.1, targetZoom: 1.25,
+    actionType: 'fly', nextStation: 3,
+  },
+  {
+    tag: 'STATION 04 // 3D CYBER TERMINAL',
+    title: 'Pedestal Console & CLI Gateway',
+    subtitle: 'Real-Time Holographic Terminal',
+    desc: 'Pedestal-mounted holographic terminal: whoami, nmap portfolio audit, cat resume.txt, and sudo hire-madhukar.',
+    btnPrimaryText: 'Launch Live CLI [>_]',
+    targetRotX: 0.35, targetRotY: -0.2, targetZoom: 1.18,
+    actionType: 'terminal', nextStation: 4,
+  },
+  {
+    tag: 'STATION 05 // TRANSMISSION NODE',
+    title: 'Encrypted Dispatch Gateway',
+    subtitle: 'Satellite Uplink · Direct Contact',
+    desc: 'Encrypted satellite transmission node. Available for summer cybersecurity internships and SOC roles at madhukarpendalwar43@gmail.com.',
+    btnPrimaryText: 'Back to Global Core ↺',
+    targetRotX: 0.28, targetRotY: -0.45, targetZoom: 1.2,
+    actionType: 'fly', nextStation: 0,
+  },
+];
+
 export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
   onOpenResume,
   onOpenTerminal,
   onExpandFullscreen,
   isFullscreen = false,
 }) => {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [activeStation, setActiveStation] = useState<number>(0);
-  const activeStationRef = useRef<number>(0);
-  const [autoOrbit, setAutoOrbit] = useState<boolean>(true);
+  const [activeStation, setActiveStation] = useState(0);
+  const [autoOrbit, setAutoOrbit] = useState(true);
 
-  // 5 Specialized Cyber Stations
-  const stations: StationInfo[] = [
-    {
-      tag: 'STATION 01 // GLOBAL CORE',
-      title: 'Global Threat Defense Core',
-      subtitle: 'Earth Hologram · Hyderabad Active Node',
-      desc: '3rd-Year B.Tech Cyber Security at Siddhartha Institute of Technology & Sciences, Hyderabad. Specializing in SOC Operations, AWS Cloud Security Architecture, and Incident Investigation.',
-      btnPrimaryText: 'Fly to SOC Lab →',
-      targetRotX: 0.22,
-      targetRotY: -0.55,
-      targetZoom: 1.15,
-      actionType: 'fly',
-      nextStation: 1,
-    },
-    {
-      tag: 'STATION 02 // SOC DEFENSE LAB',
-      title: 'Interactive SOC Operations Station',
-      subtitle: 'Dual-Curved Battle Station · Wazuh SIEM',
-      desc: 'Simulated 3D dual-display SOC operations center. Real-time Wazuh SIEM threat stream, MITRE ATT&CK T1110 brute force defense, and AWS CloudTrail session monitoring.',
-      btnPrimaryText: 'Inspect 3D Projects →',
-      targetRotX: 0.42,
-      targetRotY: -0.65,
-      targetZoom: 1.05,
-      actionType: 'fly',
-      nextStation: 2,
-    },
-    {
-      tag: 'STATION 03 // 3D PROJECT VAULT',
-      title: 'Holographic Security Vault',
-      subtitle: 'Architectural Defense Systems',
-      desc: 'Inspect Madhukar\'s 4 primary architectural projects floating in 3D: SentinelDesk (Full-Stack SOC), CloudShield (AWS Zero-Trust), NetSentinel (Bash/Nmap), and ML Fraud Detection.',
-      btnPrimaryText: 'Open 3D Terminal →',
-      targetRotX: 0.15,
-      targetRotY: 0.1,
-      targetZoom: 1.25,
-      actionType: 'fly',
-      nextStation: 3,
-    },
-    {
-      tag: 'STATION 04 // 3D CYBER TERMINAL',
-      title: 'Pedestal Console & CLI Gateway',
-      subtitle: 'Real-Time Holographic Terminal',
-      desc: 'Pedestal-mounted holographic terminal executing live security commands: whoami, nmap portfolio audit, cat resume.txt, and sudo hire-madhukar.',
-      btnPrimaryText: 'Launch Live CLI [>_]',
-      targetRotX: 0.35,
-      targetRotY: -0.2,
-      targetZoom: 1.18,
-      actionType: 'terminal',
-      nextStation: 4,
-    },
-    {
-      tag: 'STATION 05 // TRANSMISSION NODE',
-      title: 'Encrypted Dispatch Gateway',
-      subtitle: 'Satellite Uplink · Direct Contact',
-      desc: 'Encrypted satellite transmission node connecting directly to madhukarpendalwar43@gmail.com. Available for summer cybersecurity internships and SOC roles.',
-      btnPrimaryText: 'Back to Global Core ↺',
-      targetRotX: 0.28,
-      targetRotY: -0.45,
-      targetZoom: 1.2,
-      actionType: 'fly',
-      nextStation: 0,
-    },
-  ];
-
-  const camState = useRef({
-    rotX: stations[0].targetRotX,
-    rotY: stations[0].targetRotY,
-    zoom: stations[0].targetZoom,
-    targetRotX: stations[0].targetRotX,
-    targetRotY: stations[0].targetRotY,
-    targetZoom: stations[0].targetZoom,
+  // All mutable state lives in refs — no stale closure issues
+  const stateRef = useRef({
+    activeStation: 0,
     autoOrbit: true,
+    rotX: STATIONS[0].targetRotX,
+    rotY: STATIONS[0].targetRotY,
+    zoom: STATIONS[0].targetZoom,
+    targetRotX: STATIONS[0].targetRotX,
+    targetRotY: STATIONS[0].targetRotY,
+    targetZoom: STATIONS[0].targetZoom,
     isDragging: false,
     lastX: 0,
     lastY: 0,
   });
 
   const flyToStation = (idx: number) => {
+    stateRef.current.activeStation = idx;
+    stateRef.current.targetRotX = STATIONS[idx].targetRotX;
+    stateRef.current.targetRotY = STATIONS[idx].targetRotY;
+    stateRef.current.targetZoom = STATIONS[idx].targetZoom;
     setActiveStation(idx);
-    activeStationRef.current = idx;
-    camState.current.targetRotX = stations[idx].targetRotX;
-    camState.current.targetRotY = stations[idx].targetRotY;
-    camState.current.targetZoom = stations[idx].targetZoom;
-  };
-
-  const toggleAutoOrbit = () => {
-    setAutoOrbit((prev) => {
-      camState.current.autoOrbit = !prev;
-      return !prev;
-    });
-  };
-
-  const resetCamera = () => {
-    flyToStation(activeStation);
   };
 
   const handlePrimaryAction = () => {
-    const cur = stations[activeStation];
+    const cur = STATIONS[activeStation];
     if (cur.actionType === 'terminal' && onOpenTerminal) {
       onOpenTerminal();
     } else {
@@ -147,659 +116,443 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     if (!ctx) return;
 
-    let width = 0;
-    let height = 0;
-    let animId: number;
+    let animId = 0;
+    let W = 800;
+    let H = 500;
 
-    const resize = () => {
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
-      const parent = canvas.parentElement;
-
-      const detectedW = rect.width || (parent ? parent.clientWidth : 0) || window.innerWidth;
-      const detectedH = rect.height || (parent ? parent.clientHeight : 0) || (window.innerHeight - 80);
-
-      width = Math.max(320, Math.floor(detectedW));
-      height = Math.max(380, Math.floor(detectedH));
-
+    function sizeCanvas() {
+      const wrapper = wrapperRef.current;
+      if (!wrapper) return;
+      const rect = wrapper.getBoundingClientRect();
+      W = Math.max(rect.width || window.innerWidth, 300);
+      H = Math.max(rect.height || 500, 300);
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
+      canvas!.width = Math.round(W * dpr);
+      canvas!.height = Math.round(H * dpr);
+      canvas!.style.width = W + 'px';
+      canvas!.style.height = H + 'px';
       ctx.resetTransform();
       ctx.scale(dpr, dpr);
-    };
+    }
 
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
+    // Size immediately, then again after a tick (layout may not be settled)
+    sizeCanvas();
+    const t1 = setTimeout(sizeCanvas, 50);
+    const t2 = setTimeout(sizeCanvas, 200);
 
-    // Drag Orbit Events
-    const onPointerDown = (e: PointerEvent) => {
-      camState.current.isDragging = true;
-      camState.current.lastX = e.clientX;
-      camState.current.lastY = e.clientY;
-    };
+    const ro = new ResizeObserver(sizeCanvas);
+    if (wrapperRef.current) ro.observe(wrapperRef.current);
+    window.addEventListener('resize', sizeCanvas, { passive: true });
 
-    const onPointerMove = (e: PointerEvent) => {
-      if (!camState.current.isDragging) return;
-      const dx = e.clientX - camState.current.lastX;
-      const dy = e.clientY - camState.current.lastY;
-      camState.current.targetRotY += dx * 0.007;
-      camState.current.targetRotX += dy * 0.007;
-      camState.current.targetRotX = Math.max(-1.15, Math.min(1.2, camState.current.targetRotX));
-      camState.current.lastX = e.clientX;
-      camState.current.lastY = e.clientY;
-    };
-
-    const onPointerUp = () => {
-      camState.current.isDragging = false;
-    };
-
-    const onWheel = (e: WheelEvent) => {
+    // ---- Interaction ----
+    function onDown(e: PointerEvent) {
+      stateRef.current.isDragging = true;
+      stateRef.current.lastX = e.clientX;
+      stateRef.current.lastY = e.clientY;
+    }
+    function onMove(e: PointerEvent) {
+      if (!stateRef.current.isDragging) return;
+      const dx = e.clientX - stateRef.current.lastX;
+      const dy = e.clientY - stateRef.current.lastY;
+      stateRef.current.targetRotY += dx * 0.007;
+      stateRef.current.targetRotX = Math.max(-1.1, Math.min(1.1,
+        stateRef.current.targetRotX + dy * 0.007));
+      stateRef.current.lastX = e.clientX;
+      stateRef.current.lastY = e.clientY;
+    }
+    function onUp() { stateRef.current.isDragging = false; }
+    function onWheel(e: WheelEvent) {
       e.preventDefault();
-      camState.current.targetZoom += e.deltaY * -0.001;
-      camState.current.targetZoom = Math.max(0.65, Math.min(2.2, camState.current.targetZoom));
-    };
-
-    canvas.addEventListener('pointerdown', onPointerDown);
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('pointerup', onPointerUp);
+      stateRef.current.targetZoom = Math.max(0.6, Math.min(2.2,
+        stateRef.current.targetZoom - e.deltaY * 0.001));
+    }
+    canvas.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerup', onUp);
     canvas.addEventListener('wheel', onWheel, { passive: false });
 
-    // 3D Perspective Projection Function
-    const project = (x: number, y: number, z: number) => {
-      const { rotX, rotY, zoom } = camState.current;
+    // ---- 3D Engine ----
+    function project(x: number, y: number, z: number) {
+      const { rotX, rotY, zoom } = stateRef.current;
       const y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
       const z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
-
       const x2 = x * Math.cos(rotY) + z1 * Math.sin(rotY);
       const z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
+      const fov = Math.min(W, H) * 1.1;
+      const dist = 5 / zoom;
+      const sc = fov / (dist + z2);
+      return { x: W / 2 + x2 * sc, y: H / 2 - y1 * sc, z: z2, s: sc };
+    }
 
-      const fov = 480;
-      const distance = 4.8 / (zoom || 1);
-      const scale = fov / (distance + z2);
+    function makeBox(bx: number, by: number, bz: number,
+      w: number, h: number, d: number, fill: string, stroke?: string) {
+      const hw = w / 2, hh = h / 2, hd = d / 2;
+      const c = [
+        [-hw,-hh,-hd],[hw,-hh,-hd],[hw,hh,-hd],[-hw,hh,-hd],
+        [-hw,-hh, hd],[hw,-hh, hd],[hw,hh, hd],[-hw,hh, hd],
+      ].map(([cx,cy,cz]) => project(bx+cx, by+cy, bz+cz));
+      return [[0,1,2,3],[4,5,6,7],[3,2,6,7],[0,1,5,4],[0,3,7,4],[1,2,6,5]]
+        .map(f => {
+          const pts = f.map(i => c[i]);
+          return { type:'poly' as const, pts, z: pts.reduce((s,p)=>s+p.z,0)/4, fill, stroke };
+        });
+    }
 
-      return {
-        x: width / 2 + x2 * scale,
-        y: height / 2 - y1 * scale,
-        z: z2,
-        scale: scale,
-      };
-    };
-
-    // 3D Box Helper
-    const drawBox = (
-      x: number,
-      y: number,
-      z: number,
-      w: number,
-      h: number,
-      d: number,
-      fillColor: string,
-      strokeColor: string
-    ) => {
-      const hw = w / 2;
-      const hh = h / 2;
-      const hd = d / 2;
-      const corners = [
-        [-hw, -hh, -hd],
-        [hw, -hh, -hd],
-        [hw, hh, -hd],
-        [-hw, hh, -hd],
-        [-hw, -hh, hd],
-        [hw, -hh, hd],
-        [hw, hh, hd],
-        [-hw, hh, hd],
-      ];
-      const p = corners.map(([cx, cy, cz]) => project(x + cx, y + cy, z + cz));
-      const faces = [
-        [0, 1, 2, 3],
-        [4, 5, 6, 7],
-        [3, 2, 6, 7],
-        [0, 1, 5, 4],
-        [0, 3, 7, 4],
-        [1, 2, 6, 5],
-      ];
-      faces.forEach((f) => {
-        ctx.beginPath();
-        ctx.moveTo(p[f[0]].x, p[f[0]].y);
-        ctx.lineTo(p[f[1]].x, p[f[1]].y);
-        ctx.lineTo(p[f[2]].x, p[f[2]].y);
-        ctx.lineTo(p[f[3]].x, p[f[3]].y);
-        ctx.closePath();
-        ctx.fillStyle = fillColor;
-        ctx.fill();
-        ctx.strokeStyle = strokeColor;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      });
-    };
-
-    // Continental Node Generation for Station 0
-    const globeRadius = 1.95;
-    const earthNodes: { x: number; y: number; z: number; isIndia: boolean }[] = [];
-    const continentBounds: [number, number, number, number][] = [
-      [15, 65, -135, -60],
-      [-50, 10, -80, -35],
-      [36, 65, -10, 40],
-      [-32, 35, -15, 48],
-      [10, 68, 45, 135],
-      [8, 34, 68, 88], // India
-      [-38, -12, 115, 150],
-    ];
-    continentBounds.forEach((c) => {
-      const count = c[0] === 8 ? 45 : 32;
+    // Build globe nodes once
+    const GR = 2.0;
+    const earthNodes: { x:number; y:number; z:number; india:boolean }[] = [];
+    ([
+      [15,65,-135,-60], [-50,10,-80,-35], [36,65,-10,40],
+      [-32,35,-15,48],  [10,68,45,135],  [8,34,68,88],
+      [-38,-12,115,150],
+    ] as [number,number,number,number][]).forEach(([la0,la1,lo0,lo1]) => {
+      const india = la0 === 8;
+      const count = india ? 48 : 30;
       for (let i = 0; i < count; i++) {
-        const lat = c[0] + Math.random() * (c[1] - c[0]);
-        const lon = c[2] + Math.random() * (c[3] - c[2]);
-        const phi = (90 - lat) * (Math.PI / 180);
-        const theta = lon * (Math.PI / 180);
+        const lat = la0 + Math.random() * (la1 - la0);
+        const lon = lo0 + Math.random() * (lo1 - lo0);
+        const phi = (90 - lat) * Math.PI / 180;
+        const th  = lon * Math.PI / 180;
         earthNodes.push({
-          x: globeRadius * Math.sin(phi) * Math.cos(theta),
-          y: globeRadius * Math.cos(phi),
-          z: globeRadius * Math.sin(phi) * Math.sin(theta),
-          isIndia: c[0] === 8,
+          x: GR * Math.sin(phi) * Math.cos(th),
+          y: GR * Math.cos(phi),
+          z: GR * Math.sin(phi) * Math.sin(th),
+          india,
         });
       }
     });
 
     let time = 0;
 
-    const render = () => {
+    function render() {
       animId = requestAnimationFrame(render);
       time += 0.016;
 
-      // Smooth camera interpolation
-      const c = camState.current;
-      c.rotX += (c.targetRotX - c.rotX) * 0.06;
-      c.rotY += (c.targetRotY - c.rotY) * 0.06;
-      c.zoom += (c.targetZoom - c.zoom) * 0.06;
+      const s = stateRef.current;
+      s.rotX += (s.targetRotX - s.rotX) * 0.06;
+      s.rotY += (s.targetRotY - s.rotY) * 0.06;
+      s.zoom += (s.targetZoom - s.zoom) * 0.06;
+      if (s.autoOrbit && !s.isDragging) s.targetRotY += 0.004;
 
-      if (c.autoOrbit && !c.isDragging) {
-        c.targetRotY += 0.0035;
-      }
+      ctx.clearRect(0, 0, W, H);
 
-      ctx.clearRect(0, 0, width, height);
-
-      // Deep Space Atmospheric Background Gradient
-      const maxDim = Math.max(width, height) * 0.75;
-      const bg = ctx.createRadialGradient(width / 2, height / 2, 40, width / 2, height / 2, maxDim);
-      bg.addColorStop(0, '#09152b');
-      bg.addColorStop(0.5, '#050c18');
-      bg.addColorStop(1, '#02050e');
+      // Deep space background
+      const bg = ctx.createRadialGradient(W/2,H/2,20, W/2,H/2, Math.max(W,H)*0.7);
+      bg.addColorStop(0, '#091326');
+      bg.addColorStop(0.5, '#050b16');
+      bg.addColorStop(1, '#020409');
       ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, width, height);
+      ctx.fillRect(0, 0, W, H);
 
-      const currentStation = activeStationRef.current;
+      const drawables: any[] = [];
+      const st = s.activeStation;
 
-      // ==========================================
-      // STATION 0: CYBER GLOBE
-      // ==========================================
-      if (currentStation === 0) {
-        // Atmospheric Central Glow
-        const center2D = project(0, 0, 0);
-        const glowGrad = ctx.createRadialGradient(
-          center2D.x,
-          center2D.y,
-          globeRadius * 40,
-          center2D.x,
-          center2D.y,
-          globeRadius * 130
-        );
-        glowGrad.addColorStop(0, 'rgba(6, 182, 212, 0.22)');
-        glowGrad.addColorStop(0.5, 'rgba(14, 165, 233, 0.08)');
-        glowGrad.addColorStop(1, 'rgba(2, 5, 14, 0)');
-        ctx.fillStyle = glowGrad;
-        ctx.beginPath();
-        ctx.arc(center2D.x, center2D.y, globeRadius * 130, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Wireframe Latitude Rings
+      // ============ STATION 0: GLOBE ============
+      if (st === 0) {
+        // Latitude rings
         for (let lat = -60; lat <= 60; lat += 30) {
-          const phi = (90 - lat) * (Math.PI / 180);
-          const r = globeRadius * Math.sin(phi);
-          const y = globeRadius * Math.cos(phi);
-          ctx.beginPath();
-          ctx.strokeStyle = '#0284c7';
-          ctx.lineWidth = 1;
-          ctx.globalAlpha = 0.2;
+          const phi = (90 - lat) * Math.PI / 180;
+          const r = GR * Math.sin(phi);
+          const ny = GR * Math.cos(phi);
+          const pts = [];
           for (let a = 0; a <= 360; a += 15) {
-            const rad = a * (Math.PI / 180);
-            const p = project(r * Math.cos(rad), y, r * Math.sin(rad));
-            if (a === 0) ctx.moveTo(p.x, p.y);
-            else ctx.lineTo(p.x, p.y);
+            const rad = a * Math.PI / 180;
+            pts.push(project(r * Math.cos(rad), ny, r * Math.sin(rad)));
           }
-          ctx.stroke();
-          ctx.globalAlpha = 1;
+          drawables.push({ type: 'ring', pts, z: 0, color: '#0284c7', alpha: 0.22 });
         }
-
-        // Dual Orbit Security Rings
-        [
-          { radius: 2.35, tilt: 0.5, color: '#38bdf8' },
-          { radius: 2.65, tilt: -0.4, color: '#06b6d4' },
-        ].forEach((ring) => {
-          ctx.beginPath();
-          ctx.strokeStyle = ring.color;
-          ctx.lineWidth = 1.3;
-          ctx.globalAlpha = 0.35;
-          for (let a = 0; a <= 360; a += 10) {
-            const rad = a * (Math.PI / 180);
-            const rx = Math.cos(rad) * ring.radius;
-            const rz = Math.sin(rad) * ring.radius;
-            const ry = rz * Math.sin(ring.tilt);
-            const p = project(rx, ry, rz * Math.cos(ring.tilt));
-            if (a === 0) ctx.moveTo(p.x, p.y);
-            else ctx.lineTo(p.x, p.y);
+        // Longitude lines
+        for (let lon = 0; lon < 360; lon += 30) {
+          const rad = lon * Math.PI / 180;
+          const pts = [];
+          for (let lat = -90; lat <= 90; lat += 12) {
+            const phi = (90 - lat) * Math.PI / 180;
+            pts.push(project(
+              GR*Math.sin(phi)*Math.cos(rad),
+              GR*Math.cos(phi),
+              GR*Math.sin(phi)*Math.sin(rad)
+            ));
           }
-          ctx.stroke();
-          ctx.globalAlpha = 1;
+          drawables.push({ type: 'ring', pts, z: 0, color: '#0369a1', alpha: 0.14 });
+        }
+        // Continent nodes
+        earthNodes.forEach(n => {
+          const p = project(n.x, n.y, n.z);
+          if (p.z > -0.5)
+            drawables.push({ type: 'dot', p, z: p.z, r: n.india ? 3.5 : 2.0,
+              color: n.india ? '#10b981' : '#38bdf8' });
         });
-
-        // Earth Continent Nodes & Connections
-        const projNodes = earthNodes.map((n) => ({
-          ...project(n.x, n.y, n.z),
-          isIndia: n.isIndia,
-        }));
-
-        for (let i = 0; i < projNodes.length; i++) {
-          if (projNodes[i].z < -0.3) continue;
-          for (let j = i + 1; j < projNodes.length; j++) {
-            if (projNodes[j].z < -0.3) continue;
-            const dx = projNodes[i].x - projNodes[j].x;
-            const dy = projNodes[i].y - projNodes[j].y;
-            const d2 = dx * dx + dy * dy;
-            if (d2 < 1400) {
-              ctx.beginPath();
-              ctx.moveTo(projNodes[i].x, projNodes[i].y);
-              ctx.lineTo(projNodes[j].x, projNodes[j].y);
-              ctx.strokeStyle = '#0284c7';
-              ctx.lineWidth = 0.8;
-              ctx.globalAlpha = Math.max(0.04, (1 - Math.sqrt(d2) / 38) * 0.25);
-              ctx.stroke();
-              ctx.globalAlpha = 1;
+        // Hyderabad beacon
+        const hLat=17.385, hLon=78.487;
+        const hPhi=(90-hLat)*Math.PI/180, hTh=hLon*Math.PI/180;
+        const bp = project(GR*Math.sin(hPhi)*Math.cos(hTh), GR*Math.cos(hPhi), GR*Math.sin(hPhi)*Math.sin(hTh));
+        if (bp.z > -0.5) drawables.push({ type: 'beacon', p: bp, z: bp.z+0.1 });
+        // Orbit rings
+        [{ r: 2.5, tilt: 0.5, c: '#38bdf8', a: 0.4 }, { r: 2.9, tilt: -0.4, c: '#06b6d4', a: 0.25 }]
+          .forEach(ring => {
+            const pts = [];
+            for (let a = 0; a <= 360; a += 10) {
+              const rad = a * Math.PI / 180;
+              pts.push(project(Math.cos(rad)*ring.r, Math.sin(rad)*ring.r*Math.sin(ring.tilt), Math.sin(rad)*ring.r*Math.cos(ring.tilt)));
             }
-          }
-        }
-
-        projNodes.forEach((p) => {
-          if (p.z > -0.6) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.z > 0 ? (p.isIndia ? 3.2 : 2.2) : 1.4, 0, Math.PI * 2);
-            ctx.fillStyle = p.isIndia ? '#34d399' : p.z > 0.4 ? '#38bdf8' : '#0284c7';
-            ctx.shadowColor = p.isIndia ? '#10b981' : '#38bdf8';
-            ctx.shadowBlur = p.z > 0 ? 8 : 0;
-            ctx.fill();
-            ctx.shadowBlur = 0;
-          }
-        });
-
-        // Hyderabad Beacon (17.385°N, 78.487°E)
-        const hydPhi = (90 - 17.385) * (Math.PI / 180);
-        const hydTheta = 78.487 * (Math.PI / 180);
-        const hydP = project(
-          globeRadius * Math.sin(hydPhi) * Math.cos(hydTheta),
-          globeRadius * Math.cos(hydPhi),
-          globeRadius * Math.sin(hydPhi) * Math.sin(hydTheta)
-        );
-
-        if (hydP.z > -0.5) {
-          const pulseR = 8 + Math.sin(time * 4) * 4;
-          ctx.beginPath();
-          ctx.arc(hydP.x, hydP.y, pulseR, 0, Math.PI * 2);
-          ctx.strokeStyle = '#34d399';
-          ctx.lineWidth = 1.6;
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.arc(hydP.x, hydP.y, 4, 0, Math.PI * 2);
-          ctx.fillStyle = '#10b981';
-          ctx.shadowColor = '#10b981';
-          ctx.shadowBlur = 14;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-
-          // Beacon Label
-          ctx.font = 'bold 11px monospace';
-          ctx.fillStyle = '#6ee7b7';
-          ctx.fillText('Hyderabad [17.38°N, 78.49°E]', hydP.x + 12, hydP.y - 6);
-          ctx.font = '9px monospace';
-          ctx.fillStyle = '#94a3b8';
-          ctx.fillText('Siddhartha Institute of Tech', hydP.x + 12, hydP.y + 8);
-        }
+            drawables.push({ type: 'ring', pts, z: 0, color: ring.c, alpha: ring.a });
+          });
       }
 
-      // ==========================================
-      // STATION 1: SOC DEFENSE LAB
-      // ==========================================
-      else if (currentStation === 1) {
-        // Floor Grid
+      // ============ STATION 1: SOC LAB ============
+      else if (st === 1) {
+        // Grid floor
         for (let x = -3; x <= 3; x += 0.6) {
-          const p1 = project(x, -1.2, -3);
-          const p2 = project(x, -1.2, 3);
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = 'rgba(6, 182, 212, 0.2)';
-          ctx.stroke();
+          const p1=project(x,-1.3,-3), p2=project(x,-1.3,3);
+          drawables.push({ type:'line', p1, p2, z:(p1.z+p2.z)/2, color:'#0369a1', alpha:0.3 });
         }
         for (let z = -3; z <= 3; z += 0.6) {
-          const p1 = project(-3, -1.2, z);
-          const p2 = project(3, -1.2, z);
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = 'rgba(6, 182, 212, 0.2)';
-          ctx.stroke();
+          const p1=project(-3,-1.3,z), p2=project(3,-1.3,z);
+          drawables.push({ type:'line', p1, p2, z:(p1.z+p2.z)/2, color:'#0369a1', alpha:0.3 });
         }
-
-        // Desk
-        drawBox(0, 0, 0, 2.6, 0.08, 1.4, '#0b1324', '#06b6d4');
-        [
-          [-1.2, -0.6],
-          [1.2, -0.6],
-          [-1.2, 0.6],
-          [1.2, 0.6],
-        ].forEach(([lx, lz]) => {
-          drawBox(lx, -0.6, lz, 0.08, 1.15, 0.08, '#111c30', '#1e293b');
-        });
-
-        // Ultrawide Curved Monitor
-        drawBox(0, 0.55, -0.28, 1.4, 0.65, 0.05, '#050a14', '#06b6d4');
-        const scP = project(0, 0.55, -0.25);
-        ctx.font = 'bold 11px monospace';
-        ctx.fillStyle = '#38bdf8';
-        ctx.fillText('WAZUH SIEM: 1,420 EVT/S', scP.x - 70, scP.y - 10);
-        ctx.fillStyle = '#34d399';
-        ctx.fillText('MITRE T1110: 147 BLOCKED', scP.x - 70, scP.y + 10);
-
-        // Vertical Monitor
-        drawBox(-0.95, 0.58, -0.15, 0.45, 0.82, 0.04, '#050a14', '#10b981');
-        const vP = project(-0.95, 0.58, -0.12);
-        ctx.font = '9px monospace';
-        ctx.fillStyle = '#10b981';
-        ctx.fillText('CLOUDTRAIL', vP.x - 28, vP.y - 12);
-        ctx.fillText('GUARDDUTY', vP.x - 28, vP.y + 6);
-
-        // PC Rig with RGB Fans
-        drawBox(1.05, 0.35, -0.05, 0.35, 0.65, 0.65, '#070f1e', '#38bdf8');
-        drawBox(-0.15, 0.065, 0.2, 0.72, 0.025, 0.26, '#050914', '#38bdf8');
-        drawBox(0.42, 0.065, 0.22, 0.12, 0.03, 0.18, '#0b1324', '#06b6d4');
+        // Desk surface
+        drawables.push(...makeBox(0, 0, 0, 2.8, 0.09, 1.5, '#0b1324', '#06b6d4'));
+        // Legs
+        ([[-1.3,-0.65],[1.3,-0.65],[-1.3,0.65],[1.3,0.65]] as [number,number][])
+          .forEach(([lx,lz]) => drawables.push(...makeBox(lx,-0.62,lz,0.08,1.2,0.08,'#111c30','#1e293b')));
+        // Main monitor
+        drawables.push(...makeBox(0, 0.56, -0.3, 1.5, 0.7, 0.05, '#050a14', '#06b6d4'));
+        // Monitor screen face
+        const ms = [[-0.7,0.24,-0.27],[0.7,0.24,-0.27],[0.7,0.86,-0.27],[-0.7,0.86,-0.27]].map(([a,b,c])=>project(a,b,c));
+        drawables.push({ type:'screen', pts:ms, z:(ms[0].z+ms[2].z)/2, text:'SIEM TRIAGE: ACTIVE' });
+        // Side monitor
+        drawables.push(...makeBox(-1.0, 0.6, -0.18, 0.5, 0.85, 0.04, '#050a14', '#10b981'));
+        // PC tower
+        drawables.push(...makeBox(1.1, 0.4, -0.08, 0.38, 0.72, 0.68, '#070f1e', '#38bdf8'));
+        // Keyboard
+        drawables.push(...makeBox(-0.1, 0.07, 0.22, 0.75, 0.025, 0.28, '#050914', '#38bdf8'));
       }
 
-      // ==========================================
-      // STATION 2: 3D PROJECT VAULT
-      // ==========================================
-      else if (currentStation === 2) {
-        const projectCards = [
-          { title: '1. SentinelDesk', sub: 'Full-Stack SOC Platform', x: -1.4, y: 0.3, z: 0, color: '#06b6d4' },
-          { title: '2. CloudShield', sub: 'AWS Zero-Trust Infra', x: 0, y: 0.3, z: 0.6, color: '#38bdf8' },
-          { title: '3. NetSentinel', sub: 'Linux Nmap Audit', x: 1.4, y: 0.3, z: 0, color: '#10b981' },
-          { title: '4. ML Fraud Guard', sub: 'Precision Anomaly AI', x: 0, y: 0.3, z: -0.8, color: '#a855f7' },
+      // ============ STATION 2: 3D PROJECT VAULT ============
+      else if (st === 2) {
+        const cards = [
+          { title:'SentinelDesk', sub:'Full-Stack SOC Platform', x:-1.5, y:0.3, z:0, c:'#06b6d4' },
+          { title:'CloudShield',  sub:'AWS Zero-Trust Infra',   x:0,    y:0.3, z:0.7, c:'#38bdf8' },
+          { title:'NetSentinel',  sub:'Linux Nmap Audit',       x:1.5,  y:0.3, z:0, c:'#10b981' },
+          { title:'ML Fraud Det', sub:'Precision Anomaly AI',   x:0,    y:0.3, z:-0.9, c:'#a855f7' },
         ];
-
-        // Central Base Ring
-        ctx.beginPath();
-        ctx.strokeStyle = '#06b6d4';
-        ctx.lineWidth = 1.4;
-        ctx.globalAlpha = 0.5;
-        for (let a = 0; a <= 360; a += 15) {
-          const rad = a * (Math.PI / 180);
-          const p = project(Math.cos(rad) * 2.2, -1.0, Math.sin(rad) * 2.2);
-          if (a === 0) ctx.moveTo(p.x, p.y);
-          else ctx.lineTo(p.x, p.y);
-        }
-        ctx.stroke();
-        ctx.globalAlpha = 1;
-
-        projectCards.forEach((c) => {
-          const bob = Math.sin(time * 2 + c.x) * 0.08;
-          drawBox(c.x, c.y + bob, c.z, 0.9, 1.1, 0.08, '#081124', c.color);
-          const cp = project(c.x, c.y + bob + 0.1, c.z + 0.05);
-          ctx.font = 'bold 11px monospace';
-          ctx.fillStyle = c.color;
-          ctx.fillText(c.title, cp.x - 44, cp.y - 8);
-          ctx.font = '9px monospace';
-          ctx.fillStyle = '#cbd5e1';
-          ctx.fillText(c.sub, cp.x - 44, cp.y + 10);
+        // Central ring
+        const ring = [];
+        for (let a=0; a<=360; a+=15) ring.push(project(Math.cos(a*Math.PI/180)*2.3, -1.1, Math.sin(a*Math.PI/180)*2.3));
+        drawables.push({ type:'ring', pts:ring, z:0, color:'#06b6d4', alpha:0.5 });
+        cards.forEach(card => {
+          const bob = Math.sin(time*2 + card.x) * 0.1;
+          drawables.push(...makeBox(card.x, card.y+bob, card.z, 1.0, 1.15, 0.08, '#081124', card.c));
+          const cp = project(card.x, card.y+bob+0.12, card.z+0.05);
+          drawables.push({ type:'label', p:cp, z:cp.z+0.1, title:card.title, sub:card.sub, color:card.c });
         });
       }
 
-      // ==========================================
-      // STATION 3: 3D CYBER TERMINAL PEDESTAL
-      // ==========================================
-      else if (currentStation === 3) {
-        drawBox(0, -0.6, 0, 0.8, 1.2, 0.8, '#0a1324', '#06b6d4');
-        drawBox(0, 0.45, 0, 1.6, 0.95, 0.06, '#040813', '#38bdf8');
-
-        const tp = project(0, 0.45, 0.04);
-        ctx.font = 'bold 10px monospace';
-        ctx.fillStyle = '#34d399';
-        ctx.fillText('madhukar@soc-station:~$ whoami', tp.x - 78, tp.y - 25);
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('> B.Tech Cyber Security (3rd Year)', tp.x - 78, tp.y - 10);
-        ctx.fillText('> Siddhartha Institute of Tech, Hyderabad', tp.x - 78, tp.y + 5);
-        ctx.fillStyle = '#38bdf8';
-        ctx.fillText('> Target: SOC Analyst L1/L2 · Cloud Sec', tp.x - 78, tp.y + 20);
+      // ============ STATION 3: TERMINAL PEDESTAL ============
+      else if (st === 3) {
+        drawables.push(...makeBox(0,-0.65,0, 0.85,1.25,0.85, '#0a1324','#06b6d4'));
+        drawables.push(...makeBox(0, 0.46,0, 1.65,1.0,0.07, '#040813','#38bdf8'));
+        const tp = [[-0.76,0.0,0.05],[0.76,0.0,0.05],[0.76,0.9,0.05],[-0.76,0.9,0.05]].map(([a,b,c])=>project(a,b,c));
+        drawables.push({ type:'terminal', pts:tp, z:(tp[0].z+tp[2].z)/2 });
       }
 
-      // ==========================================
-      // STATION 4: TRANSMISSION NODE
-      // ==========================================
-      else if (currentStation === 4) {
-        drawBox(0, -0.8, 0, 0.4, 1.6, 0.4, '#0c162b', '#06b6d4');
-
-        // Satellite Dish
-        ctx.beginPath();
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 1.4;
-        for (let a = 0; a <= 360; a += 15) {
-          const rad = a * (Math.PI / 180);
-          const dx = Math.cos(rad) * 1.3;
-          const dz = Math.sin(rad) * 1.3;
-          const p = project(dx, 0.6 + dz * 0.4, dz);
-          if (a === 0) ctx.moveTo(p.x, p.y);
-          else ctx.lineTo(p.x, p.y);
+      // ============ STATION 4: TRANSMISSION NODE ============
+      else if (st === 4) {
+        drawables.push(...makeBox(0,-0.85,0, 0.4,1.7,0.4, '#0c162b','#06b6d4'));
+        const dish = [];
+        for (let a=0; a<=360; a+=15) {
+          const rad=a*Math.PI/180;
+          dish.push(project(Math.cos(rad)*1.4, 0.65+Math.sin(rad)*0.45, Math.sin(rad)*1.4));
         }
-        ctx.stroke();
+        drawables.push({ type:'ring', pts:dish, z:0, color:'#38bdf8', alpha:0.75 });
+        for (let w=0; w<3; w++) {
+          const pr = 0.5+((time*1.5+w*0.6)%1.8);
+          const wp=[];
+          for (let a=0; a<=360; a+=20)
+            wp.push(project(Math.cos(a*Math.PI/180)*pr, 1.5+pr*0.4, Math.sin(a*Math.PI/180)*pr));
+          drawables.push({ type:'ring', pts:wp, z:0, color:'#34d399', alpha:Math.max(0.05, 1-pr/1.8) });
+        }
+      }
 
-        // Radiating Waves
-        for (let w = 0; w < 3; w++) {
-          const pulseR = 0.5 + ((time * 1.5 + w * 0.6) % 1.8);
+      // ---- Depth-sort & draw ----
+      drawables.sort((a,b) => b.z - a.z);
+      ctx.lineWidth = 1;
+
+      drawables.forEach(d => {
+        if (d.type === 'line') {
+          ctx.beginPath(); ctx.moveTo(d.p1.x,d.p1.y); ctx.lineTo(d.p2.x,d.p2.y);
+          ctx.strokeStyle=d.color; ctx.globalAlpha=d.alpha||1; ctx.stroke(); ctx.globalAlpha=1;
+        } else if (d.type === 'ring') {
           ctx.beginPath();
-          ctx.strokeStyle = '#34d399';
-          ctx.globalAlpha = Math.max(0.1, 1 - pulseR / 1.8);
-          for (let a = 0; a <= 360; a += 20) {
-            const rad = a * (Math.PI / 180);
-            const p = project(Math.cos(rad) * pulseR, 1.4 + pulseR * 0.4, Math.sin(rad) * pulseR);
-            if (a === 0) ctx.moveTo(p.x, p.y);
-            else ctx.lineTo(p.x, p.y);
-          }
-          ctx.stroke();
-          ctx.globalAlpha = 1;
+          d.pts.forEach((p:any,i:number) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+          ctx.strokeStyle=d.color; ctx.lineWidth=1.3; ctx.globalAlpha=d.alpha; ctx.stroke();
+          ctx.globalAlpha=1; ctx.lineWidth=1;
+        } else if (d.type === 'poly') {
+          ctx.beginPath();
+          d.pts.forEach((p:any,i:number) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+          ctx.closePath(); ctx.fillStyle=d.fill; ctx.fill();
+          if (d.stroke) { ctx.strokeStyle=d.stroke; ctx.lineWidth=1; ctx.stroke(); }
+        } else if (d.type === 'dot') {
+          ctx.beginPath(); ctx.arc(d.p.x,d.p.y,d.r,0,Math.PI*2);
+          ctx.fillStyle=d.color; ctx.shadowColor=d.color; ctx.shadowBlur=5; ctx.fill(); ctx.shadowBlur=0;
+        } else if (d.type === 'beacon') {
+          const pulse=(Math.sin(time*4)+1)/2;
+          ctx.beginPath(); ctx.arc(d.p.x,d.p.y, 7+pulse*12, 0, Math.PI*2);
+          ctx.strokeStyle='#10b981'; ctx.lineWidth=1.5; ctx.stroke();
+          ctx.beginPath(); ctx.arc(d.p.x,d.p.y, 4, 0, Math.PI*2);
+          ctx.fillStyle='#34d399'; ctx.shadowColor='#34d399'; ctx.shadowBlur=10; ctx.fill(); ctx.shadowBlur=0;
+          ctx.font='10px monospace'; ctx.fillStyle='#6ee7b7';
+          ctx.fillText('Hyderabad [17.38°N, 78.49°E]', d.p.x+10, d.p.y-6);
+        } else if (d.type === 'screen') {
+          ctx.beginPath(); d.pts.forEach((p:any,i:number)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+          ctx.closePath(); ctx.fillStyle='#051022'; ctx.fill();
+          ctx.strokeStyle='#06b6d4'; ctx.lineWidth=1.5; ctx.shadowColor='#06b6d4'; ctx.shadowBlur=10; ctx.stroke(); ctx.shadowBlur=0;
+          const cx=(d.pts[0].x+d.pts[2].x)/2, cy=(d.pts[0].y+d.pts[2].y)/2;
+          ctx.font='bold 10px monospace'; ctx.fillStyle='#38bdf8';
+          ctx.fillText(d.text, cx-55, cy);
+        } else if (d.type === 'label') {
+          ctx.font='bold 11px monospace'; ctx.fillStyle=d.color; ctx.shadowColor=d.color; ctx.shadowBlur=7;
+          ctx.fillText(d.title, d.p.x-40, d.p.y-8);
+          ctx.font='9px monospace'; ctx.fillStyle='#cbd5e1'; ctx.shadowBlur=0;
+          ctx.fillText(d.sub, d.p.x-40, d.p.y+9);
+        } else if (d.type === 'terminal') {
+          ctx.beginPath(); d.pts.forEach((p:any,i:number)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+          ctx.closePath(); ctx.fillStyle='#030814'; ctx.fill();
+          ctx.strokeStyle='#38bdf8'; ctx.lineWidth=1.5; ctx.shadowColor='#38bdf8'; ctx.shadowBlur=12; ctx.stroke(); ctx.shadowBlur=0;
+          const cx=(d.pts[0].x+d.pts[2].x)/2, cy=(d.pts[0].y+d.pts[2].y)/2;
+          ctx.font='10px monospace';
+          ctx.fillStyle='#34d399'; ctx.fillText('madhukar@soc:~$ whoami', cx-80, cy-20);
+          ctx.fillStyle='#94a3b8';
+          ctx.fillText('> B.Tech Cyber Security · Siddhartha Institute', cx-80, cy-5);
+          ctx.fillStyle='#38bdf8'; ctx.fillText('> Target: SOC Analyst L1/L2 · Cloud Security', cx-80, cy+12);
+          ctx.fillStyle='#34d399'; ctx.fillText('> sudo hire-madhukar [AVAILABLE]', cx-80, cy+28);
         }
+      });
+    }
 
-        const dp = project(0, 0.6, 0);
-        ctx.font = 'bold 11px monospace';
-        ctx.fillStyle = '#38bdf8';
-        ctx.fillText('DISPATCH: madhukarpendalwar43@gmail.com', dp.x - 120, dp.y + 35);
-      }
-    };
-
-    render();
+    animId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-      canvas.removeEventListener('pointerdown', onPointerDown);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
+      clearTimeout(t1); clearTimeout(t2);
+      ro.disconnect();
+      window.removeEventListener('resize', sizeCanvas);
+      canvas.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('wheel', onWheel);
     };
   }, []);
 
-  const curStation = stations[activeStation];
+  const cur = STATIONS[activeStation];
 
+  // ---- UI ----
   return (
     <div
-      className={`relative w-full ${
-        isFullscreen ? 'h-full flex-1' : 'h-[520px] sm:h-[580px]'
-      } flex flex-col overflow-hidden bg-[#030712] rounded-2xl border border-cyan-500/20 select-none shadow-2xl`}
-      style={{ minHeight: isFullscreen ? '480px' : '520px' }}
+      style={{ height: isFullscreen ? '100%' : '540px' }}
+      className="relative w-full flex flex-col overflow-hidden bg-[#030712] rounded-2xl border border-cyan-500/20 select-none shadow-2xl"
     >
-      {/* 3D Master Navigation Bar Header */}
-      <div className="relative z-20 px-3 sm:px-5 py-2.5 bg-[#050c1c]/90 border-b border-cyan-500/20 backdrop-blur-md flex flex-wrap items-center justify-between gap-2 shrink-0">
-        {/* Brand & Status */}
+      {/* Header Nav */}
+      <div className="relative z-20 px-3 sm:px-4 py-2 bg-[#050c1c]/90 border-b border-cyan-500/20 backdrop-blur-md flex flex-wrap items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-cyan-500 text-slate-950 font-bold flex items-center justify-center font-mono text-xs shadow-[0_0_12px_rgba(6,182,212,0.5)]">
-            3D
-          </div>
+          <div className="w-6 h-6 rounded-lg bg-cyan-500 text-slate-950 font-bold flex items-center justify-center font-mono text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.5)]">3D</div>
           <div>
-            <div className="text-white font-bold text-xs tracking-wide font-mono flex items-center gap-1.5">
-              <span>CYBERVERSE 3D</span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
-                ACTIVE
-              </span>
+            <div className="text-white font-bold text-xs font-mono flex items-center gap-1.5">
+              CYBERVERSE 3D
+              <span className="text-[9px] px-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">LIVE</span>
             </div>
-            <div className="text-[10px] text-slate-400 font-mono hidden sm:block">
-              Siddhartha Institute of Tech &amp; Sciences · Hyderabad
-            </div>
+            <div className="text-[10px] text-slate-400 font-mono hidden sm:block">Siddhartha Institute · Hyderabad</div>
           </div>
         </div>
 
-        {/* Station Navigation Selectors */}
-        <nav className="flex items-center gap-1 bg-[#02050e] p-1 rounded-xl border border-slate-800 text-[11px] font-mono overflow-x-auto max-w-full">
-          {stations.map((s, idx) => (
-            <button
-              key={s.tag}
-              type="button"
-              onClick={() => flyToStation(idx)}
-              className={`px-2.5 py-1 rounded-lg transition whitespace-nowrap cursor-pointer ${
+        <nav className="flex items-center gap-0.5 bg-[#02050e] p-1 rounded-xl border border-slate-800 text-[10px] font-mono overflow-x-auto">
+          {STATIONS.map((s, idx) => (
+            <button key={idx} type="button" onClick={() => flyToStation(idx)}
+              className={`px-2 py-1 rounded-lg transition whitespace-nowrap cursor-pointer ${
                 activeStation === idx
-                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                  ? 'bg-cyan-500 text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-white hover:bg-slate-900'
-              }`}
-            >
-              0{idx + 1}. {s.tag.split('// ')[1] || s.tag}
+              }`}>
+              0{idx+1}. {s.tag.split('// ')[1]}
             </button>
           ))}
         </nav>
 
-        {/* Fullscreen Expand Action */}
         {onExpandFullscreen && !isFullscreen && (
-          <button
-            type="button"
-            onClick={onExpandFullscreen}
-            className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400 hover:text-white hover:border-cyan-500 transition cursor-pointer"
-            title="Expand to Fullscreen 3D View"
-          >
+          <button type="button" onClick={onExpandFullscreen}
+            className="p-1.5 rounded-lg bg-slate-900 border border-slate-700 text-cyan-400 hover:text-white hover:border-cyan-500 transition cursor-pointer">
             <Maximize2 className="w-3.5 h-3.5" />
           </button>
         )}
       </div>
 
-      {/* Main 3D Canvas Viewport */}
-      <div className="relative flex-1 w-full h-full overflow-hidden flex items-center justify-center">
+      {/* Canvas Wrapper — explicit height so canvas always has real pixels */}
+      <div
+        ref={wrapperRef}
+        className="relative flex-1 w-full overflow-hidden"
+        style={{ minHeight: 0 }}
+      >
         <canvas
           ref={canvasRef}
-          className="w-full h-full absolute inset-0 z-0 cursor-grab active:cursor-grabbing block"
-          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+          className="cursor-grab active:cursor-grabbing"
+          style={{ display: 'block', position: 'absolute', top: 0, left: 0 }}
         />
 
-        {/* Dynamic Glass HUD Panel */}
-        <div className="absolute bottom-4 left-4 max-w-sm sm:max-w-md w-full bg-[#060f21]/85 backdrop-blur-md border border-cyan-500/30 shadow-[0_20px_45px_rgba(2,6,23,0.8)] rounded-2xl p-4 z-20 font-mono text-xs transition-all pointer-events-auto">
-          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 text-[10px] border border-cyan-800 mb-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span>{curStation.tag}</span>
+        {/* Station HUD */}
+        <div className="absolute bottom-3 left-3 max-w-xs sm:max-w-sm w-full bg-[#060f21]/90 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-3 z-20 font-mono text-xs pointer-events-auto">
+          <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 text-[10px] border border-cyan-800 mb-1">
+            <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+            {cur.tag}
           </div>
-
-          <h2 className="text-base sm:text-lg font-bold text-white mb-0.5">
-            {curStation.title}
-          </h2>
-
-          <div className="text-[11px] text-cyan-400 mb-1.5 font-medium">
-            {curStation.subtitle}
-          </div>
-
-          <p className="text-slate-300 text-[11px] leading-relaxed mb-3">
-            {curStation.desc}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80">
-            <button
-              type="button"
-              onClick={handlePrimaryAction}
-              className="px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition flex items-center gap-1.5 cursor-pointer text-xs shadow-md shadow-cyan-500/20"
-            >
-              <span>{curStation.btnPrimaryText}</span>
+          <div className="text-sm sm:text-base font-bold text-white mb-0.5">{cur.title}</div>
+          <div className="text-[11px] text-cyan-400 mb-1">{cur.subtitle}</div>
+          <p className="text-slate-300 text-[10px] leading-relaxed mb-2">{cur.desc}</p>
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-800">
+            <button type="button" onClick={handlePrimaryAction}
+              className="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs cursor-pointer shadow-md shadow-cyan-500/20 transition">
+              {cur.btnPrimaryText}
             </button>
-
             {activeStation === 0 && onOpenResume && (
-              <button
-                type="button"
-                onClick={onOpenResume}
-                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white transition flex items-center gap-1.5 cursor-pointer text-xs"
-              >
-                <FileText className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Resume Dossier</span>
+              <button type="button" onClick={onOpenResume}
+                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white text-xs cursor-pointer transition flex items-center gap-1">
+                <FileText className="w-3 h-3 text-cyan-400" /> Resume
               </button>
             )}
-
             {activeStation === 1 && (
-              <a
-                href="#soc"
-                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white transition flex items-center gap-1.5 cursor-pointer text-xs"
-              >
-                <Activity className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Open SOC Dashboard</span>
+              <a href="#soc" className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white text-xs cursor-pointer transition flex items-center gap-1">
+                <Activity className="w-3 h-3 text-emerald-400" /> SOC Dashboard
               </a>
             )}
-
             {activeStation === 2 && (
-              <a
-                href="#projects"
-                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white transition flex items-center gap-1.5 cursor-pointer text-xs"
-              >
-                <Layers className="w-3.5 h-3.5 text-cyan-400" />
-                <span>View All Projects</span>
+              <a href="#projects" className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white text-xs cursor-pointer transition flex items-center gap-1">
+                <Layers className="w-3 h-3 text-cyan-400" /> All Projects
               </a>
             )}
-
             {activeStation === 4 && (
-              <a
-                href={`mailto:${PERSONAL_INFO.email}`}
-                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white transition flex items-center gap-1.5 cursor-pointer text-xs"
-              >
-                <Send className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Email Madhukar</span>
+              <a href={`mailto:${PERSONAL_INFO.email}`} className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white text-xs cursor-pointer transition flex items-center gap-1">
+                <Send className="w-3 h-3 text-cyan-400" /> Email
               </a>
             )}
           </div>
         </div>
 
-        {/* 3D Control Hints & Auto-Orbit Toggle (Bottom Right) */}
-        <div className="absolute bottom-4 right-4 z-20 bg-[#060f21]/85 backdrop-blur-md border border-cyan-500/30 rounded-xl p-2.5 font-mono text-[10px] text-slate-400 hidden sm:flex flex-col gap-1.5 pointer-events-auto">
-          <div className="flex items-center justify-between text-white font-bold border-b border-slate-800 pb-1">
-            <span>3D CONTROLS</span>
-            <span className="text-cyan-400">↔ 360°</span>
+        {/* Controls */}
+        <div className="absolute bottom-3 right-3 z-20 bg-[#060f21]/90 backdrop-blur-md border border-cyan-500/30 rounded-xl p-2 font-mono text-[10px] text-slate-400 hidden sm:flex flex-col gap-1">
+          <div className="text-white font-bold text-xs border-b border-slate-800 pb-1 flex justify-between">
+            3D CONTROLS <span className="text-cyan-400">360°</span>
           </div>
-          <div>• Drag to Orbit around scene</div>
-          <div>• Scroll to Zoom in / out</div>
-          <div className="pt-1 border-t border-slate-800 flex items-center justify-between gap-2">
-            <button
-              type="button"
-              onClick={toggleAutoOrbit}
-              className="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 hover:bg-cyan-900 transition cursor-pointer"
-            >
+          <div>• Drag to orbit</div>
+          <div>• Scroll to zoom</div>
+          <div className="pt-1 border-t border-slate-800 flex gap-1.5">
+            <button type="button" onClick={() => { stateRef.current.autoOrbit = !stateRef.current.autoOrbit; setAutoOrbit(p => !p); }}
+              className="px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 cursor-pointer">
               Orbit: {autoOrbit ? 'ON' : 'OFF'}
             </button>
-            <button
-              type="button"
-              onClick={resetCamera}
-              className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
-            >
+            <button type="button" onClick={() => { const s=STATIONS[activeStation]; stateRef.current.targetRotX=s.targetRotX; stateRef.current.targetRotY=s.targetRotY; }}
+              className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 cursor-pointer">
               Reset
             </button>
           </div>
