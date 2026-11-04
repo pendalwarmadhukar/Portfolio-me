@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import {
   Activity,
-  Terminal,
   Send,
   Layers,
   Maximize2,
@@ -104,7 +103,6 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
     },
   ];
 
-  // Camera Target References for Smooth Interpolation (Lerp)
   const camState = useRef({
     rotX: stations[0].targetRotX,
     rotY: stations[0].targetRotY,
@@ -160,12 +158,14 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
     const resize = () => {
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
-      const newW = Math.floor(rect.width);
-      const newH = Math.floor(rect.height);
-      if (newW <= 0 || newH <= 0) return;
+      const parent = canvas.parentElement;
 
-      width = newW;
-      height = newH;
+      const detectedW = rect.width || (parent ? parent.clientWidth : 0) || window.innerWidth;
+      const detectedH = rect.height || (parent ? parent.clientHeight : 0) || (window.innerHeight - 80);
+
+      width = Math.max(320, Math.floor(detectedW));
+      height = Math.max(380, Math.floor(detectedH));
+
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -173,17 +173,10 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
       ctx.scale(dpr, dpr);
     };
 
-    const resizeObserver = new ResizeObserver(() => {
-      resize();
-    });
-
-    if (canvas.parentElement) {
-      resizeObserver.observe(canvas.parentElement);
-    }
-    resizeObserver.observe(canvas);
     resize();
+    window.addEventListener('resize', resize, { passive: true });
 
-    // Orbit Drag Events
+    // Drag Orbit Events
     const onPointerDown = (e: PointerEvent) => {
       camState.current.isDragging = true;
       camState.current.lastX = e.clientX;
@@ -226,7 +219,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
       const z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
 
       const fov = 480;
-      const distance = 4.8 / zoom;
+      const distance = 4.8 / (zoom || 1);
       const scale = fov / (distance + z2);
 
       return {
@@ -237,16 +230,16 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
       };
     };
 
-    // 3D Box Polygon Generator
-    const makeBox = (
+    // 3D Box Helper
+    const drawBox = (
       x: number,
       y: number,
       z: number,
       w: number,
       h: number,
       d: number,
-      color: string,
-      stroke?: string
+      fillColor: string,
+      strokeColor: string
     ) => {
       const hw = w / 2;
       const hh = h / 2;
@@ -261,7 +254,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
         [hw, hh, hd],
         [-hw, hh, hd],
       ];
-      const pCorners = corners.map(([cx, cy, cz]) => project(x + cx, y + cy, z + cz));
+      const p = corners.map(([cx, cy, cz]) => project(x + cx, y + cy, z + cz));
       const faces = [
         [0, 1, 2, 3],
         [4, 5, 6, 7],
@@ -270,14 +263,22 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
         [0, 3, 7, 4],
         [1, 2, 6, 5],
       ];
-      return faces.map((f) => {
-        const pts = f.map((idx) => pCorners[idx]);
-        const zAvg = pts.reduce((sum, p) => sum + p.z, 0) / pts.length;
-        return { type: 'poly' as const, pts, z: zAvg, color, stroke };
+      faces.forEach((f) => {
+        ctx.beginPath();
+        ctx.moveTo(p[f[0]].x, p[f[0]].y);
+        ctx.lineTo(p[f[1]].x, p[f[1]].y);
+        ctx.lineTo(p[f[2]].x, p[f[2]].y);
+        ctx.lineTo(p[f[3]].x, p[f[3]].y);
+        ctx.closePath();
+        ctx.fillStyle = fillColor;
+        ctx.fill();
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 1;
+        ctx.stroke();
       });
     };
 
-    // Station 1: Earth Globe Geometry
+    // Continental Node Generation for Station 0
     const globeRadius = 1.95;
     const earthNodes: { x: number; y: number; z: number; isIndia: boolean }[] = [];
     const continentBounds: [number, number, number, number][] = [
@@ -307,16 +308,9 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
 
     let time = 0;
 
-    // Main 3D Animation Render Loop
     const render = () => {
       animId = requestAnimationFrame(render);
       time += 0.016;
-
-      // Always ensure valid dimensions
-      if (width <= 0 || height <= 0) {
-        resize();
-        if (width <= 0 || height <= 0) return;
-      }
 
       // Smooth camera interpolation
       const c = camState.current;
@@ -330,57 +324,56 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
 
       ctx.clearRect(0, 0, width, height);
 
-      // Deep Space Background Radial Gradient
-      const maxDim = Math.max(width, height) * 0.7;
-      const bg = ctx.createRadialGradient(width / 2, height / 2, 30, width / 2, height / 2, maxDim);
-      bg.addColorStop(0, '#091326');
-      bg.addColorStop(0.5, '#050b16');
-      bg.addColorStop(1, '#020409');
+      // Deep Space Atmospheric Background Gradient
+      const maxDim = Math.max(width, height) * 0.75;
+      const bg = ctx.createRadialGradient(width / 2, height / 2, 40, width / 2, height / 2, maxDim);
+      bg.addColorStop(0, '#09152b');
+      bg.addColorStop(0.5, '#050c18');
+      bg.addColorStop(1, '#02050e');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, width, height);
 
-      const drawables: any[] = [];
       const currentStation = activeStationRef.current;
 
       // ==========================================
       // STATION 0: CYBER GLOBE
       // ==========================================
       if (currentStation === 0) {
+        // Atmospheric Central Glow
+        const center2D = project(0, 0, 0);
+        const glowGrad = ctx.createRadialGradient(
+          center2D.x,
+          center2D.y,
+          globeRadius * 40,
+          center2D.x,
+          center2D.y,
+          globeRadius * 130
+        );
+        glowGrad.addColorStop(0, 'rgba(6, 182, 212, 0.22)');
+        glowGrad.addColorStop(0.5, 'rgba(14, 165, 233, 0.08)');
+        glowGrad.addColorStop(1, 'rgba(2, 5, 14, 0)');
+        ctx.fillStyle = glowGrad;
+        ctx.beginPath();
+        ctx.arc(center2D.x, center2D.y, globeRadius * 130, 0, Math.PI * 2);
+        ctx.fill();
+
         // Wireframe Latitude Rings
         for (let lat = -60; lat <= 60; lat += 30) {
           const phi = (90 - lat) * (Math.PI / 180);
           const r = globeRadius * Math.sin(phi);
           const y = globeRadius * Math.cos(phi);
-          const pts = [];
+          ctx.beginPath();
+          ctx.strokeStyle = '#0284c7';
+          ctx.lineWidth = 1;
+          ctx.globalAlpha = 0.2;
           for (let a = 0; a <= 360; a += 15) {
             const rad = a * (Math.PI / 180);
-            pts.push(project(r * Math.cos(rad), y, r * Math.sin(rad)));
+            const p = project(r * Math.cos(rad), y, r * Math.sin(rad));
+            if (a === 0) ctx.moveTo(p.x, p.y);
+            else ctx.lineTo(p.x, p.y);
           }
-          drawables.push({ type: 'wireRing', pts, z: 0, color: '#0284c7', alpha: 0.2 });
-        }
-
-        // Earth Continent Nodes
-        earthNodes.forEach((n) => {
-          const p = project(n.x, n.y, n.z);
-          if (p.z > -0.6) {
-            drawables.push({
-              type: 'node',
-              p,
-              z: p.z,
-              color: n.isIndia ? '#10b981' : p.z > 0 ? '#38bdf8' : '#0284c7',
-              size: n.isIndia ? 3.5 : 2.2,
-            });
-          }
-        });
-
-        // India Beacon (17.385°N, 78.487°E)
-        const pInd = project(
-          globeRadius * Math.sin((72.6 * Math.PI) / 180) * Math.cos((78.5 * Math.PI) / 180),
-          globeRadius * Math.cos((72.6 * Math.PI) / 180),
-          globeRadius * Math.sin((72.6 * Math.PI) / 180) * Math.sin((78.5 * Math.PI) / 180)
-        );
-        if (pInd.z > -0.5) {
-          drawables.push({ type: 'beacon', p: pInd, z: pInd.z + 0.1 });
+          ctx.stroke();
+          ctx.globalAlpha = 1;
         }
 
         // Dual Orbit Security Rings
@@ -388,75 +381,156 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           { radius: 2.35, tilt: 0.5, color: '#38bdf8' },
           { radius: 2.65, tilt: -0.4, color: '#06b6d4' },
         ].forEach((ring) => {
-          const rpts = [];
+          ctx.beginPath();
+          ctx.strokeStyle = ring.color;
+          ctx.lineWidth = 1.3;
+          ctx.globalAlpha = 0.35;
           for (let a = 0; a <= 360; a += 10) {
             const rad = a * (Math.PI / 180);
             const rx = Math.cos(rad) * ring.radius;
             const rz = Math.sin(rad) * ring.radius;
             const ry = rz * Math.sin(ring.tilt);
-            rpts.push(project(rx, ry, rz * Math.cos(ring.tilt)));
+            const p = project(rx, ry, rz * Math.cos(ring.tilt));
+            if (a === 0) ctx.moveTo(p.x, p.y);
+            else ctx.lineTo(p.x, p.y);
           }
-          drawables.push({ type: 'wireRing', pts: rpts, z: 0, color: ring.color, alpha: 0.35 });
+          ctx.stroke();
+          ctx.globalAlpha = 1;
         });
+
+        // Earth Continent Nodes & Connections
+        const projNodes = earthNodes.map((n) => ({
+          ...project(n.x, n.y, n.z),
+          isIndia: n.isIndia,
+        }));
+
+        for (let i = 0; i < projNodes.length; i++) {
+          if (projNodes[i].z < -0.3) continue;
+          for (let j = i + 1; j < projNodes.length; j++) {
+            if (projNodes[j].z < -0.3) continue;
+            const dx = projNodes[i].x - projNodes[j].x;
+            const dy = projNodes[i].y - projNodes[j].y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < 1400) {
+              ctx.beginPath();
+              ctx.moveTo(projNodes[i].x, projNodes[i].y);
+              ctx.lineTo(projNodes[j].x, projNodes[j].y);
+              ctx.strokeStyle = '#0284c7';
+              ctx.lineWidth = 0.8;
+              ctx.globalAlpha = Math.max(0.04, (1 - Math.sqrt(d2) / 38) * 0.25);
+              ctx.stroke();
+              ctx.globalAlpha = 1;
+            }
+          }
+        }
+
+        projNodes.forEach((p) => {
+          if (p.z > -0.6) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.z > 0 ? (p.isIndia ? 3.2 : 2.2) : 1.4, 0, Math.PI * 2);
+            ctx.fillStyle = p.isIndia ? '#34d399' : p.z > 0.4 ? '#38bdf8' : '#0284c7';
+            ctx.shadowColor = p.isIndia ? '#10b981' : '#38bdf8';
+            ctx.shadowBlur = p.z > 0 ? 8 : 0;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+        });
+
+        // Hyderabad Beacon (17.385°N, 78.487°E)
+        const hydPhi = (90 - 17.385) * (Math.PI / 180);
+        const hydTheta = 78.487 * (Math.PI / 180);
+        const hydP = project(
+          globeRadius * Math.sin(hydPhi) * Math.cos(hydTheta),
+          globeRadius * Math.cos(hydPhi),
+          globeRadius * Math.sin(hydPhi) * Math.sin(hydTheta)
+        );
+
+        if (hydP.z > -0.5) {
+          const pulseR = 8 + Math.sin(time * 4) * 4;
+          ctx.beginPath();
+          ctx.arc(hydP.x, hydP.y, pulseR, 0, Math.PI * 2);
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(hydP.x, hydP.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#10b981';
+          ctx.shadowColor = '#10b981';
+          ctx.shadowBlur = 14;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          // Beacon Label
+          ctx.font = 'bold 11px monospace';
+          ctx.fillStyle = '#6ee7b7';
+          ctx.fillText('Hyderabad [17.38°N, 78.49°E]', hydP.x + 12, hydP.y - 6);
+          ctx.font = '9px monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('Siddhartha Institute of Tech', hydP.x + 12, hydP.y + 8);
+        }
       }
 
       // ==========================================
-      // STATION 1: SOC LAB BATTLE STATION
+      // STATION 1: SOC DEFENSE LAB
       // ==========================================
       else if (currentStation === 1) {
-        // Floor grid
+        // Floor Grid
         for (let x = -3; x <= 3; x += 0.6) {
           const p1 = project(x, -1.2, -3);
           const p2 = project(x, -1.2, 3);
-          drawables.push({ type: 'line', p1, p2, z: (p1.z + p2.z) / 2, color: '#0369a1', alpha: 0.25 });
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.2)';
+          ctx.stroke();
         }
         for (let z = -3; z <= 3; z += 0.6) {
           const p1 = project(-3, -1.2, z);
           const p2 = project(3, -1.2, z);
-          drawables.push({ type: 'line', p1, p2, z: (p1.z + p2.z) / 2, color: '#0369a1', alpha: 0.25 });
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.2)';
+          ctx.stroke();
         }
 
         // Desk
-        drawables.push(...makeBox(0, 0, 0, 2.6, 0.08, 1.4, '#0b1324', '#06b6d4'));
-
-        // Desk Legs
+        drawBox(0, 0, 0, 2.6, 0.08, 1.4, '#0b1324', '#06b6d4');
         [
           [-1.2, -0.6],
           [1.2, -0.6],
           [-1.2, 0.6],
           [1.2, 0.6],
         ].forEach(([lx, lz]) => {
-          drawables.push(...makeBox(lx, -0.6, lz, 0.08, 1.15, 0.08, '#111c30', '#1e293b'));
+          drawBox(lx, -0.6, lz, 0.08, 1.15, 0.08, '#111c30', '#1e293b');
         });
 
-        // Main Curved Ultrawide Monitor
-        drawables.push(...makeBox(0, 0.55, -0.28, 1.4, 0.65, 0.05, '#050a14', '#06b6d4'));
-
-        // Screen Face
-        const s1 = project(-0.66, 0.26, -0.25);
-        const s2 = project(0.66, 0.26, -0.25);
-        const s3 = project(0.66, 0.84, -0.25);
-        const s4 = project(-0.66, 0.84, -0.25);
-        drawables.push({
-          type: 'screen',
-          pts: [s1, s2, s3, s4],
-          z: (s1.z + s2.z + s3.z + s4.z) / 4,
-          text: 'SIEM TRIAGE: ACTIVE',
-        });
+        // Ultrawide Curved Monitor
+        drawBox(0, 0.55, -0.28, 1.4, 0.65, 0.05, '#050a14', '#06b6d4');
+        const scP = project(0, 0.55, -0.25);
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText('WAZUH SIEM: 1,420 EVT/S', scP.x - 70, scP.y - 10);
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('MITRE T1110: 147 BLOCKED', scP.x - 70, scP.y + 10);
 
         // Vertical Monitor
-        drawables.push(...makeBox(-0.95, 0.58, -0.15, 0.45, 0.82, 0.04, '#050a14', '#10b981'));
+        drawBox(-0.95, 0.58, -0.15, 0.45, 0.82, 0.04, '#050a14', '#10b981');
+        const vP = project(-0.95, 0.58, -0.12);
+        ctx.font = '9px monospace';
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('CLOUDTRAIL', vP.x - 28, vP.y - 12);
+        ctx.fillText('GUARDDUTY', vP.x - 28, vP.y + 6);
 
-        // PC Tower with RGB Fans
-        drawables.push(...makeBox(1.05, 0.35, -0.05, 0.35, 0.65, 0.65, '#070f1e', '#38bdf8'));
-
-        // Keyboard & Mouse
-        drawables.push(...makeBox(-0.15, 0.065, 0.2, 0.72, 0.025, 0.26, '#050914', '#38bdf8'));
-        drawables.push(...makeBox(0.42, 0.065, 0.22, 0.12, 0.03, 0.18, '#0b1324', '#06b6d4'));
+        // PC Rig with RGB Fans
+        drawBox(1.05, 0.35, -0.05, 0.35, 0.65, 0.65, '#070f1e', '#38bdf8');
+        drawBox(-0.15, 0.065, 0.2, 0.72, 0.025, 0.26, '#050914', '#38bdf8');
+        drawBox(0.42, 0.065, 0.22, 0.12, 0.03, 0.18, '#0b1324', '#06b6d4');
       }
 
       // ==========================================
-      // STATION 2: 3D PROJECT HOLO-DECK
+      // STATION 2: 3D PROJECT VAULT
       // ==========================================
       else if (currentStation === 2) {
         const projectCards = [
@@ -466,213 +540,99 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           { title: '4. ML Fraud Guard', sub: 'Precision Anomaly AI', x: 0, y: 0.3, z: -0.8, color: '#a855f7' },
         ];
 
-        // Central Hologram Ring Base
-        const hring = [];
+        // Central Base Ring
+        ctx.beginPath();
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 1.4;
+        ctx.globalAlpha = 0.5;
         for (let a = 0; a <= 360; a += 15) {
           const rad = a * (Math.PI / 180);
-          hring.push(project(Math.cos(rad) * 2.2, -1.0, Math.sin(rad) * 2.2));
+          const p = project(Math.cos(rad) * 2.2, -1.0, Math.sin(rad) * 2.2);
+          if (a === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
         }
-        drawables.push({ type: 'wireRing', pts: hring, z: 0, color: '#06b6d4', alpha: 0.5 });
+        ctx.stroke();
+        ctx.globalAlpha = 1;
 
         projectCards.forEach((c) => {
           const bob = Math.sin(time * 2 + c.x) * 0.08;
-          drawables.push(...makeBox(c.x, c.y + bob, c.z, 0.9, 1.1, 0.08, '#081124', c.color));
-
+          drawBox(c.x, c.y + bob, c.z, 0.9, 1.1, 0.08, '#081124', c.color);
           const cp = project(c.x, c.y + bob + 0.1, c.z + 0.05);
-          drawables.push({
-            type: 'cardLabel',
-            p: cp,
-            z: cp.z + 0.1,
-            title: c.title,
-            sub: c.sub,
-            color: c.color,
-          });
+          ctx.font = 'bold 11px monospace';
+          ctx.fillStyle = c.color;
+          ctx.fillText(c.title, cp.x - 44, cp.y - 8);
+          ctx.font = '9px monospace';
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fillText(c.sub, cp.x - 44, cp.y + 10);
         });
       }
 
       // ==========================================
-      // STATION 3: 3D TERMINAL PEDESTAL
+      // STATION 3: 3D CYBER TERMINAL PEDESTAL
       // ==========================================
       else if (currentStation === 3) {
-        // Pedestal
-        drawables.push(...makeBox(0, -0.6, 0, 0.8, 1.2, 0.8, '#0a1324', '#06b6d4'));
+        drawBox(0, -0.6, 0, 0.8, 1.2, 0.8, '#0a1324', '#06b6d4');
+        drawBox(0, 0.45, 0, 1.6, 0.95, 0.06, '#040813', '#38bdf8');
 
-        // Holographic Console Screen
-        drawables.push(...makeBox(0, 0.45, 0, 1.6, 0.95, 0.06, '#040813', '#38bdf8'));
-
-        const tp1 = project(-0.72, 0.02, 0.04);
-        const tp2 = project(0.72, 0.02, 0.04);
-        const tp3 = project(0.72, 0.88, 0.04);
-        const tp4 = project(-0.72, 0.88, 0.04);
-        drawables.push({
-          type: 'terminalScreen',
-          pts: [tp1, tp2, tp3, tp4],
-          z: (tp1.z + tp2.z + tp3.z + tp4.z) / 4,
-        });
+        const tp = project(0, 0.45, 0.04);
+        ctx.font = 'bold 10px monospace';
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('madhukar@soc-station:~$ whoami', tp.x - 78, tp.y - 25);
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('> B.Tech Cyber Security (3rd Year)', tp.x - 78, tp.y - 10);
+        ctx.fillText('> Siddhartha Institute of Tech, Hyderabad', tp.x - 78, tp.y + 5);
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText('> Target: SOC Analyst L1/L2 · Cloud Sec', tp.x - 78, tp.y + 20);
       }
 
       // ==========================================
-      // STATION 4: TRANSMISSION NODE (CONTACT)
+      // STATION 4: TRANSMISSION NODE
       // ==========================================
       else if (currentStation === 4) {
-        // Satellite Tower
-        drawables.push(...makeBox(0, -0.8, 0, 0.4, 1.6, 0.4, '#0c162b', '#06b6d4'));
+        drawBox(0, -0.8, 0, 0.4, 1.6, 0.4, '#0c162b', '#06b6d4');
 
-        // Satellite Dish (Curved Ring)
-        const dishPts = [];
+        // Satellite Dish
+        ctx.beginPath();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.4;
         for (let a = 0; a <= 360; a += 15) {
           const rad = a * (Math.PI / 180);
           const dx = Math.cos(rad) * 1.3;
           const dz = Math.sin(rad) * 1.3;
-          dishPts.push(project(dx, 0.6 + dz * 0.4, dz));
+          const p = project(dx, 0.6 + dz * 0.4, dz);
+          if (a === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
         }
-        drawables.push({ type: 'wireRing', pts: dishPts, z: 0, color: '#38bdf8', alpha: 0.7 });
+        ctx.stroke();
 
-        // Radiating Transmission Pulse Waves
+        // Radiating Waves
         for (let w = 0; w < 3; w++) {
           const pulseR = 0.5 + ((time * 1.5 + w * 0.6) % 1.8);
-          const wpts = [];
+          ctx.beginPath();
+          ctx.strokeStyle = '#34d399';
+          ctx.globalAlpha = Math.max(0.1, 1 - pulseR / 1.8);
           for (let a = 0; a <= 360; a += 20) {
             const rad = a * (Math.PI / 180);
-            wpts.push(project(Math.cos(rad) * pulseR, 1.4 + pulseR * 0.4, Math.sin(rad) * pulseR));
+            const p = project(Math.cos(rad) * pulseR, 1.4 + pulseR * 0.4, Math.sin(rad) * pulseR);
+            if (a === 0) ctx.moveTo(p.x, p.y);
+            else ctx.lineTo(p.x, p.y);
           }
-          drawables.push({
-            type: 'wireRing',
-            pts: wpts,
-            z: 0,
-            color: '#34d399',
-            alpha: Math.max(0.1, 1 - pulseR / 1.8),
-          });
+          ctx.stroke();
+          ctx.globalAlpha = 1;
         }
+
+        const dp = project(0, 0.6, 0);
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText('DISPATCH: madhukarpendalwar43@gmail.com', dp.x - 120, dp.y + 35);
       }
-
-      // Depth Sort: back to front
-      drawables.sort((a, b) => b.z - a.z);
-
-      // Draw all 3D Objects
-      drawables.forEach((item) => {
-        if (item.type === 'line') {
-          ctx.beginPath();
-          ctx.moveTo(item.p1.x, item.p1.y);
-          ctx.lineTo(item.p2.x, item.p2.y);
-          ctx.strokeStyle = item.color;
-          ctx.globalAlpha = item.alpha || 1;
-          ctx.stroke();
-          ctx.globalAlpha = 1;
-        } else if (item.type === 'wireRing') {
-          ctx.beginPath();
-          ctx.strokeStyle = item.color;
-          ctx.lineWidth = 1.2;
-          ctx.globalAlpha = item.alpha;
-          item.pts.forEach((pt: any, idx: number) => {
-            if (idx === 0) ctx.moveTo(pt.x, pt.y);
-            else ctx.lineTo(pt.x, pt.y);
-          });
-          ctx.stroke();
-          ctx.globalAlpha = 1;
-        } else if (item.type === 'poly') {
-          ctx.beginPath();
-          item.pts.forEach((pt: any, idx: number) => {
-            if (idx === 0) ctx.moveTo(pt.x, pt.y);
-            else ctx.lineTo(pt.x, pt.y);
-          });
-          ctx.closePath();
-          ctx.fillStyle = item.color;
-          ctx.fill();
-          if (item.stroke) {
-            ctx.strokeStyle = item.stroke;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        } else if (item.type === 'node') {
-          ctx.beginPath();
-          ctx.arc(item.p.x, item.p.y, item.size, 0, Math.PI * 2);
-          ctx.fillStyle = item.color;
-          ctx.shadowColor = item.color;
-          ctx.shadowBlur = 6;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        } else if (item.type === 'beacon') {
-          ctx.beginPath();
-          ctx.arc(item.p.x, item.p.y, 8 + Math.sin(time * 4) * 3, 0, Math.PI * 2);
-          ctx.strokeStyle = '#10b981';
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.arc(item.p.x, item.p.y, 4, 0, Math.PI * 2);
-          ctx.fillStyle = '#34d399';
-          ctx.fill();
-
-          ctx.font = '10px monospace';
-          ctx.fillStyle = '#6ee7b7';
-          ctx.fillText('Hyderabad [17.38°N, 78.49°E]', item.p.x + 10, item.p.y - 6);
-        } else if (item.type === 'screen') {
-          ctx.beginPath();
-          item.pts.forEach((pt: any, idx: number) => {
-            if (idx === 0) ctx.moveTo(pt.x, pt.y);
-            else ctx.lineTo(pt.x, pt.y);
-          });
-          ctx.closePath();
-          ctx.fillStyle = '#051022';
-          ctx.fill();
-          ctx.strokeStyle = '#06b6d4';
-          ctx.lineWidth = 1.5;
-          ctx.shadowColor = '#06b6d4';
-          ctx.shadowBlur = 10;
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-
-          const cx = (item.pts[0].x + item.pts[2].x) / 2;
-          const cy = (item.pts[0].y + item.pts[2].y) / 2;
-          ctx.font = 'bold 10px monospace';
-          ctx.fillStyle = '#38bdf8';
-          ctx.fillText(item.text, cx - 60, cy);
-        } else if (item.type === 'cardLabel') {
-          ctx.font = 'bold 11px monospace';
-          ctx.fillStyle = item.color;
-          ctx.shadowColor = item.color;
-          ctx.shadowBlur = 8;
-          ctx.fillText(item.title, item.p.x - 42, item.p.y - 8);
-          ctx.font = '9px monospace';
-          ctx.fillStyle = '#cbd5e1';
-          ctx.fillText(item.sub, item.p.x - 42, item.p.y + 10);
-          ctx.shadowBlur = 0;
-        } else if (item.type === 'terminalScreen') {
-          ctx.beginPath();
-          item.pts.forEach((pt: any, idx: number) => {
-            if (idx === 0) ctx.moveTo(pt.x, pt.y);
-            else ctx.lineTo(pt.x, pt.y);
-          });
-          ctx.closePath();
-          ctx.fillStyle = '#030814';
-          ctx.fill();
-          ctx.strokeStyle = '#38bdf8';
-          ctx.lineWidth = 1.5;
-          ctx.shadowColor = '#38bdf8';
-          ctx.shadowBlur = 12;
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-
-          const cx = (item.pts[0].x + item.pts[2].x) / 2;
-          const cy = (item.pts[0].y + item.pts[2].y) / 2;
-          ctx.font = '10px monospace';
-          ctx.fillStyle = '#34d399';
-          ctx.fillText('madhukar@soc-station:~$ whoami', cx - 80, cy - 25);
-          ctx.fillStyle = '#94a3b8';
-          ctx.fillText('> B.Tech Cyber Security (3rd Year)', cx - 80, cy - 10);
-          ctx.fillText('> Siddhartha Institute of Tech, Hyderabad', cx - 80, cy + 5);
-          ctx.fillStyle = '#38bdf8';
-          ctx.fillText('> Target: SOC Analyst L1/L2 · Cloud Sec', cx - 80, cy + 20);
-        }
-      });
     };
 
     render();
 
     return () => {
       cancelAnimationFrame(animId);
-      resizeObserver.disconnect();
+      window.removeEventListener('resize', resize);
       canvas.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
@@ -685,8 +645,9 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
   return (
     <div
       className={`relative w-full ${
-        isFullscreen ? 'h-full flex-1 min-h-0' : 'h-[520px] sm:h-[580px]'
+        isFullscreen ? 'h-full flex-1' : 'h-[520px] sm:h-[580px]'
       } flex flex-col overflow-hidden bg-[#030712] rounded-2xl border border-cyan-500/20 select-none shadow-2xl`}
+      style={{ minHeight: isFullscreen ? '480px' : '520px' }}
     >
       {/* 3D Master Navigation Bar Header */}
       <div className="relative z-20 px-3 sm:px-5 py-2.5 bg-[#050c1c]/90 border-b border-cyan-500/20 backdrop-blur-md flex flex-wrap items-center justify-between gap-2 shrink-0">
@@ -703,7 +664,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
               </span>
             </div>
             <div className="text-[10px] text-slate-400 font-mono hidden sm:block">
-              Siddhartha Institute of Tech & Sciences · Hyderabad
+              Siddhartha Institute of Tech &amp; Sciences · Hyderabad
             </div>
           </div>
         </div>
@@ -740,13 +701,14 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
       </div>
 
       {/* Main 3D Canvas Viewport */}
-      <div className="relative flex-1 min-h-0 w-full h-full overflow-hidden flex items-center justify-center">
+      <div className="relative flex-1 w-full h-full overflow-hidden flex items-center justify-center">
         <canvas
           ref={canvasRef}
           className="w-full h-full absolute inset-0 z-0 cursor-grab active:cursor-grabbing block"
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
         />
 
-        {/* Dynamic Glass HUD Panel (Updates dynamically per station) */}
+        {/* Dynamic Glass HUD Panel */}
         <div className="absolute bottom-4 left-4 max-w-sm sm:max-w-md w-full bg-[#060f21]/85 backdrop-blur-md border border-cyan-500/30 shadow-[0_20px_45px_rgba(2,6,23,0.8)] rounded-2xl p-4 z-20 font-mono text-xs transition-all pointer-events-auto">
           <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 text-[10px] border border-cyan-800 mb-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />

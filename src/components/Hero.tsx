@@ -1,5 +1,5 @@
 import React from 'react';
-import { CyberVerse3DView } from './CyberVerse3DView.tsx';
+import { CyberGlobeCanvas } from './CyberGlobeCanvas.tsx';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import {
@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   FileText,
   Activity,
-  Terminal,
   Maximize2,
   Sparkles,
 } from 'lucide-react';
@@ -194,13 +193,103 @@ export const Hero: React.FC<HeroProps> = ({
         </div>
       </div>
 
-      {/* Central 3D Interactive CyberVerse Stage (5 Stations + 360° Viewport) */}
-      <div className="relative w-full max-w-7xl mx-auto flex-1 my-6 z-20">
-        <CyberVerse3DView
-          onOpenResume={onOpenResume}
-          onOpenTerminal={onOpenTerminal}
-          onExpandFullscreen={onOpenCyberVerse}
-        />
+      {/* Central 3D Globe Stage with Floating Glass Panels */}
+      <div className="relative w-full max-w-7xl mx-auto flex-1 min-h-[460px] sm:min-h-[520px] flex items-center justify-center my-4">
+        {/* Interactive 3D Hologram Globe Canvas */}
+        <CyberGlobeCanvas />
+
+        {/* 360° Drag Hint Overlay */}
+        <div className="absolute top-2 right-4 text-[11px] font-mono text-slate-400/80 pointer-events-none z-10 glass-badge px-3 py-1 rounded-full">
+          ↔ Click &amp; Drag to Orbit Globe 360°
+        </div>
+
+        {/* Left Floating Glass Panel: Live SOC Telemetry */}
+        <div className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-64 sm:w-72 glass-panel rounded-2xl p-4 hidden md:block z-10 font-mono text-xs">
+          <div className="flex items-center justify-between pb-2.5 border-b border-cyan-500/20 text-cyan-300">
+            <div className="flex items-center gap-2 font-bold tracking-wide">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span>SOC TELEMETRY</span>
+            </div>
+            <span className="text-[10px] text-slate-400">REALTIME</span>
+          </div>
+
+          <div className="space-y-3 pt-3 text-slate-300 text-[11px]">
+            <div className="bg-[#070e1c]/80 p-2.5 rounded-lg border border-slate-800/80">
+              <div className="flex justify-between text-slate-400 text-[10px]">
+                <span>INGRESS SURVEILLANCE</span>
+                <span className="text-emerald-400 font-bold">NORMAL</span>
+              </div>
+              <div className="text-white font-bold text-sm mt-0.5">1,420 events/sec</div>
+              <div className="w-full bg-slate-800 h-1 rounded-full mt-1.5 overflow-hidden">
+                <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full w-[68%]" />
+              </div>
+            </div>
+
+            <div className="space-y-1.5 text-[10px]">
+              <div className="flex items-center justify-between text-slate-300">
+                <span className="text-cyan-400">MITRE T1110 (Brute Force):</span>
+                <span className="text-emerald-400 font-bold">147 BLOCKED</span>
+              </div>
+              <div className="flex items-center justify-between text-slate-300">
+                <span className="text-cyan-400">CloudTrail Anomaly:</span>
+                <span className="text-emerald-400 font-bold">SESSION REVOKED</span>
+              </div>
+              <div className="flex items-center justify-between text-slate-300">
+                <span className="text-cyan-400">WAF Threat Rules:</span>
+                <span className="text-emerald-400 font-bold">ENFORCED</span>
+              </div>
+            </div>
+
+            <div className="p-2 rounded bg-cyan-950/40 border border-cyan-500/30 text-[10px] text-cyan-200">
+              🛡️ SentinelDesk Ingestion pipeline active across 4 edge subnets.
+            </div>
+          </div>
+        </div>
+
+        {/* Right Floating Glass Panel: Candidate Verified Profile */}
+        <div className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-64 sm:w-72 glass-panel rounded-2xl p-4 hidden md:block z-10 font-mono text-xs">
+          <div className="flex items-center justify-between pb-2.5 border-b border-cyan-500/20 text-cyan-300">
+            <div className="flex items-center gap-2 font-bold tracking-wide">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>SECURITY DOSSIER</span>
+            </div>
+            <span className="text-[10px] text-slate-400">VERIFIED</span>
+          </div>
+
+          <div className="space-y-3 pt-3 text-slate-300 text-[11px]">
+            <div>
+              <div className="text-white font-bold text-sm">Madhukar Pendalwar</div>
+              <div className="text-cyan-400 text-[11px]">B.Tech Cyber Security (3rd Year)</div>
+              <div className="text-slate-400 text-[10px]">Siddhartha Institute of Technology &amp; Sciences, Hyderabad · 2023–2027</div>
+            </div>
+
+            <div className="bg-[#070e1c]/80 p-2.5 rounded-lg border border-slate-800/80 space-y-1.5">
+              <div className="text-[10px] text-slate-400 font-bold">KEY COMPETENCIES</div>
+              <div className="flex flex-wrap gap-1">
+                <span className="px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 text-[9px] border border-cyan-800">
+                  SIEM (Wazuh/Splunk)
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 text-[9px] border border-cyan-800">
+                  Wireshark
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-blue-950 text-blue-300 text-[9px] border border-blue-800">
+                  AWS Cloud
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 text-[9px] border border-emerald-800">
+                  React &amp; Node.js
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 text-[9px] border border-amber-800">
+                  LeetCode 390+
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-1 text-[10px]">
+              <span className="text-slate-400">AVAILABILITY:</span>
+              <span className="text-emerald-400 font-bold">● Open for Internships</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Bottom Metric Ticker */}
@@ -212,11 +301,11 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-slate-400">INSTITUTION:</span>
-            <span className="text-cyan-300 font-semibold">Siddhartha Institute of Technology & Sciences</span>
+            <span className="text-cyan-300 font-semibold">Siddhartha Institute of Technology &amp; Sciences</span>
           </div>
           <div className="hidden sm:flex items-center gap-1.5">
             <span className="text-slate-400">SOC READY:</span>
-            <span className="text-emerald-400 font-semibold">Wazuh SIEM & AWS CloudTrail</span>
+            <span className="text-emerald-400 font-semibold">Wazuh SIEM &amp; AWS CloudTrail</span>
           </div>
         </div>
 
