@@ -9,6 +9,8 @@ export const PERSONAL_INFO = {
   email: "madhukarpendalwar43@gmail.com",
   institution: "Siddhartha Institute of Technology & Sciences, Hyderabad",
   location: "Hyderabad, India",
+  expectedGraduation: "2028",
+  cgpa: "6.56/10",
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/madhukar-pendalwar-2a5746348/",
@@ -168,7 +170,7 @@ export const PROJECTS: Project[] = [
       "Incident status tracking across open, investigating, escalated, resolved, and false-positive states",
       "Analyst workflow for recording investigation notes and escalation actions"
     ],
-    githubUrl: "https://github.com/pendalwarmadhukar",
+    githubUrl: "https://github.com/pendalwarmadhukar/SentinelDesk",
     demoUrl: "https://sentineldesk-soc-nu.vercel.app",
     imageFallbackGradient: "from-slate-950 via-cyan-950 to-blue-950",
     customVisualType: "sentineldesk-soc"
