@@ -9,6 +9,8 @@ export const PERSONAL_INFO = {
   email: "madhukarpendalwar43@gmail.com",
   institution: "Siddhartha Institute of Technology & Sciences, Hyderabad",
   location: "Hyderabad, India",
+  expectedGraduation: "2028",
+  cgpa: "6.56/10",
   github: "https://github.com/pendalwarmadhukar",
   githubUsername: "pendalwarmadhukar",
   linkedin: "https://www.linkedin.com/in/madhukar-pendalwar-2a5746348/",
@@ -150,10 +152,10 @@ export const PROJECTS: Project[] = [
     id: "sentineldesk-soc",
     title: "SentinelDesk — SOC Monitoring & Incident Response",
     category: "SOC & Incident Response",
-    shortDescription: "A full-stack enterprise-grade SOC monitoring and incident response dashboard with real-time SIEM event ingestion, threat intelligence, alert triage, and analyst workflows.",
-    overview: "SentinelDesk is a comprehensive Security Operations Center (SOC) platform engineered for cybersecurity analysts. It features a real-time SIEM event monitoring pipeline, live alert streaming via WebSocket/SSE, interactive threat intelligence modules, incident lifecycle management, and analyst performance KPIs — all wrapped in a professional dark-mode cyber operations interface.",
+    shortDescription: "A SOC dashboard prototype for reviewing simulated security alerts, severity-based triage, investigation status, escalation, and incident tracking.",
+    overview: "SentinelDesk is a full-stack SOC dashboard prototype built to practise alert monitoring and incident-handling workflows. It presents simulated security events, severity-based views, incident status tracking, and analyst actions in one interface.",
     problemStatement: "Security operations teams require unified, real-time dashboards that consolidate alert triage, threat intelligence, incident tracking, and compliance reporting into a single platform — eliminating the need to context-switch across multiple disconnected tools during active incident response.",
-    solution: "Built a full-stack SOC platform using React, Node.js, Express.js, and MongoDB featuring live alert streaming, severity-based filtering and escalation workflows, IOC reputation lookups, MITRE ATT&CK-mapped investigations, analyst profile management with MFA/FIDO2, and automated PDF report generation for compliance auditing.",
+    solution: "Built a React, Node.js, Express.js, and MongoDB dashboard with severity-based alert filtering, investigation-status workflows, and incident tracking for a simulated SOC environment.",
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "Recharts", "Tailwind CSS", "JWT", "WebSocket"],
     architectureSteps: [
       "SIEM Ingestion",
@@ -164,17 +166,33 @@ export const PROJECTS: Project[] = [
       "Compliance Report"
     ],
     keyFeatures: [
-      "Real-time SOC operations dashboard with live SIEM metrics, severity distribution charts, and alert timeline visualization",
-      "Live alert streaming with WebSocket/SSE, desktop notifications for CRITICAL & HIGH severity incidents, and audio alarm support",
-      "Threat intelligence module with IOC reputation scoring, hostile subnet analysis, ASN lookup, and recommended containment actions",
-      "Full incident lifecycle management with status pipeline tracking (Open → Investigating → Contained → Resolved)",
-      "Analyst profile system with FIDO2 WebAuthn MFA, API key provisioning, session auditing, and operational KPIs",
-      "Security reports and compliance audit generation with SOC 2 Type II templates and PDF export"
+      "Severity-based alert views for prioritising simulated security events",
+      "Incident status tracking across open, investigating, escalated, resolved, and false-positive states",
+      "Analyst workflow for recording investigation notes and escalation actions"
     ],
-    githubUrl: "https://github.com/pendalwarmadhukar",
+    githubUrl: "https://github.com/pendalwarmadhukar/SentinelDesk",
     demoUrl: "https://sentineldesk-soc-nu.vercel.app",
     imageFallbackGradient: "from-slate-950 via-cyan-950 to-blue-950",
     customVisualType: "sentineldesk-soc"
+  },
+  {
+    id: "vulnremedy-ai",
+    title: "VulnRemedy AI — Vulnerability Findings & Remediation Workflow",
+    category: "Vulnerability Management",
+    shortDescription: "A vulnerability-management application for authorised web-target scans, severity-based findings, remediation tracking, and re-scan verification.",
+    overview: "VulnRemedy AI helps authorised users organise scan results, review vulnerability findings, record remediation progress, and verify fixes with follow-up scans. AI assistance provides explanations and remediation proposals for human review.",
+    problemStatement: "Security findings need a clear workflow so that teams can understand severity, track remediation work, and confirm whether a finding is still present after a fix.",
+    solution: "Built a Python FastAPI backend and React/TypeScript frontend with persistent finding workflows using MongoDB or SQLite, plus optional AI-assisted explanations and remediation proposals.",
+    technologies: ["Python", "FastAPI", "React", "TypeScript", "MongoDB", "SQLite"],
+    architectureSteps: ["Authorised Target", "Scan", "Findings", "Remediation Review", "Re-scan Verification"],
+    keyFeatures: [
+      "Authorised target registration and scan-result tracking",
+      "Severity-based finding management and remediation history",
+      "AI-assisted explanations and proposed fixes that require human review",
+      "Re-scan workflow to verify whether findings remain"
+    ],
+    githubUrl: "https://github.com/pendalwarmadhukar/VulnRemedy-AI",
+    imageFallbackGradient: "from-emerald-950 via-slate-900 to-cyan-950"
   },
   {
     id: "credit-card-fraud-detection",

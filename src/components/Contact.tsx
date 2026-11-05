@@ -144,7 +144,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
               <div>
                 <div className="text-xs font-mono text-slate-400">LinkedIn</div>
                 <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
-                  linkedin.com/in/pendalwarmadhukar
+                  linkedin.com/in/madhukar-pendalwar-2a5746348/
                 </div>
               </div>
             </a>
