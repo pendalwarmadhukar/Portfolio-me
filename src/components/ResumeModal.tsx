@@ -34,56 +34,57 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
   const handleDownloadText = () => {
     const resumeContent = `
-===================================================================
-MADHUKAR PENDALWAR - RESUME
-3rd-Year B.Tech Cyber Security Student
-Email: ${PERSONAL_INFO.email}
-GitHub: ${PERSONAL_INFO.github}
+MADHUKAR PENDALWAR
+SOC Analyst Intern Candidate | B.Tech Cyber Security Student
+Hyderabad, Telangana, India | 7032275226 | ${PERSONAL_INFO.email}
 LinkedIn: ${PERSONAL_INFO.linkedin}
-LeetCode: ${PERSONAL_INFO.leetcode} (390+ Solved | Global Rank #336,530)
+GitHub: ${PERSONAL_INFO.github}
 Portfolio: ${PERSONAL_INFO.portfolioUrl}
-===================================================================
+LeetCode: ${PERSONAL_INFO.leetcode}
 
-CAREER OBJECTIVE:
-Aspiring SOC Analyst, Cloud Security Specialist, and Blue Team defender with strong foundations in AWS infrastructure, incident triage, DevSecOps automation, Linux systems, and cyber investigation.
+PROFESSIONAL SUMMARY
+Third-year B.Tech Computer Science and Engineering (Cyber Security) student seeking a SOC Analyst Intern role. Hands-on academic project experience in security-alert monitoring, Linux authentication-log review, network auditing, vulnerability assessment, and incident workflow documentation. Familiar with Linux/Kali Linux, networking, Nmap, Wireshark, Wazuh/Splunk fundamentals, Python, and cloud-security concepts. Interested in L1 alert triage, investigation, escalation, and defensive security operations.
 
-EDUCATION:
-Bachelor of Technology (B.Tech) in Cyber Security (3rd Year)
-Institution: Siddhartha Institute of Technology & Sciences, Hyderabad (2023 - 2027)
-Academic Standing: Good standing with focus on practical security laboratory engineering.
+EDUCATION
+B.Tech, Computer Science and Engineering (Cyber Security), Third Year
+Siddhartha Institute of Technology & Sciences, Hyderabad, Telangana
+Expected Graduation: 2028 | CGPA: 6.56/10
 
-TECHNICAL SKILLS:
-- SOC & Security: Incident Response, Security Monitoring, Alert Triage, Information Security Engineering
-- Cloud Security: AWS (IAM, CloudTrail, S3, EC2, Security Groups, VPC NACLs, AWS CLI)
-- Security Tools: Splunk, Wazuh, Wireshark, Nmap, Docker, Trivy, GitHub
-- Networking & OS: Linux (Ubuntu/Debian, Kali Linux), TCP/IP Protocols, Network Security, Weblogs
-- DevSecOps: CI/CD Pipeline Security, Docker Container Hardening, Trivy Vulnerability Scanning
-- Problem Solving & DSA: 390+ LeetCode Problems Solved (140 Easy, 190 Medium, 61 Hard), 50 Days Badge 2026
-- Languages & Development: Python, C++, C, Java, C#, JavaScript, SQL, HTML, CSS, Node.js, React.js, Flask
-- Data & AI: Machine Learning, Pandas, Data Analysis
+TECHNICAL SKILLS
+SOC & Blue Team: Security monitoring, alert triage, incident investigation, incident documentation, escalation, threat-detection fundamentals
+Security Tools: Wazuh, Splunk (fundamentals), Wireshark, Nmap, Kali Linux, Git, GitHub
+Systems & Networking: Linux, TCP/IP, SSH authentication logs, network security, Bash
+Cloud & DevSecOps: AWS IAM, CloudTrail, S3, EC2, AWS CLI, Docker, Trivy, CI/CD security fundamentals
+Programming: Python, C++, JavaScript, SQL | Data: Pandas, machine-learning fundamentals
 
-KEY PROJECTS:
-1. SentinelDesk — SOC Monitoring & Incident Response
-   Enterprise-grade SOC monitoring dashboard with real-time SIEM ingestion, threat intel, and alert triage.
-   Architecture: SIEM Ingestion -> Real-Time Stream -> Alert Triage -> Threat Intel -> Incident Response -> Compliance Report
+SELECTED SECURITY PROJECTS
+1. SentinelDesk — SOC Monitoring & Incident Response Dashboard
+   Built a SOC dashboard prototype to review simulated security alerts, filter by severity, track investigation status, and document investigation and escalation workflows.
+   GitHub: https://github.com/pendalwarmadhukar/SentinelDesk
+   Demo: https://sentineldesk-soc-nu.vercel.app/
 
-2. NetSentinel (Network Security)
-   Script-driven host & network security auditing tool in Bash and Nmap for exposure identification and auth log brute-force detection.
-   Architecture: Network -> Scan -> Exposure Analysis -> Log Analysis -> Risk Identification
+2. NetSentinel — Linux Host & Network Auditing
+   Created a Bash-based utility using Nmap to audit hosts and identify exposed ports and services; reviewed Linux authentication logs for repeated SSH failures.
+   GitHub: https://github.com/pendalwarmadhukar/NetSentinel
 
-3. Credit Card Fraud Detection (Machine Learning & Security)
-   Predictive ML model handling extreme class imbalance to identify fraudulent transaction patterns and generate risk scoring.
+3. VulnRemedy AI — Vulnerability Findings & Remediation Workflow
+   Built a workflow for authorised web-target scanning, severity-based finding management, remediation notes, and re-scan verification. AI-generated remediation changes are proposals for human review.
+   GitHub: https://github.com/pendalwarmadhukar/VulnRemedy-AI
 
-4. SpamGuard-AI (AI / Security)
-   Natural language classification pipeline in Python detecting deceptive and phishing text payloads.
+ACADEMIC / INDUSTRY-ORIENTED PROJECT TRAINING
+Vulnerability Assessment Training (Third Year): Practised identifying and analysing potential security weaknesses in systems and applications.
+Blue Team Project Training (Second Year): Applied defensive-security concepts including security monitoring and threat detection.
 
-CERTIFICATIONS & VERIFIED PATHWAYS:
-- B.Tech Cyber Security (3rd Year Academic Curriculum)
-- Cloud & AWS Security Foundations (Hands-on Coursework)
-- Container Security & DevSecOps Practices
-- CompTIA Security+ / Blue Team Analyst Pathway (In Preparation)
-===================================================================
-    `.trim();
+CERTIFICATIONS & SECURITY LEARNING
+IBM SkillsBuild — Cybersecurity Fundamentals
+TryHackMe — Advent of Cyber 2025 (24 challenges completed)
+TryHackMe — Love at First Breach CTF (600 points; Rank 228)
+TryHackMe — The Cold Start CTF (2,160 points)
+TryHackMe — Hacker Holidays (Participation)
+
+ADDITIONAL ACHIEVEMENT
+LeetCode: 390+ problems solved | C++ problem-solving practice.
+    `.trim();;
 
     const blob = new Blob([resumeContent], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -190,7 +191,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                   className="flex items-center gap-1.5 hover:text-cyan-300 transition-colors"
                 >
                   <Linkedin className="w-3.5 h-3.5 text-cyan-400" />
-                  linkedin.com/in/pendalwarmadhukar
+                  linkedin.com/in/madhukar-pendalwar-2a5746348/
                 </a>
                 <a
                   href={PERSONAL_INFO.leetcode}
@@ -255,7 +256,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                   {isHindi ? 'बैचलर ऑफ टेक्नोलॉजी (बी.टेक) - साइबर सुरक्षा' : 'Bachelor of Technology (B.Tech) in Cyber Security'}
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  {isHindi ? 'इंजीनियरिंग विश्वविद्यालय पाठ्यक्रम · तृतीय वर्ष स्नातक' : 'Siddhartha Institute of Technology & Sciences, Hyderabad · 3rd Year Undergraduate'}
+                  {isHindi ? 'इंजीनियरिंग विश्वविद्यालय पाठ्यक्रम · तृतीय वर्ष स्नातक' : 'Siddhartha Institute of Technology & Sciences, Hyderabad · 3rd Year Undergraduate · CGPA: 6.56/10'}
                 </p>
                 <p className="text-xs text-slate-400 mt-1 font-mono">
                   {isHindi
@@ -264,7 +265,7 @@ CERTIFICATIONS & VERIFIED PATHWAYS:
                 </p>
               </div>
               <span className="text-xs font-mono text-cyan-300 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 shrink-0 ml-3">
-                {isHindi ? '2023 - वर्तमान' : '2023 - Present'}
+                {isHindi ? '2023 - वर्तमान' : 'Expected Graduation: 2028'}
               </span>
             </div>
           </div>
