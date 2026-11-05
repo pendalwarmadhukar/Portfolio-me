@@ -55,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>CYBERVERSE // GLOBAL THREAT DEFENSE</span>
           <span className="text-slate-500">·</span>
-          <span className="text-slate-400">SOC L1/L2 READINESS</span>
+          <span className="text-slate-400">SOC ANALYST INTERN CANDIDATE</span>
           {onOpenCyberVerse && (
             <button
               type="button"
@@ -107,9 +107,9 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Summary Description */}
         <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-          Specializing in <strong className="text-white font-medium">SOC & Blue Team Operations</strong>,{' '}
-          <strong className="text-white font-medium">Cloud Security Architecture (AWS)</strong>, and{' '}
-          <strong className="text-white font-medium">Security Analytics</strong>. Building hands-on SIEM monitoring and resilient cloud systems.
+          Developing practical skills in <strong className="text-white font-medium">SOC & Blue Team operations</strong>,{' '}
+          <strong className="text-white font-medium">security monitoring and alert triage</strong>, and{' '}
+          <strong className="text-white font-medium">Linux and network analysis</strong>. Building projects to practise investigation, documentation, and escalation.
         </p>
 
         {/* Primary Action Buttons */}
