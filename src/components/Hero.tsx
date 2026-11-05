@@ -260,7 +260,7 @@ export const Hero: React.FC<HeroProps> = ({
             <div>
               <div className="text-white font-bold text-sm">Madhukar Pendalwar</div>
               <div className="text-cyan-400 text-[11px]">B.Tech Cyber Security (3rd Year)</div>
-              <div className="text-slate-400 text-[10px]">Siddhartha Institute of Technology &amp; Sciences, Hyderabad · 2023–2027</div>
+              <div className="text-slate-400 text-[10px]">Siddhartha Institute of Technology &amp; Sciences, Hyderabad · Expected graduation 2028</div>
             </div>
 
             <div className="bg-[#070e1c]/80 p-2.5 rounded-lg border border-slate-800/80 space-y-1.5">
