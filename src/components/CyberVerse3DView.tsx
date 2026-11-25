@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData.ts';
 import { Activity, Layers, Send, Maximize2, FileText } from 'lucide-react';
 
@@ -7,6 +7,7 @@ interface CyberVerse3DViewProps {
   onOpenTerminal?: () => void;
   onExpandFullscreen?: () => void;
   isFullscreen?: boolean;
+  height?: number; // explicit pixel height override
 }
 
 interface StationInfo {
@@ -75,13 +76,15 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
   onOpenTerminal,
   onExpandFullscreen,
   isFullscreen = false,
+  height: heightProp,
 }) => {
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeStation, setActiveStation] = useState(0);
   const [autoOrbit, setAutoOrbit] = useState(true);
 
-  // All mutable state lives in refs — no stale closure issues
+  // ── fixed canvas dimensions (never 0) ──────────────────────────────────
+  const CANVAS_H = heightProp ?? (isFullscreen ? Math.max(window.innerHeight - 80, 480) : 500);
+
   const stateRef = useRef({
     activeStation: 0,
     autoOrbit: true,
@@ -113,41 +116,54 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
     }
   };
 
+  // ── canvas sizing helper ───────────────────────────────────────────────
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const W = canvas.parentElement?.clientWidth || window.innerWidth;
+    const H = CANVAS_H;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.scale(dpr, dpr);
+  }, [CANVAS_H]);
+
+  // ── main render loop ───────────────────────────────────────────────────
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Ensure canvas always has real pixels
+    function applySize() {
+      if (!canvas) return;
+      const W = canvas.parentElement?.clientWidth || window.innerWidth;
+      const H = CANVAS_H;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (canvas.width !== Math.round(W * dpr) || canvas.height !== Math.round(H * dpr)) {
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        const c = canvas.getContext('2d');
+        if (c) c.scale(dpr, dpr);
+      }
+    }
+
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     if (!ctx) return;
 
-    let animId = 0;
-    let W = 800;
-    let H = 500;
+    applySize();
+    const t50  = setTimeout(applySize, 50);
+    const t300 = setTimeout(applySize, 300);
 
-    function sizeCanvas() {
-      const wrapper = wrapperRef.current;
-      if (!wrapper) return;
-      const rect = wrapper.getBoundingClientRect();
-      W = Math.max(rect.width || window.innerWidth, 300);
-      H = Math.max(rect.height || 500, 300);
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas!.width = Math.round(W * dpr);
-      canvas!.height = Math.round(H * dpr);
-      canvas!.style.width = W + 'px';
-      canvas!.style.height = H + 'px';
-      ctx.resetTransform();
-      ctx.scale(dpr, dpr);
-    }
+    const ro = new ResizeObserver(applySize);
+    ro.observe(canvas.parentElement ?? canvas);
+    window.addEventListener('resize', applySize, { passive: true });
 
-    // Size immediately, then again after a tick (layout may not be settled)
-    sizeCanvas();
-    const t1 = setTimeout(sizeCanvas, 50);
-    const t2 = setTimeout(sizeCanvas, 200);
-
-    const ro = new ResizeObserver(sizeCanvas);
-    if (wrapperRef.current) ro.observe(wrapperRef.current);
-    window.addEventListener('resize', sizeCanvas, { passive: true });
-
-    // ---- Interaction ----
+    // ── interaction ──────────────────────────────────────────────────────
     function onDown(e: PointerEvent) {
       stateRef.current.isDragging = true;
       stateRef.current.lastX = e.clientX;
@@ -174,8 +190,13 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
     window.addEventListener('pointerup', onUp);
     canvas.addEventListener('wheel', onWheel, { passive: false });
 
-    // ---- 3D Engine ----
+    // ── 3D projection ────────────────────────────────────────────────────
+    function getWH() {
+      return { W: parseInt(canvas!.style.width) || window.innerWidth, H: CANVAS_H };
+    }
+
     function project(x: number, y: number, z: number) {
+      const { W, H } = getWH();
       const { rotX, rotY, zoom } = stateRef.current;
       const y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
       const z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
@@ -226,6 +247,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
     });
 
     let time = 0;
+    let animId = 0;
 
     function render() {
       animId = requestAnimationFrame(render);
@@ -237,6 +259,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
       s.zoom += (s.targetZoom - s.zoom) * 0.06;
       if (s.autoOrbit && !s.isDragging) s.targetRotY += 0.004;
 
+      const { W, H } = getWH();
       ctx.clearRect(0, 0, W, H);
 
       // Deep space background
@@ -250,9 +273,8 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
       const drawables: any[] = [];
       const st = s.activeStation;
 
-      // ============ STATION 0: GLOBE ============
+      // ── STATION 0: GLOBE ──────────────────────────────────────────────
       if (st === 0) {
-        // Latitude rings
         for (let lat = -60; lat <= 60; lat += 30) {
           const phi = (90 - lat) * Math.PI / 180;
           const r = GR * Math.sin(phi);
@@ -264,7 +286,6 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           }
           drawables.push({ type: 'ring', pts, z: 0, color: '#0284c7', alpha: 0.22 });
         }
-        // Longitude lines
         for (let lon = 0; lon < 360; lon += 30) {
           const rad = lon * Math.PI / 180;
           const pts = [];
@@ -278,19 +299,16 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           }
           drawables.push({ type: 'ring', pts, z: 0, color: '#0369a1', alpha: 0.14 });
         }
-        // Continent nodes
         earthNodes.forEach(n => {
           const p = project(n.x, n.y, n.z);
           if (p.z > -0.5)
             drawables.push({ type: 'dot', p, z: p.z, r: n.india ? 3.5 : 2.0,
               color: n.india ? '#10b981' : '#38bdf8' });
         });
-        // Hyderabad beacon
         const hLat=17.385, hLon=78.487;
         const hPhi=(90-hLat)*Math.PI/180, hTh=hLon*Math.PI/180;
         const bp = project(GR*Math.sin(hPhi)*Math.cos(hTh), GR*Math.cos(hPhi), GR*Math.sin(hPhi)*Math.sin(hTh));
         if (bp.z > -0.5) drawables.push({ type: 'beacon', p: bp, z: bp.z+0.1 });
-        // Orbit rings
         [{ r: 2.5, tilt: 0.5, c: '#38bdf8', a: 0.4 }, { r: 2.9, tilt: -0.4, c: '#06b6d4', a: 0.25 }]
           .forEach(ring => {
             const pts = [];
@@ -302,9 +320,8 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           });
       }
 
-      // ============ STATION 1: SOC LAB ============
+      // ── STATION 1: SOC LAB ────────────────────────────────────────────
       else if (st === 1) {
-        // Grid floor
         for (let x = -3; x <= 3; x += 0.6) {
           const p1=project(x,-1.3,-3), p2=project(x,-1.3,3);
           drawables.push({ type:'line', p1, p2, z:(p1.z+p2.z)/2, color:'#0369a1', alpha:0.3 });
@@ -313,25 +330,18 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           const p1=project(-3,-1.3,z), p2=project(3,-1.3,z);
           drawables.push({ type:'line', p1, p2, z:(p1.z+p2.z)/2, color:'#0369a1', alpha:0.3 });
         }
-        // Desk surface
         drawables.push(...makeBox(0, 0, 0, 2.8, 0.09, 1.5, '#0b1324', '#06b6d4'));
-        // Legs
-        ([[-1.3,-0.65],[1.3,-0.65],[-1.3,0.65],[1.3,0.65]] as [number,number][])
+        ([ [-1.3,-0.65],[1.3,-0.65],[-1.3,0.65],[1.3,0.65] ] as [number,number][])
           .forEach(([lx,lz]) => drawables.push(...makeBox(lx,-0.62,lz,0.08,1.2,0.08,'#111c30','#1e293b')));
-        // Main monitor
         drawables.push(...makeBox(0, 0.56, -0.3, 1.5, 0.7, 0.05, '#050a14', '#06b6d4'));
-        // Monitor screen face
         const ms = [[-0.7,0.24,-0.27],[0.7,0.24,-0.27],[0.7,0.86,-0.27],[-0.7,0.86,-0.27]].map(([a,b,c])=>project(a,b,c));
         drawables.push({ type:'screen', pts:ms, z:(ms[0].z+ms[2].z)/2, text:'SIEM TRIAGE: ACTIVE' });
-        // Side monitor
         drawables.push(...makeBox(-1.0, 0.6, -0.18, 0.5, 0.85, 0.04, '#050a14', '#10b981'));
-        // PC tower
         drawables.push(...makeBox(1.1, 0.4, -0.08, 0.38, 0.72, 0.68, '#070f1e', '#38bdf8'));
-        // Keyboard
         drawables.push(...makeBox(-0.1, 0.07, 0.22, 0.75, 0.025, 0.28, '#050914', '#38bdf8'));
       }
 
-      // ============ STATION 2: 3D PROJECT VAULT ============
+      // ── STATION 2: PROJECT VAULT ──────────────────────────────────────
       else if (st === 2) {
         const cards = [
           { title:'SentinelDesk', sub:'Full-Stack SOC Platform', x:-1.5, y:0.3, z:0, c:'#06b6d4' },
@@ -339,7 +349,6 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           { title:'NetSentinel',  sub:'Linux Nmap Audit',       x:1.5,  y:0.3, z:0, c:'#10b981' },
           { title:'ML Fraud Det', sub:'Precision Anomaly AI',   x:0,    y:0.3, z:-0.9, c:'#a855f7' },
         ];
-        // Central ring
         const ring = [];
         for (let a=0; a<=360; a+=15) ring.push(project(Math.cos(a*Math.PI/180)*2.3, -1.1, Math.sin(a*Math.PI/180)*2.3));
         drawables.push({ type:'ring', pts:ring, z:0, color:'#06b6d4', alpha:0.5 });
@@ -351,7 +360,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
         });
       }
 
-      // ============ STATION 3: TERMINAL PEDESTAL ============
+      // ── STATION 3: TERMINAL ───────────────────────────────────────────
       else if (st === 3) {
         drawables.push(...makeBox(0,-0.65,0, 0.85,1.25,0.85, '#0a1324','#06b6d4'));
         drawables.push(...makeBox(0, 0.46,0, 1.65,1.0,0.07, '#040813','#38bdf8'));
@@ -359,7 +368,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
         drawables.push({ type:'terminal', pts:tp, z:(tp[0].z+tp[2].z)/2 });
       }
 
-      // ============ STATION 4: TRANSMISSION NODE ============
+      // ── STATION 4: TRANSMISSION NODE ─────────────────────────────────
       else if (st === 4) {
         drawables.push(...makeBox(0,-0.85,0, 0.4,1.7,0.4, '#0c162b','#06b6d4'));
         const dish = [];
@@ -377,7 +386,7 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
         }
       }
 
-      // ---- Depth-sort & draw ----
+      // ── depth-sort & draw ─────────────────────────────────────────────
       drawables.sort((a,b) => b.z - a.z);
       ctx.lineWidth = 1;
 
@@ -423,57 +432,58 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
           ctx.closePath(); ctx.fillStyle='#030814'; ctx.fill();
           ctx.strokeStyle='#38bdf8'; ctx.lineWidth=1.5; ctx.shadowColor='#38bdf8'; ctx.shadowBlur=12; ctx.stroke(); ctx.shadowBlur=0;
           const cx=(d.pts[0].x+d.pts[2].x)/2, cy=(d.pts[0].y+d.pts[2].y)/2;
-          ctx.font='10px monospace';
-          ctx.fillStyle='#34d399'; ctx.fillText('madhukar@soc:~$ whoami', cx-80, cy-20);
-          ctx.fillStyle='#94a3b8';
-          ctx.fillText('> B.Tech Cyber Security · Siddhartha Institute', cx-80, cy-5);
-          ctx.fillStyle='#38bdf8'; ctx.fillText('> Target: SOC Analyst L1/L2 · Cloud Security', cx-80, cy+12);
-          ctx.fillStyle='#34d399'; ctx.fillText('> sudo hire-madhukar [AVAILABLE]', cx-80, cy+28);
+          const lines = ['> whoami', 'madhukar-pendalwar', '> cat skills.txt', 'SOC | SIEM | Cloud'];
+          lines.forEach((ln,i) => {
+            ctx.font = `${i%2===0?'bold ':''  }10px monospace`;
+            ctx.fillStyle = i%2===0 ? '#38bdf8' : '#94a3b8';
+            ctx.fillText(ln, cx-60, cy - 24 + i*16);
+          });
         }
       });
     }
 
-    animId = requestAnimationFrame(render);
+    render();
 
     return () => {
       cancelAnimationFrame(animId);
-      clearTimeout(t1); clearTimeout(t2);
+      clearTimeout(t50);
+      clearTimeout(t300);
       ro.disconnect();
-      window.removeEventListener('resize', sizeCanvas);
+      window.removeEventListener('resize', applySize);
       canvas.removeEventListener('pointerdown', onDown);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('wheel', onWheel);
     };
-  }, []);
+  }, [CANVAS_H]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const cur = STATIONS[activeStation];
 
-  // ---- UI ----
   return (
-    <div
-      style={{ height: isFullscreen ? '100%' : '540px' }}
-      className="relative w-full flex flex-col overflow-hidden bg-[#030712] rounded-2xl border border-cyan-500/20 select-none shadow-2xl"
-    >
-      {/* Header Nav */}
-      <div className="relative z-20 px-3 sm:px-4 py-2 bg-[#050c1c]/90 border-b border-cyan-500/20 backdrop-blur-md flex flex-wrap items-center justify-between gap-2 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-cyan-500 text-slate-950 font-bold flex items-center justify-center font-mono text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.5)]">3D</div>
+    <div className="flex flex-col w-full bg-[#04091a] rounded-xl overflow-hidden border border-cyan-900/50"
+      style={{ height: CANVAS_H + 90 }}>
+
+      {/* Top nav bar */}
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-slate-800 shrink-0">
+        <div className="flex items-center gap-2 mr-auto">
+          <div className="w-5 h-5 rounded-full bg-cyan-900 border border-cyan-500 flex items-center justify-center">
+            <span className="text-cyan-400 text-[9px] font-bold">3D</span>
+          </div>
           <div>
-            <div className="text-white font-bold text-xs font-mono flex items-center gap-1.5">
+            <div className="text-cyan-400 font-mono text-[11px] font-bold tracking-widest">
               CYBERVERSE 3D
-              <span className="text-[9px] px-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">LIVE</span>
+              <span className="ml-2 px-1 py-0.5 text-[9px] bg-emerald-900/60 text-emerald-400 border border-emerald-700 rounded">ACTIVE</span>
             </div>
-            <div className="text-[10px] text-slate-400 font-mono hidden sm:block">Siddhartha Institute · Hyderabad</div>
+            <div className="text-slate-500 font-mono text-[9px]">Siddhartha Institute of Tech &amp; Sciences / Hyderabad</div>
           </div>
         </div>
 
-        <nav className="flex items-center gap-0.5 bg-[#02050e] p-1 rounded-xl border border-slate-800 text-[10px] font-mono overflow-x-auto">
+        <nav className="hidden sm:flex items-center gap-1">
           {STATIONS.map((s, idx) => (
             <button key={idx} type="button" onClick={() => flyToStation(idx)}
-              className={`px-2 py-1 rounded-lg transition whitespace-nowrap cursor-pointer ${
-                activeStation === idx
-                  ? 'bg-cyan-500 text-slate-950 font-bold'
+              className={`px-2 py-1 rounded-lg font-mono text-[10px] font-bold transition cursor-pointer ${
+                idx === activeStation
+                  ? 'bg-cyan-900 text-cyan-300 border border-cyan-600'
                   : 'text-slate-400 hover:text-white hover:bg-slate-900'
               }`}>
               0{idx+1}. {s.tag.split('// ')[1]}
@@ -489,12 +499,8 @@ export const CyberVerse3DView: React.FC<CyberVerse3DViewProps> = ({
         )}
       </div>
 
-      {/* Canvas Wrapper — explicit height so canvas always has real pixels */}
-      <div
-        ref={wrapperRef}
-        className="relative flex-1 w-full overflow-hidden"
-        style={{ minHeight: 0 }}
-      >
+      {/* Canvas area — explicit pixel height, never 0 */}
+      <div className="relative w-full shrink-0" style={{ height: CANVAS_H }}>
         <canvas
           ref={canvasRef}
           className="cursor-grab active:cursor-grabbing"
